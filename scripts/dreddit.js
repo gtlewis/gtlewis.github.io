@@ -1,6 +1,8 @@
 $(function(){
 
-	var userAddress = web3.eth.defaultAccount;
+	if (web3 != undefined && web3.eth != undefined) {
+		var userAddress = web3.eth.accounts[0];
+	}
 
 	if (userAddress != undefined) {
 		$("#user_div").text(userAddress);
