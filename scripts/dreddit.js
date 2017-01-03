@@ -1,7 +1,8 @@
 $(function(){
 
-	if (web3 != undefined && web3.eth != undefined) {
-		var userAddress = web3.eth.accounts[0];
+	var userAddress;
+	if (typeof web3 != 'undefined' && typeof web3.eth != 'undefined') {
+		userAddress = web3.eth.accounts[0];
 	}
 
 	if (userAddress != undefined) {
