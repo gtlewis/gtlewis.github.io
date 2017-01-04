@@ -1,7 +1,7 @@
 $(function(){
 	// TODO: this all needs to be in web3 callback??
-	var contractAbi = [{"constant":false,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"karma","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
-	var contractAddress = '0xc8e1835961d926cccA44E91E648945a0E1375Eb6';
+	var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
+	var contractAddress = '0x42aB2430F3FB4b693a099463d85AAe2f36a22B49';
 	var contract;
 	var userAddress;
 	if (typeof web3 != 'undefined' && typeof web3.eth != 'undefined') {
@@ -11,7 +11,7 @@ $(function(){
 	}
 	if (userAddress != undefined) {
 		$('#user').html('<a class="link" id="user" href="/posts.html?user=' + userAddress + '">' + userAddress + '</a>');
-		$('#karma').text(contract.getKarmaForUser.call(userAddress));
+		$('#karma').text(contract.getKarmaForUser(userAddress));
 	}
 	if (current_page == 'front') {
 		if (userAddress != undefined) {
@@ -29,7 +29,7 @@ $(function(){
 		var userParameter = getUrlParameter('user');
 		if (userParameter != undefined && userAddress != undefined) {
 			document.title = 'Dreddit - ' + userParameter;
-			$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser.call(userParameter) + ')');
+			$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
 		}
 	}
 });

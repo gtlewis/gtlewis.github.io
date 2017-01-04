@@ -78,10 +78,10 @@ contract Dreddit {
     }
     
     // User.getKarma()
-    function getKarmaForUser(address userAddress) returns (int32 karma) {
+    function getKarmaForUser(address userAddress) constant returns (int32) {
         
         User user = users[userAddress];
-        karma = user.karma;
+        return user.karma;
     }
     
     // Subdreddit
