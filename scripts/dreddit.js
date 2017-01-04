@@ -1,7 +1,7 @@
 $(function(){
 	// TODO: this all needs to be in web3 callback??
 	var contractAbi = [{"constant":false,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"karma","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
-	var contractAddress = '0x5A2b1c28ad76b843950744461199AC07c28F7b3d';
+	var contractAddress = '0xc8e1835961d926cccA44E91E648945a0E1375Eb6';
 	var contract;
 	var userAddress;
 	if (typeof web3 != 'undefined' && typeof web3.eth != 'undefined') {
