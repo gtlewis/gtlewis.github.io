@@ -7,6 +7,7 @@ $(function(){
 	if (typeof web3 != 'undefined' && typeof web3.eth != 'undefined') {
 		contract = web3.eth.contract(contractAbi).at(contractAddress);
 		userAddress = web3.eth.accounts[0];
+		web3.eth.defaultAccount = userAddress;
 	}
 	if (userAddress != undefined) {
 		$('#user').html('<a class="link" id="user" href="/posts.html?user=' + userAddress + '">' + userAddress + '</a>');
