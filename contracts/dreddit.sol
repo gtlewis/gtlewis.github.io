@@ -4,11 +4,11 @@ pragma solidity ^0.4.6;
 contract Dreddit {
     
     // The list of subdreddits
-    mapping(uint32 => Subdreddit) public subdreddits;
-    uint32 public subdredditCount;
+    mapping(uint32 => Subdreddit) subdreddits;
+    uint32 subdredditCount;
     
     // The list of users
-    mapping(address => User) public users;
+    mapping(address => User) users;
 
     // User
     struct User {
@@ -78,10 +78,10 @@ contract Dreddit {
     }
     
     // User.getKarma()
-    function getKarmaForUser(address userAddress) returns (int32) {
+    function getKarmaForUser(address userAddress) returns (int32 karma) {
         
         User user = users[userAddress];
-        return user.karma;
+        karma = user.karma;
     }
     
     // Subdreddit
