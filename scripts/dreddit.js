@@ -23,7 +23,7 @@ $(function(){
 		// TODO: use the user we are showing (from URL), not current user
 		if (userAddress != undefined) {
 			document.title = 'Dreddit - ' + userAddress;
-			$("#posts_by_user").text(userAddress + '(TODO:karma)');
+			$("#posts_by_user").text('Posts by User: userAddress + '(TODO:karma)');
 		}
 	}
 });
