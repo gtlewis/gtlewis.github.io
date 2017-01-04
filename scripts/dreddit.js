@@ -11,7 +11,7 @@ $(function(){
 	}
 	if (userAddress != undefined) {
 		$('#user').html('<a class="link" id="user" href="/posts.html?user=' + userAddress + '">' + userAddress + '</a>');
-		$('#karma').text(contract.getKarmaForUser(userAddress));
+		$('#karma').text(contract.getKarmaForUser.call(userAddress));
 	}
 	if (current_page == 'front') {
 		if (userAddress != undefined) {
@@ -29,7 +29,7 @@ $(function(){
 		var userParameter = getUrlParameter('user');
 		if (userParameter != undefined && userAddress != undefined) {
 			document.title = 'Dreddit - ' + userParameter;
-			$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
+			$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser.call(userParameter) + ')');
 		}
 	}
 });
