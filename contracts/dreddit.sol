@@ -4,8 +4,8 @@ pragma solidity ^0.4.6;
 contract Dreddit {
     
     // The list of subdreddits
-    mapping(uint => Subdreddit) public subdreddits;
-    uint public subdredditCount;
+    mapping(uint32 => Subdreddit) public subdreddits;
+    uint32 public subdredditCount;
     
     // The list of users
     mapping(address => User) public users;
@@ -14,7 +14,7 @@ contract Dreddit {
     struct User {
         
         // The user's list of subscriptions
-        mapping(uint => bool) subscriptions;
+        mapping(uint32 => bool) subscriptions;
         
         // The user's list of posts (reference)
         UserPost[] posts;
@@ -23,24 +23,24 @@ contract Dreddit {
         UserComment[] comments;
         
         // The user's karma
-        uint karma;
+        int32 karma;
     }
     
     // User.Post
     struct UserPost {
-        uint subdredditId;
-        uint postId;
+        uint32 subdredditId;
+        uint32 postId;
     }
     
     // User.Comment
     struct UserComment {
-        uint subdredditId;
-        uint postId;
-        uint commentId;
+        uint32 subdredditId;
+        uint32 postId;
+        uint32 commentId;
     }
     
     // User.subscribe()
-    function subscribeUser(uint subdredditId) {
+    function subscribeUser(uint32 subdredditId) {
         
         if (subdredditId >= subdredditCount) {
             // Throw if subdreddit not created - not permitted
@@ -59,7 +59,7 @@ contract Dreddit {
     }
     
     // User.unsubscribe()
-    function unsubscribeUser(uint subdredditId) {
+    function unsubscribeUser(uint32 subdredditId) {
         
         if (subdredditId >= subdredditCount) {
             // Throw if subdreddit not created - not permitted
@@ -77,6 +77,13 @@ contract Dreddit {
         user.subscriptions[subdredditId] = false;
     }
     
+    // User.getKarma()
+    function getKarmaForUser(address userAddress) returns (int32) {
+        
+        User user = users[userAddress];
+        return user.karma;
+    }
+    
     // Subdreddit
     struct Subdreddit {
         
@@ -85,8 +92,8 @@ contract Dreddit {
         
         // The subdreddit's list of posts
         // TODO: just string for now...
-        mapping(uint => string) posts;
-        uint postCount;
+        mapping(uint32 => string) posts;
+        uint32 postCount;
     }
     
     // Subdreddit.create()
@@ -107,7 +114,7 @@ contract Dreddit {
     }
     
     // Subdreddit.addPost()
-    function addPostToSubdreddit(uint subdredditId, string post) {
+    function addPostToSubdreddit(uint32 subdredditId, string post) {
         
         if (subdredditId >= subdredditCount) {
             // Throw if subdreddit not created - not permitted

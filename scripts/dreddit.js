@@ -1,7 +1,7 @@
 $(function(){
 	// TODO: this all needs to be in web3 callback??
-	var contractAbi = [{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"subdreddits","outputs":[{"name":"name","type":"string"},{"name":"postCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint256"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"subdredditCount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint256"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"users","outputs":[{"name":"karma","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint256"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"}];
-	var contractAddress = '0xAE941Ac7D355ba6305F7E0939e70E1CD8FA4B2e1';
+	var contractAbi = [{"constant":false,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint32"}],"name":"subdreddits","outputs":[{"name":"name","type":"string"},{"name":"postCount","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"subdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"users","outputs":[{"name":"karma","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
+	var contractAddress = '0x714b1756ae2F4507935add33C097c9AB4516c266';
 	var contract;
 	var userAddress;
 	if (typeof web3 != 'undefined' && typeof web3.eth != 'undefined') {
@@ -10,7 +10,7 @@ $(function(){
 	}
 	if (userAddress != undefined) {
 		$('#user').html('<a class="link" id="user" href="/posts.html?user=' + userAddress + '">' + userAddress + '</a>');
-		$('#karma').text(contract.users(userAddress).karma);
+		$('#karma').text(contract.getKarmaForUser(userAddress));
 	}
 	if (current_page == 'front') {
 		if (userAddress != undefined) {
@@ -26,9 +26,9 @@ $(function(){
 		}
 	} else if (current_page == 'posts') {
 		var userParameter = getUrlParameter('user');
-		if (userParameter != undefined) {
+		if (userParameter != undefined && userAddress != undefined) {
 			document.title = 'Dreddit - ' + userParameter;
-			$('#posts_by_user').text('Posts by User:' + userParameter + '(TODO:karma)');
+			$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
 		}
 	}
 });
