@@ -2,6 +2,7 @@ var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"addr
 var contractAddress = '0x1208208735e8c77cabBebDBF1dD3FD7638978a86';
 var contract;
 var userAddress;
+var showAllSubdreddits = false;
 
 $(function(){
 	// TODO: this all needs to be in web3 callback?? plus strange metamask error...
@@ -17,7 +18,7 @@ $(function(){
 	if (current_page == 'front') {
 		showFrontPage();
 	} else if (current_page == 'subdreddits') {
-		showSubdredditsPage(false);
+		showSubdredditsPage();
 	} else if (current_page == 'posts') {
 		showPostsPage();
 	}
@@ -29,18 +30,22 @@ function showFrontPage() {
 	}
 }
 
-function showSubdredditsPage(showAllSubreddits) {
-	if (!showAllSubreddits && userAddress != undefined) {
-		document.title = 'Dreddit - ' + userAddress;
-		// TODO: show user's subscribed subreddits
-		var subdredditCount = contract.getSubdredditCount();
-		for(var i=0; i<subdredditCount; i++) {
-			$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
-		}
-	} else {
-		// TODO: show all subreddits
-	}
+function showSubdredditsPage() {
 	if (userAddress != undefined) {
+		var subdredditCount = contract.getSubdredditCount();
+		if (!showAllSubdreddits) {
+			document.title = 'Dreddit - ' + userAddress;
+			for(var i=0; i<subdredditCount; i++) {
+				$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
+			}
+			$('#show_subdreddits_button').html('Show all subdreddits');
+		} else {
+			for(var i=0; i<subdredditCount; i++) {
+				$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
+			}
+			$('#show_subdreddits_button').html('Show my subscribed subdreddits');
+		}
+		$('#show_subdreddits_button').prop('disabled', false);
 		$('#create_subdreddit_text').prop('disabled', false);
 		$('#create_subdreddit_button').prop('disabled', false);
 	}
@@ -52,6 +57,11 @@ function showPostsPage() {
 		document.title = 'Dreddit - ' + userParameter;
 		$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
 	}
+}
+
+function showSubdreddits() {
+	showAllSubdreddits = !showAllSubdreddits;
+	showSubdredditsPage();
 }
 
 function createSubdreddit() {
