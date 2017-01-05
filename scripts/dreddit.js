@@ -109,6 +109,7 @@ function createSubdreddit() {
 	var name = $('#create_subdreddit_text').val();
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createSubdreddit(name);
+		$('#create_subdreddit_text').val('');
 	}
 }
 
@@ -116,6 +117,7 @@ function addPost(subdredditIdParameter) {
 	var post = $('#add_post_text').val();
 	if  (post.length > 0 && post.length < 65536) {
 		contract.addPostToSubdreddit(subdredditIdParameter, post);
+		$('#add_post_text').val('');
 	}
 }
 
