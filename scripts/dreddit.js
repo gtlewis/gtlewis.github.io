@@ -1,5 +1,5 @@
-var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"subdredditId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
-var contractAddress = '0xE0C0dfc9fe2316963E51342F2A37177B27ceE7b4';
+var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getPostCountOfSubdreddit","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getPostFromSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"subdredditId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
+var contractAddress = '0x0B7e1784215d489f45262052294885AAc89D98D2';
 var contract;
 var userAddress;
 var showAllSubdreddits = false;
@@ -67,9 +67,20 @@ function showSubdredditPage() {
 	var subdredditIdParameter = getUrlParameter('subdreddit_id');
 	if (subdredditIdParameter != undefined && subdredditIdParameter.length > 0 && userAddress != undefined) {
 		var name = contract.getNameOfSubdreddit(subdredditIdParameter);
-		if (name != undefined) {
+		if (name != undefined && name.length > 0) {
 			document.title = 'Dreddit - ' + name;
 			var postsFound = false;
+			var postCount = contract.getPostCountofSubdreddit();
+			for(var i=0; i<postCount; i++) {
+				$('#posts_table').append('<tr><td class="cell">contract.getPostFromSubdreddit(i)</td></tr>');
+				postsFound = true;
+			}
+			if (!postsFound) {
+				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
+			}
+			$('#add_posts_text').prop('disabled', false);
+			$('#add_posts_button').prop('disabled', false);
+			$('#subscribe_button').prop('disabled', false);
 		}
 	}
 }
@@ -79,6 +90,7 @@ function showPostsPage() {
 	if (userParameter != undefined && userParameter.length > 0 && userAddress != undefined) {
 		document.title = 'Dreddit - ' + userParameter;
 		$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
+		// TODO: follow same pattern as above...
 	}
 }
 

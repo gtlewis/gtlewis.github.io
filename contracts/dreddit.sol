@@ -151,4 +151,20 @@ contract Dreddit {
         Subdreddit subdreddit = subdreddits[subdredditId];
         return subdreddit.name;
     }
+    
+    // Subdreddit.getPost()
+    function getPostFromSubdreddit(uint32 subdredditId, uint32 postId) constant returns (string) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        // TODO: this will be propser Post object and different functions for PostTitle, PostBody, etc.
+        string post = subdreddit.posts[postId];
+        return post;
+    }
+    
+    // Subdreddit.getPostCount()
+    function getPostCountOfSubdreddit(uint32 subdredditId) constant returns (uint32) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        return subdreddit.postCount;
+    }
 }
