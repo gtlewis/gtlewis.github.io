@@ -1,5 +1,5 @@
-var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
-var contractAddress = '0x1208208735e8c77cabBebDBF1dD3FD7638978a86';
+var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"subdredditId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
+var contractAddress = '0xE0C0dfc9fe2316963E51342F2A37177B27ceE7b4';
 var contract;
 var userAddress;
 var showAllSubdreddits = false;
@@ -33,17 +33,25 @@ function showFrontPage() {
 function showSubdredditsPage() {
 	if (userAddress != undefined) {
 		var subdredditCount = contract.getSubdredditCount();
+		var subdredditsFound = false;
 		if (!showAllSubdreddits) {
 			document.title = 'Dreddit - ' + userAddress;
 			for(var i=0; i<subdredditCount; i++) {
-				$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
+				if (contract.isSubscribedByUser(userAddress, i)) {
+					$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
+					subdredditsFound = true;
+				}
 			}
 			$('#show_subdreddits_button').html('Show all subdreddits');
 		} else {
 			for(var i=0; i<subdredditCount; i++) {
 				$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
+				subdredditsFound = true;
 			}
 			$('#show_subdreddits_button').html('Show my subscribed subdreddits');
+		}
+		if (!subdredditsFound) {
+			$('#subdreddits_table').append('<tr><td class="cell">No subdreddits found</td></tr>');
 		}
 		$('#show_subdreddits_button').prop('disabled', false);
 		$('#create_subdreddit_text').prop('disabled', false);

@@ -83,6 +83,13 @@ contract Dreddit {
         user.subscriptions[subdredditId] = false;
     }
     
+    // User.isSubscribed()
+    function isSubscribedByUser(address userAddress, uint32 subdredditId) constant returns (bool) {
+        
+        User user = users[userAddress];
+        return user.subscriptions[subdredditId];
+    }
+    
     // User.getKarma()
     function getKarmaForUser(address userAddress) constant returns (int32) {
         
