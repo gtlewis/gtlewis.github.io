@@ -9,7 +9,13 @@ contract Dreddit {
     
     // The list of users
     mapping(address => User) users;
-
+    
+    // getSubdredditCount()
+    function getSubdredditCount() constant returns (uint32) {
+        
+        return subdredditCount;
+    }
+    
     // User
     struct User {
         
@@ -99,6 +105,12 @@ contract Dreddit {
     // Subdreddit.create()
     function createSubdreddit(string name) {
         
+        bytes memory nameBytes = bytes(name);
+        if (nameBytes.length < 1 || nameBytes.length > 32) {
+            // Throw if subdreddit name too short or too long - not permitted
+            throw;
+        }
+        
         // TODO: uniqueness check
         //if (name not unique) {
             // Throw if subdreddit name not unique - not permitted
@@ -124,5 +136,12 @@ contract Dreddit {
         Subdreddit subdreddit = subdreddits[subdredditId];
         subdreddit.posts[subdreddit.postCount] = post;
         subdreddit.postCount++;
+    }
+    
+    // Subdreddit.getName()
+    function getNameOfSubdreddit(uint32 subdredditId) constant returns (string) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        return subdreddit.name;
     }
 }

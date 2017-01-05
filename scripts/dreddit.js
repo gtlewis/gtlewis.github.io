@@ -1,5 +1,5 @@
-var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
-var contractAddress = '0x42aB2430F3FB4b693a099463d85AAe2f36a22B49';
+var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
+var contractAddress = '0x1208208735e8c77cabBebDBF1dD3FD7638978a86';
 var contract;
 var userAddress;
 
@@ -33,12 +33,16 @@ function showSubdredditsPage(showAllSubreddits) {
 	if (!showAllSubreddits && userAddress != undefined) {
 		document.title = 'Dreddit - ' + userAddress;
 		// TODO: show user's subscribed subreddits
+		var subdredditCount = contract.getSubdredditCount();
+		for(var i=0; i<subdredditCount; i++) {
+			$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
+		}
 	} else {
 		// TODO: show all subreddits
 	}
 	if (userAddress != undefined) {
-		$('#create_subdreddit_text').disable(false);
-		$('#create_subdreddit_button').disable(false);
+		$('#create_subdreddit_text').prop('disabled', false);
+		$('#create_subdreddit_button').prop('disabled', false);
 	}
 }
 
