@@ -70,7 +70,7 @@ function showSubdredditPage() {
 		if (name != undefined && name.length > 0) {
 			document.title = 'Dreddit - ' + name;
 			var postsFound = false;
-			var postCount = contract.getPostCountofSubdreddit();
+			var postCount = contract.getPostCountOfSubdreddit();
 			for(var i=0; i<postCount; i++) {
 				$('#posts_table').append('<tr><td class="cell">contract.getPostFromSubdreddit(i)</td></tr>');
 				postsFound = true;
@@ -78,8 +78,8 @@ function showSubdredditPage() {
 			if (!postsFound) {
 				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
 			}
-			$('#add_posts_text').prop('disabled', false);
-			$('#add_posts_button').prop('disabled', false);
+			$('#add_post_text').prop('disabled', false);
+			$('#add_post_button').prop('disabled', false);
 			$('#subscribe_button').prop('disabled', false);
 		}
 	}
@@ -104,6 +104,17 @@ function createSubdreddit() {
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createSubdreddit(name);
 	}
+}
+
+function addPost(subdredditIdParameter) {
+	var post = $('#add_post_text').val();
+	if  (post.length > 0 && post.length < 65536) {
+		contract.addPostToSubdreddit(subdredditIdParameter, post);
+	}
+}
+
+function subscribe(subdredditIdParameter) {
+	contract.subscribeUser(subdredditIdParameter);
 }
 
 function getUrlParameter(sParam) {

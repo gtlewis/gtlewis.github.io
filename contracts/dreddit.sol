@@ -140,6 +140,12 @@ contract Dreddit {
             throw;
         }
         
+        bytes memory postBytes = bytes(post);
+        if (postBytes.length < 1 || postBytes.length > 65535) {
+            // Throw if post too short or too long - not permitted
+            throw;
+        }
+        
         Subdreddit subdreddit = subdreddits[subdredditId];
         subdreddit.posts[subdreddit.postCount] = post;
         subdreddit.postCount++;
