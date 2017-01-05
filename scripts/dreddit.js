@@ -19,6 +19,8 @@ $(function(){
 		showFrontPage();
 	} else if (current_page == 'subdreddits') {
 		showSubdredditsPage();
+	} else if (current_page == 'subdreddit') {
+		showSubdredditPage();
 	} else if (current_page == 'posts') {
 		showPostsPage();
 	}
@@ -34,6 +36,7 @@ function showSubdredditsPage() {
 	if (userAddress != undefined) {
 		var subdredditCount = contract.getSubdredditCount();
 		var subdredditsFound = false;
+		$('#subdreddits_table').empty();
 		if (!showAllSubdreddits) {
 			document.title = 'Dreddit - ' + userAddress;
 			for(var i=0; i<subdredditCount; i++) {
@@ -44,6 +47,7 @@ function showSubdredditsPage() {
 			}
 			$('#show_subdreddits_button').html('Show all subdreddits');
 		} else {
+			document.title = 'Dreddit';
 			for(var i=0; i<subdredditCount; i++) {
 				$('#subdreddits_table').append('<tr><td class="cell"><a class="link" href="/subdreddit.html?subdreddit_id=' + i + '">' + contract.getNameOfSubdreddit(i) + '</a></td></tr>');
 				subdredditsFound = true;
@@ -59,9 +63,20 @@ function showSubdredditsPage() {
 	}
 }
 
+function showSubdredditPage() {
+	var subdredditIdParameter = getUrlParameter('subdreddit_id');
+	if (subdredditIdParameter != undefined && subdredditIdParameter.length > 0 && userAddress != undefined) {
+		var name = contract.getNameOfSubdreddit(subdredditIdParameter);
+		if (name != undefined) {
+			document.title = 'Dreddit - ' + name;
+			var postsFound = false;
+		}
+	}
+}
+
 function showPostsPage() {
 	var userParameter = getUrlParameter('user');
-	if (userParameter != undefined && userAddress != undefined) {
+	if (userParameter != undefined && userParameter.length > 0 && userAddress != undefined) {
 		document.title = 'Dreddit - ' + userParameter;
 		$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
 	}
