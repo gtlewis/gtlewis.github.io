@@ -78,7 +78,8 @@ function showSubdredditPage() {
 			var postsFound = false;
 			var postCount = contract.getPostCountOfSubdreddit(subdredditIdParameter);
 			for(var i=0; i<postCount; i++) {
-				$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(subdredditIdParameter, i) + ' (' + contract.getOwnerOfPost(subdredditIdParameter, i) + ')</td></tr>');
+				var postOwner = contract.getOwnerOfPost(subdredditIdParameter, i);
+				$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(subdredditIdParameter, i) + ' (<a class="link" href="/posts.html?user=' + postOwner + '">' + postOwner + '</a>)</td></tr>');
 				postsFound = true;
 			}
 			if (!postsFound) {
@@ -100,7 +101,7 @@ function showPostsPage() {
 		var postCount = contract.getPostsLengthForUser(userParameter);
 		for(var i=0; i<postCount; i++) {
 			var userPost = contract.getPostByUser(userParameter, i);
-			$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(userPost[0], userPost[1]) + ' (' + contract.getNameOfSubdreddit(userPost[0]) + ')</td></tr>');
+			$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(userPost[0], userPost[1]) + ' (<a class="link" href="/subdreddit.html?subdreddit_id=' + userPost[0] + '">' + contract.getNameOfSubdreddit(userPost[0]) + '</a>)</td></tr>');
 			postsFound = true;
 		}
 		if (!postsFound) {
