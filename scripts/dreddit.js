@@ -69,7 +69,7 @@ function showSubdredditPage() {
 		var name = contract.getNameOfSubdreddit(subdredditIdParameter);
 		if (name != undefined && name.length > 0) {
 			document.title = 'Dreddit - ' + name;
-			$('#subdreddit_name').text(name);
+			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
 			if (contract.isSubscribedByUser(currentUser, subdredditIdParameter)) {
 				$('#subscribe_button').html('Unsubscribe');
 			} else {
@@ -159,7 +159,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	if (postOwner === currentUser) {
 		edit = '<a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
 	}
-	return '<tr><td class="cell">' + contract.getTitleOfPost(subdredditId, postId) + ' ' + origin + edit + '</td></tr>';
+	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + contract.getTitleOfPost(subdredditId, postId) + '</a> ' + origin + edit + '</td></tr>';
 }
 
 function getUrlParameter(sParam) {
