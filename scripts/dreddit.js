@@ -124,7 +124,7 @@ function createSubdreddit() {
 
 function createPost(subdredditIdParameter) {
 	var postTitle = $('#create_post_text').val();
-	if  (postTitle.length > 0 && post.length < 256) {
+	if  (postTitle.length > 0 && postTitle.length < 256) {
 		contract.createPost(subdredditIdParameter, postTitle);
 		$('#create_post_text').val('');
 	}
