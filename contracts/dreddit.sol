@@ -76,7 +76,7 @@ contract Dreddit {
         bool subscription = user.subscriptions[subdredditId];
         
         if (!subscription) {
-            // Throw if not  subscribed - saves gas
+            // Throw if not subscribed - saves gas
             throw;
         }
         
@@ -224,7 +224,66 @@ contract Dreddit {
         user.posts.push(UserPost(subdredditId, subdreddit.postCount-1));
     }
     
-    // TODO: edit, delete, upvote (and remove), downvote (and remove)
+    // Post.edit()
+    function editPost(uint32 subdredditId, uint32 postId, string postBody) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        if (postId >= subdreddit.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = subdreddit.posts[postId];
+        if (post.owner != msg.sender) {
+            // Throw if sender not post owner - not permitted
+            throw;
+        }
+        
+        bytes memory postBodyBytes = bytes(postBody);
+        if (postBodyBytes.length < 1 || postBodyBytes.length > 65535) {
+            // Throw if post body too short or too long - not permitted
+            throw;
+        }
+        
+        post.body = postBody;
+    }
+    
+    // Post.delete()
+    function deletePost(uint32 subdredditId, uint32 postId) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        if (postId >= subdreddit.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = subdreddit.posts[postId];
+        if (post.owner != msg.sender) {
+            // Throw if sender not post owner - not permitted
+            throw;
+        }
+        
+        if (post.deleted) {
+            // Throw if post already deleted - saves gas
+            throw;
+        }
+
+        post.title = "-";
+        post.body = "-";
+        post.deleted = true;
+    }
+    
+    // TODO: upvote (and remove), downvote (and remove)
     
     // Post.getOwner()
     function getOwnerOfPost(uint32 subdredditId, uint32 postId) constant returns (address) {
