@@ -125,7 +125,7 @@ function createSubdreddit() {
 function createPost(subdredditIdParameter) {
 	var postTitle = $('#create_post_text').val();
 	if  (postTitle.length > 0 && postTitle.length < 256) {
-		contract.createPost(subdredditIdParameter, postTitle);
+		contract.createPost(subdredditIdParameter, postTitle, "TODO: body");
 		$('#create_post_text').val('');
 	}
 }
