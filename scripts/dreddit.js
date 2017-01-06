@@ -23,6 +23,8 @@ $(function(){
 		showSubdredditPage();
 	} else if (current_page === 'posts') {
 		showPostsPage();
+	} else if (current_page === 'post') {
+		showPostPage();
 	}
 });
 
@@ -109,6 +111,27 @@ function showPostsPage() {
 	}
 }
 
+function showPostPage() {
+	var subdredditIdParameter = getUrlParameter('subdreddit_id');
+	var postIdParameter = getUrlParameter('post_id');
+	if (subdredditIdParameter != undefined && subdredditIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
+		var postTitle = contract.getTitleOfPost(subdredditIdParameter, postIdParameter);
+		if (postTitle != undefined) {
+			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
+			if (postTitle.length > 0) {
+				document.title = 'Dreddit - ' + postTitle;
+			}
+			if (!contract.isDeletedPost(subdredditIdParameter, postIdParameter)) {
+				$('#post_title').html(postTitle + ' (' + displayUser(contract.getOwnerOfPost(subdredditIdParameter, postIdParameter)) + ')');
+				$('#post_body').html(contract.getBodyOfPost(subdredditIdParameter, postIdParameter));
+			} else {
+				$('#post_title').html('[DELETED]');
+				$('#post_body').html('[DELETED BY OWNER]');
+			}
+		}
+	}
+}
+
 function showSubdreddits() {
 	showAllSubdreddits = !showAllSubdreddits;
 	showSubdredditsPage();
@@ -149,6 +172,11 @@ function displaySubdreddit(subdredditId) {
 }
 
 function displayPost(subdredditId, postId, isUserView) {
+	if (!contract.isDeletedPost(subdredditId, postId)) {
+		var postTitle = contract.getTitleOfPost(subdredditId, postId);
+	} else {
+		var postTitle = '[DELETED]';
+	}
 	var postOwner = contract.getOwnerOfPost(subdredditId, postId);
 	if (!isUserView) {
 		var origin = '(' + displayUser(postOwner) + ') ';
@@ -159,7 +187,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	if (postOwner === currentUser) {
 		edit = '<a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
 	}
-	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + contract.getTitleOfPost(subdredditId, postId) + '</a> ' + origin + edit + '</td></tr>';
+	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + edit + '</td></tr>';
 }
 
 function getUrlParameter(sParam) {
