@@ -150,7 +150,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	}
 	var edit = '';
 	if (postOwner === userAddress) {
-		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId' + '">Edit</a> ';
+		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
 	}
 	$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(subdredditId, postId) + ' ' + origin + edit + '</td></tr>');
 }
