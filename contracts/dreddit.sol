@@ -90,6 +90,20 @@ contract Dreddit {
         return user.subscriptions[subdredditId];
     }
     
+    // User.getPost()
+    function getPostByUser(address userAddress, uint index) constant returns (uint32, uint32) {
+        
+        User user = users[userAddress];
+        return (user.posts[index].subdredditId, user.posts[index].postId);
+    }
+    
+    // User.getPostsLength()
+    function getPostsLengthForUser(address userAddress) constant returns (uint) {
+        
+        User user = users[userAddress];
+        return user.posts.length;
+    }
+    
     // User.getKarma()
     function getKarmaForUser(address userAddress) constant returns (int32) {
         
@@ -104,8 +118,7 @@ contract Dreddit {
         string name;
         
         // The subdreddit's list of posts
-        // TODO: just string for now...
-        mapping(uint32 => string) posts;
+        mapping(uint32 => Post) posts;
         uint32 postCount;
     }
     
@@ -132,39 +145,11 @@ contract Dreddit {
         subscribeUser(subdredditCount - 1);
     }
     
-    // Subdreddit.addPost()
-    function addPostToSubdreddit(uint32 subdredditId, string post) {
-        
-        if (subdredditId >= subdredditCount) {
-            // Throw if subdreddit not created - not permitted
-            throw;
-        }
-        
-        bytes memory postBytes = bytes(post);
-        if (postBytes.length < 1 || postBytes.length > 65535) {
-            // Throw if post too short or too long - not permitted
-            throw;
-        }
-        
-        Subdreddit subdreddit = subdreddits[subdredditId];
-        subdreddit.posts[subdreddit.postCount] = post;
-        subdreddit.postCount++;
-    }
-    
     // Subdreddit.getName()
     function getNameOfSubdreddit(uint32 subdredditId) constant returns (string) {
         
         Subdreddit subdreddit = subdreddits[subdredditId];
         return subdreddit.name;
-    }
-    
-    // Subdreddit.getPost()
-    function getPostFromSubdreddit(uint32 subdredditId, uint32 postId) constant returns (string) {
-        
-        Subdreddit subdreddit = subdreddits[subdredditId];
-        // TODO: this will be propser Post object and different functions for PostTitle, PostBody, etc.
-        string post = subdreddit.posts[postId];
-        return post;
     }
     
     // Subdreddit.getPostCount()
@@ -173,4 +158,105 @@ contract Dreddit {
         Subdreddit subdreddit = subdreddits[subdredditId];
         return subdreddit.postCount;
     }
+    
+    // Post
+    struct Post {
+        
+        // The post's owner
+        address owner;
+        
+        // The post's title
+        string title;
+        
+        // The post's body
+        string body;
+        
+        // The post's deleted flag
+        bool deleted;
+        
+        // The post's list of upvotes
+        mapping(address => bool) upvotes;
+        uint32 upvoteCount;
+        
+        // The post's list of downvotes
+        mapping(address => bool) downvotes;
+        uint32 downvoteCount;
+        
+        // The post's list of comments
+        // TODO: just string for now...
+        mapping(uint32 => string) comments;
+        uint32 commentCount;
+    }
+    
+    // Post.create()
+    function createPost(uint32 subdredditId, string postTitle, string postBody) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        bytes memory postTitleBytes = bytes(postTitle);
+        if (postTitleBytes.length < 1 || postTitleBytes.length > 255) {
+            // Throw if post title too short or too long - not permitted
+            throw;
+        }
+        
+        bytes memory postBodyBytes = bytes(postBody);
+        if (postBodyBytes.length < 1 || postBodyBytes.length > 65535) {
+            // Throw if post body too short or too long - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[subdreddit.postCount];
+        post.owner = msg.sender;
+        post.title = postTitle;
+        post.body = postBody;
+        subdreddit.postCount++;
+        
+        // TODO: Upvote the post
+        //post.upvotes[msg.sender] = true;
+        //post.upvoteCount++;
+        
+        // Add the post to the User's list
+        User user = users[msg.sender];
+        user.posts.push(UserPost(subdredditId, subdreddit.postCount-1));
+    }
+    
+    // TODO: edit, delete, upvote (and remove), downvote (and remove)
+    
+    // Post.getOwner()
+    function getOwnerOfPost(uint32 subdredditId, uint32 postId) constant returns (address) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.owner;
+    }
+    
+    // Post.getTitle()
+    function getTitleOfPost(uint32 subdredditId, uint32 postId) constant returns (string) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.title;
+    }
+    
+    // Post.getBody()
+    function getBodyOfPost(uint32 subdredditId, uint32 postId) constant returns (string) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.body;
+    }
+    
+    // Post.isDeleted()
+    function isDeletedPost(uint32 subdredditId, uint32 postId) constant returns (bool) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.deleted;
+    }
+    
+    // TODO: get upvote count, downvote count, comments
 }

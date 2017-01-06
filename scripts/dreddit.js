@@ -1,5 +1,5 @@
-var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getPostCountOfSubdreddit","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getPostFromSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"subdredditId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"post","type":"string"}],"name":"addPostToSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"}];
-var contractAddress = '0x0B7e1784215d489f45262052294885AAc89D98D2';
+var contractAbi = [{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getKarmaForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getSubdredditCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getTitleOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getPostsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBodyOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getNameOfSubdreddit","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getOwnerOfPost","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postTitle","type":"string"},{"name":"postBody","type":"string"}],"name":"createPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createSubdreddit","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"getPostCountOfSubdreddit","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"subdredditId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getPostByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"subdredditId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"subdredditId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isDeletedPost","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"}];
+var contractAddress = '0x2822BE63E5fC83AB4000f56897d7DD8bDED44C6F';
 var contract;
 var userAddress;
 var showAllSubdreddits = false;
@@ -78,14 +78,14 @@ function showSubdredditPage() {
 			var postsFound = false;
 			var postCount = contract.getPostCountOfSubdreddit(subdredditIdParameter);
 			for(var i=0; i<postCount; i++) {
-				$('#posts_table').append('<tr><td class="cell">' + contract.getPostFromSubdreddit(subdredditIdParameter, i) + '</td></tr>');
+				$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(subdredditIdParameter, i) + ' (' + contract.getOwnerOfPost(subdredditIdParameter, i) + ')</td></tr>');
 				postsFound = true;
 			}
 			if (!postsFound) {
 				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
 			}
-			$('#add_post_text').prop('disabled', false);
-			$('#add_post_button').prop('disabled', false);
+			$('#create_post_text').prop('disabled', false);
+			$('#create_post_button').prop('disabled', false);
 			$('#subscribe_button').prop('disabled', false);
 		}
 	}
@@ -96,7 +96,16 @@ function showPostsPage() {
 	if (userParameter != undefined && userParameter.length > 0 && userAddress != undefined) {
 		document.title = 'Dreddit - ' + userParameter;
 		$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
-		// TODO: follow same pattern as above...
+		var postsFound = false;
+		var postCount = contract.getPostsLengthForUser(userParameter);
+		for(var i=0; i<postCount; i++) {
+			var userPost = contract.getPostByUser(userParameter, i);
+			$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(userPost[0], userPost[1]) + ' (' + contract.getNameOfSubdreddit(userPost[0]) + ')</td></tr>');
+			postsFound = true;
+		}
+		if (!postsFound) {
+			$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
+		}
 	}
 }
 
@@ -113,11 +122,11 @@ function createSubdreddit() {
 	}
 }
 
-function addPost(subdredditIdParameter) {
-	var post = $('#add_post_text').val();
-	if  (post.length > 0 && post.length < 65536) {
-		contract.addPostToSubdreddit(subdredditIdParameter, post);
-		$('#add_post_text').val('');
+function createPost(subdredditIdParameter) {
+	var postTitle = $('#create_post_text').val();
+	if  (postTitle.length > 0 && post.length < 256) {
+		contract.createPost(subdredditIdParameter, postTitle);
+		$('#create_post_text').val('');
 	}
 }
 
