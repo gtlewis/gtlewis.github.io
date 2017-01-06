@@ -15,13 +15,13 @@ $(function(){
 		$('#user').html('<a class="link" id="user" href="/posts.html?user=' + userAddress + '">' + userAddress + '</a>');
 		$('#karma').text(contract.getKarmaForUser(userAddress));
 	}
-	if (current_page == 'front') {
+	if (current_page === 'front') {
 		showFrontPage();
-	} else if (current_page == 'subdreddits') {
+	} else if (current_page === 'subdreddits') {
 		showSubdredditsPage();
-	} else if (current_page == 'subdreddit') {
+	} else if (current_page === 'subdreddit') {
 		showSubdredditPage();
-	} else if (current_page == 'posts') {
+	} else if (current_page === 'posts') {
 		showPostsPage();
 	}
 });
@@ -78,8 +78,7 @@ function showSubdredditPage() {
 			var postsFound = false;
 			var postCount = contract.getPostCountOfSubdreddit(subdredditIdParameter);
 			for(var i=0; i<postCount; i++) {
-				var postOwner = contract.getOwnerOfPost(subdredditIdParameter, i);
-				$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(subdredditIdParameter, i) + ' (<a class="link" href="/posts.html?user=' + postOwner + '">' + postOwner + '</a>)</td></tr>');
+				displayPost(subdredditIdParameter, i, false);
 				postsFound = true;
 			}
 			if (!postsFound) {
@@ -101,6 +100,7 @@ function showPostsPage() {
 		var postCount = contract.getPostsLengthForUser(userParameter);
 		for(var i=0; i<postCount; i++) {
 			var userPost = contract.getPostByUser(userParameter, i);
+			displayPost(userPost[0], userPost[1], true);
 			$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(userPost[0], userPost[1]) + ' (<a class="link" href="/subdreddit.html?subdreddit_id=' + userPost[0] + '">' + contract.getNameOfSubdreddit(userPost[0]) + '</a>)</td></tr>');
 			postsFound = true;
 		}
@@ -139,6 +139,20 @@ function subscribe(subdredditIdParameter) {
 		contract.subscribeUser(subdredditIdParameter);
 		$('#subscribe_button').html('Unsubscribe');
 	}
+}
+
+function displayPost(subdredditId, postId, isUserView) {
+	var postOwner = contract.getOwnerOfPost(subdredditId, postId);
+	if (!isUserView) {
+		var origin = '(<a class="link" href="/posts.html?user=' + postOwner + '">' + postOwner + '</a>) ';
+	} else {
+		var origin = '(<a class="link" href="/subdreddit.html?subdreddit_id=' + subdredditId + '">' + contract.getNameOfSubdreddit(subdredditId) + '</a>) ';
+	}
+	var edit = '';
+	if (postOwner === userAddress) {
+		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId' + '">Edit</a> ';
+	}
+	$('#posts_table').append('<tr><td class="cell">' + contract.getTitleOfPost(subdredditId, postId) + ' ' + origin + edit + '</td></tr>');
 }
 
 function getUrlParameter(sParam) {
