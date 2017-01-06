@@ -96,7 +96,7 @@ function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && userAddress != undefined) {
 		document.title = 'Dreddit - ' + userParameter;
-		$('#posts_by_user').text('Posts by User:' + userParameter + ' (' + contract.getKarmaForUser(userParameter) + ')');
+		$('#posts_by_user').text('Posts by User: <a class="link" href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + contract.getKarmaForUser(userParameter) + ')');
 		var postsFound = false;
 		var postCount = contract.getPostsLengthForUser(userParameter);
 		for(var i=0; i<postCount; i++) {
