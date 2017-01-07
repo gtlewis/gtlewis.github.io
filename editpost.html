@@ -27,15 +27,15 @@
 		<div class="heading" id="subdreddit_name">Post not found</div>
 		<table class="table" width="100%">
 			<tr><td class="cell"><div class="text" id="post_title"/></td></tr>
-			<tr><td class="cell"><div class="text" id="post_body"/></td></tr>
+			<tr><td class="cell"><input class="input" type="text" id="post_body_input" disabled="true"/></td></tr>
 			<tr>
 				<td class="cell">
-					<button class="button" id="edit_post_button" disabled="true" onclick="window.location.href='/editpost.html?subdreddit_id=' + getUrlParameter(&#39;subdreddit_id&#39;) + '&post_id=' + getUrlParameter(&#39;post_id&#39;)">Edit</button>
-					<button class="button" id="delete_post_button" disabled="true" onclick="deletePost(getUrlParameter('subdreddit_id'), getUrlParameter('post_id'))">Delete</button>
+					<button class="button" id="submit_post_button" disabled="true" onclick="editPost(getUrlParameter('subdreddit_id'), getUrlParameter('post_id'))">Submit</button>
+					<button class="button" id="cancel_button" disabled="true" onclick="window.history.go(-1);return false;">Cancel</button>
 				</td>
 			</tr>
 		</table>
-		<script type="text/javascript">var current_page = 'post'</script>
+		<script type="text/javascript">var current_page = 'editpost'</script>
 		<script src="/scripts/web3.min.js" type="text/javascript"></script>
 		<script src="/scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
 		<script src="/scripts/dreddit.js" type="text/javascript"></script>

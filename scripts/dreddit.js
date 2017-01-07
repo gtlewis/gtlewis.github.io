@@ -25,6 +25,8 @@ $(function(){
 		showPostsPage();
 	} else if (current_page === 'post') {
 		showPostPage();
+	} else if (current_page === 'editpost') {
+		showEditPostPage();
 	}
 });
 
@@ -135,6 +137,30 @@ function showPostPage() {
 	}
 }
 
+function showEditPostPage() {
+	var subdredditIdParameter = getUrlParameter('subdreddit_id');
+	var postIdParameter = getUrlParameter('post_id');
+	if (subdredditIdParameter != undefined && subdredditIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
+		var postTitle = contract.getTitleOfPost(subdredditIdParameter, postIdParameter);
+		if (postTitle != undefined && postTitle.length > 0) {
+			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
+			if (!contract.isDeletedPost(subdredditIdParameter, postIdParameter)) {
+				document.title = 'Dreddit - ' + postTitle;
+				$('#post_title').html(postTitle);
+				$('#post_body_input').val(contract.getBodyOfPost(subdredditIdParameter, postIdParameter));
+				if (contract.getOwnerOfPost(subdredditIdParameter, postIdParameter) === currentUser) {
+					$('#post_body_input').prop('disabled', false);
+					$('#submit_post_button').prop('disabled', false);
+					$('#cancel_post_button').prop('disabled', false);
+				}
+			} else {
+				$('#post_title').html('[DELETED]');
+				$('#post_body_input').val('[DELETED BY OWNER]');
+			}
+		}
+	}
+}
+
 function showSubdreddits() {
 	showAllSubdreddits = !showAllSubdreddits;
 	showSubdredditsPage();
@@ -162,6 +188,13 @@ function createPost(subdredditId) {
 	var postTitle = $('#create_post_input').val();
 	if  (postTitle.length > 0 && postTitle.length < 256) {
 		contract.createPost(subdredditId, postTitle, "TODO: body");
+	}
+}
+
+function editPost(subdredditId, postId) {
+	var postBody = $('#post_body_input').val();
+	if  (postBody.length > 0 && postBody.length < 65536) {
+		contract.editPost(subdredditId, postId, postBody);
 		$('#create_post_input').val('');
 	}
 }
@@ -194,7 +227,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	}
 	var edit = '';
 	if (postOwner === currentUser) {
-		edit = '<a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
+		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
 	}
 	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + edit + '</td></tr>';
 }

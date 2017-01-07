@@ -243,6 +243,11 @@ contract Dreddit {
             // Throw if sender not post owner - not permitted
             throw;
         }
+
+        if (post.deleted) {
+            // Throw if post deleted - not permitted
+            throw;
+        }
         
         bytes memory postBodyBytes = bytes(postBody);
         if (postBodyBytes.length < 1 || postBodyBytes.length > 65535) {
