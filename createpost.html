@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<link href="/css/dreddit.css" rel="stylesheet"/>
+		<title>Dreddit</title>
+	</head>
+	<body>
+		<table class="table">
+			<tr>
+				<td class="cell"><a class="link" href="/index.html">Front Page</a></td>
+				<td class="cell"><a class="link" href="/subdreddits.html">Subdreddits</a></td>
+				<td class="cell">
+					<table>
+						<tr>
+							<td class="cell">User:</td>
+							<td class="cell"><div class="text" id="user">(Not connected)</div></td>
+						</tr>
+						<tr>
+							<td class="cell">Karma:</td>
+							<td class="cell"><div class="text" id="karma"/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<div class="heading" id="subdreddit_name">Post not found</div>
+		<table class="table" width="100%">
+			<tr><td class="cell"><input class="input" type="text" id="post_title_input" disabled="true"/></td></tr>
+			<tr><td class="cell"><input class="input" type="text" id="post_body_input" disabled="true"/></td></tr>
+			<tr>
+				<td class="cell">
+					<button class="button" id="submit_post_button" disabled="true" onclick="createPost(getUrlParameter('subdreddit_id'))">Submit</button>
+					<button class="button" id="cancel_button" disabled="true" onclick="window.history.go(-1);return false;">Cancel</button>
+				</td>
+			</tr>
+		</table>
+		<script type="text/javascript">var current_page = 'createpost'</script>
+		<script src="/scripts/web3.min.js" type="text/javascript"></script>
+		<script src="/scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+		<script src="/scripts/dreddit.js" type="text/javascript"></script>
+	</body>
+</html>

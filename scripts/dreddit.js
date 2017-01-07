@@ -25,6 +25,8 @@ $(function(){
 		showPostsPage();
 	} else if (current_page === 'post') {
 		showPostPage();
+	} else if (current_page === 'createpost') {
+		showCreatePostPage();
 	} else if (current_page === 'editpost') {
 		showEditPostPage();
 	}
@@ -137,6 +139,21 @@ function showPostPage() {
 	}
 }
 
+function showCreatePostPage() {
+	var subdredditIdParameter = getUrlParameter('subdreddit_id');
+	if (subdredditIdParameter != undefined && subdredditIdParameter.length > 0 && currentUser != undefined) {
+		var name = contract.getNameOfSubdreddit(subdredditIdParameter);
+		if (name != undefined && name.length > 0) {
+			document.title = 'Dreddit - ' + name;
+			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
+			$('#post_title_input').prop('disabled', false);
+			$('#post_body_input').prop('disabled', false);
+			$('#submit_post_button').prop('disabled', false);
+			$('#cancel_button').prop('disabled', false);
+		}
+	}
+}
+
 function showEditPostPage() {
 	var subdredditIdParameter = getUrlParameter('subdreddit_id');
 	var postIdParameter = getUrlParameter('post_id');
@@ -185,16 +202,18 @@ function subscribe(subdredditId) {
 }
 
 function createPost(subdredditId) {
-	var postTitle = $('#create_post_input').val();
-	if  (postTitle.length > 0 && postTitle.length < 256) {
-		contract.createPost(subdredditId, postTitle, "TODO: body");
-		$('#create_post_input').val('');
+	var postTitle = $('#post_title_input').val();
+	var postBody = $('#post_body_input').val();
+	if  (postTitle.length > 0 && postTitle.length < 256 && postBody.length < 65536) {
+		contract.createPost(subdredditId, postTitle, postBody);
+		$('#post_title_input').val('');
+		$('#post_body_input').val('');
 	}
 }
 
 function editPost(subdredditId, postId) {
 	var postBody = $('#post_body_input').val();
-	if  (postBody.length > 0 && postBody.length < 65536) {
+	if  (postBody.length < 65536) {
 		contract.editPost(subdredditId, postId, postBody);
 	}
 }

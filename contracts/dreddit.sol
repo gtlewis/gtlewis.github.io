@@ -203,8 +203,8 @@ contract Dreddit {
         }
         
         bytes memory postBodyBytes = bytes(postBody);
-        if (postBodyBytes.length < 1 || postBodyBytes.length > 65535) {
-            // Throw if post body too short or too long - not permitted
+        if (postBodyBytes.length > 65535) {
+            // Throw if post body too long - not permitted
             throw;
         }
         
@@ -250,8 +250,8 @@ contract Dreddit {
         }
         
         bytes memory postBodyBytes = bytes(postBody);
-        if (postBodyBytes.length < 1 || postBodyBytes.length > 65535) {
-            // Throw if post body too short or too long - not permitted
+        if (postBodyBytes.length > 65535) {
+            // Throw if post body too long - not permitted
             throw;
         }
         
