@@ -242,7 +242,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	} else {
 		var downvote = '<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + subdredditId + ', ' + postId + ')">Downvoted</button>';
 	}
-	var score = ' <div class="text">[' + (contract.getUpvoteCountOfPost(subdredditId, postId) - contract.getDownvoteCountOfPost(subdredditId, postId)) + ']</div> ';
+	var score = '<div class="text"> [' + (contract.getUpvoteCountOfPost(subdredditId, postId) - contract.getDownvoteCountOfPost(subdredditId, postId)) + '] </div>';
 	var isDeletedPost = contract.isDeletedPost(subdredditId, postId);
 	if (!isDeletedPost) {
 		var postTitle = contract.getTitleOfPost(subdredditId, postId);
