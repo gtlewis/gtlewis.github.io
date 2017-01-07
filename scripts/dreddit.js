@@ -46,7 +46,7 @@ function showSubdredditsPage() {
 		if (!showAllSubdreddits) {
 			document.title = 'Dreddit - ' + currentUser;
 			for(var i=0; i<subdredditCount; i++) {
-				if (contract.isSubscribedByUser(currentUser, i)) {
+				if (contract.isSubscribedByUser(i)) {
 					$('#subdreddits_table').append('<tr><td class="cell">' + displaySubdreddit(i) + '</td></tr>');
 					subdredditsFound = true;
 				}
@@ -76,7 +76,7 @@ function showSubdredditPage() {
 		if (name != undefined && name.length > 0) {
 			document.title = 'Dreddit - ' + name;
 			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
-			if (contract.isSubscribedByUser(currentUser, subdredditIdParameter)) {
+			if (contract.isSubscribedByUser(subdredditIdParameter)) {
 				$('#subscribe_button').html('Unsubscribe');
 			} else {
 				$('#subscribe_button').html('Subscribe');
@@ -191,7 +191,7 @@ function createSubdreddit() {
 }
 
 function subscribe(subdredditId) {
-	if (contract.isSubscribedByUser(currentUser, subdredditId)) {
+	if (contract.isSubscribedByUser(subdredditId)) {
 		contract.unsubscribeUser(subdredditId);
 		$('#subscribe_button').html('Subscribe');
 	} else {
@@ -232,12 +232,12 @@ function displaySubdreddit(subdredditId) {
 }
 
 function displayPost(subdredditId, postId, isUserView) {
-	if (!contract.isPostUpvotedByUser(currentUser, subdredditId, postId)) {
+	if (!contract.isPostUpvotedByUser(subdredditId, postId)) {
 		var upvote = '<button class="upvoteButton" onclick="contract.upvotePost(' + subdredditId + ', ' + postId + ')">Upvote</button>';
 	} else {
 		var upvote = '<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + subdredditId + ', ' + postId + ')">Upvoted</button>';
 	}
-	if (!contract.isPostDownvotedByUser(currentUser, subdredditId, postId)) {
+	if (!contract.isPostDownvotedByUser(subdredditId, postId)) {
 		var downvote = '<button class="downvoteButton" onclick="contract.downvotePost(' + subdredditId + ', ' + postId + ')">Downvote</button>';
 	} else {
 		var downvote = '<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + subdredditId + ', ' + postId + ')">Downvoted</button>';

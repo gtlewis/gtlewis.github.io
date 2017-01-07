@@ -310,7 +310,7 @@ contract Dreddit {
         post.upvotes[msg.sender] = true;
         post.upvoteCount++;
         
-        User user = users[msg.sender];
+        User user = users[post.owner];
         user.karma++;
     }
     
@@ -337,7 +337,7 @@ contract Dreddit {
         post.upvotes[msg.sender] = false;
         post.upvoteCount--;
         
-        User user = users[msg.sender];
+        User user = users[post.owner];
         user.karma--;
     }
     
@@ -369,7 +369,7 @@ contract Dreddit {
         post.downvotes[msg.sender] = true;
         post.downvoteCount++;
         
-        User user = users[msg.sender];
+        User user = users[post.owner];
         user.karma--;
     }
     
@@ -396,7 +396,7 @@ contract Dreddit {
         post.downvotes[msg.sender] = false;
         post.downvoteCount--;
         
-        User user = users[msg.sender];
+        User user = users[post.owner];
         user.karma++;
     }
     
