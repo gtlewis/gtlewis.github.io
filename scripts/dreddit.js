@@ -120,10 +120,13 @@ function showPostPage() {
 			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
 			if (!contract.isDeletedPost(subdredditIdParameter, postIdParameter)) {
 				document.title = 'Dreddit - ' + postTitle;
-				$('#post_title').html(postTitle + ' (' + displayUser(contract.getOwnerOfPost(subdredditIdParameter, postIdParameter)) + ')');
+				var postOwner = contract.getOwnerOfPost(subdredditIdParameter, postIdParameter);
+				$('#post_title').html(postTitle + ' (' + displayUser(postOwner) + ')');
 				$('#post_body').html(contract.getBodyOfPost(subdredditIdParameter, postIdParameter));
-				$('#edit_post_button').prop('disabled', false);
-				$('#delete_post_button').prop('disabled', false);
+				if (postOwner === currentUser) {
+					$('#edit_post_button').prop('disabled', false);
+					$('#delete_post_button').prop('disabled', false);
+				}
 			} else {
 				$('#post_title').html('[DELETED]');
 				$('#post_body').html('[DELETED BY OWNER]');
@@ -165,6 +168,7 @@ function createPost(subdredditId) {
 
 function deletePost(subdredditId, postId) {
 	contract.deletePost(subdredditId, postId);
+	$('#edit_post_button').prop('disabled', true);
 	$('#delete_post_button').prop('disabled', true);
 }
 
