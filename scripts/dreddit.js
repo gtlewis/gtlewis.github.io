@@ -90,7 +90,6 @@ function showSubdredditPage() {
 			if (!postsFound) {
 				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
 			}
-			$('#create_post_input').prop('disabled', false);
 			$('#create_post_button').prop('disabled', false);
 			$('#subscribe_button').prop('disabled', false);
 		}
