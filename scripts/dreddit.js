@@ -60,7 +60,7 @@ function showSubdredditsPage() {
 			$('#subdreddits_table').append('<tr><td class="cell">No subdreddits found</td></tr>');
 		}
 		$('#show_subdreddits_button').prop('disabled', false);
-		$('#create_subdreddit_text').prop('disabled', false);
+		$('#create_subdreddit_input').prop('disabled', false);
 		$('#create_subdreddit_button').prop('disabled', false);
 	}
 }
@@ -86,7 +86,7 @@ function showSubdredditPage() {
 			if (!postsFound) {
 				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
 			}
-			$('#create_post_text').prop('disabled', false);
+			$('#create_post_input').prop('disabled', false);
 			$('#create_post_button').prop('disabled', false);
 			$('#subscribe_button').prop('disabled', false);
 		}
@@ -122,6 +122,8 @@ function showPostPage() {
 				document.title = 'Dreddit - ' + postTitle;
 				$('#post_title').html(postTitle + ' (' + displayUser(contract.getOwnerOfPost(subdredditIdParameter, postIdParameter)) + ')');
 				$('#post_body').html(contract.getBodyOfPost(subdredditIdParameter, postIdParameter));
+				$('#edit_post_button').prop('disabled', false);
+				$('#delete_post_button').prop('disabled', false);
 			} else {
 				$('#post_title').html('[DELETED]');
 				$('#post_body').html('[DELETED BY OWNER]');
@@ -136,29 +138,34 @@ function showSubdreddits() {
 }
 
 function createSubdreddit() {
-	var name = $('#create_subdreddit_text').val();
+	var name = $('#create_subdreddit_input').val();
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createSubdreddit(name);
-		$('#create_subdreddit_text').val('');
+		$('#create_subdreddit_input').val('');
 	}
 }
 
-function createPost(subdredditIdParameter) {
-	var postTitle = $('#create_post_text').val();
-	if  (postTitle.length > 0 && postTitle.length < 256) {
-		contract.createPost(subdredditIdParameter, postTitle, "TODO: body");
-		$('#create_post_text').val('');
-	}
-}
-
-function subscribe(subdredditIdParameter) {
-	if (contract.isSubscribedByUser(currentUser, subdredditIdParameter)) {
-		contract.unsubscribeUser(subdredditIdParameter);
+function subscribe(subdredditId) {
+	if (contract.isSubscribedByUser(currentUser, subdredditId)) {
+		contract.unsubscribeUser(subdredditId);
 		$('#subscribe_button').html('Subscribe');
 	} else {
-		contract.subscribeUser(subdredditIdParameter);
+		contract.subscribeUser(subdredditId);
 		$('#subscribe_button').html('Unsubscribe');
 	}
+}
+
+function createPost(subdredditId) {
+	var postTitle = $('#create_post_input').val();
+	if  (postTitle.length > 0 && postTitle.length < 256) {
+		contract.createPost(subdredditId, postTitle, "TODO: body");
+		$('#create_post_input').val('');
+	}
+}
+
+function deletePost(subdredditId, postId) {
+	contract.deletePost(subdredditId, postId);
+	$('#delete_post_button').prop('disabled', true);
 }
 
 function displayUser(user) {
