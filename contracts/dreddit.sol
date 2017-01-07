@@ -54,10 +54,8 @@ contract Dreddit {
         }
         
         User user = users[msg.sender];
-        bool subscription = user.subscriptions[subdredditId];
-        
-        if (subscription) {
-            // Throw if already subscribed - saves gas
+        if (user.subscriptions[subdredditId]) {
+            // Throw if user already subscribed - saves gas
             throw;
         }
         
@@ -73,10 +71,8 @@ contract Dreddit {
         }
         
         User user = users[msg.sender];
-        bool subscription = user.subscriptions[subdredditId];
-        
-        if (!subscription) {
-            // Throw if not subscribed - saves gas
+        if (!user.subscriptions[subdredditId]) {
+            // Throw if user not subscribed - saves gas
             throw;
         }
         
@@ -183,9 +179,8 @@ contract Dreddit {
         uint32 downvoteCount;
         
         // The post's list of comments
-        // TODO: just string for now...
-        mapping(uint32 => string) comments;
-        uint32 commentCount;
+        //mapping(uint32 => Comment) comments;
+        //uint32 commentCount;
     }
     
     // Post.create()
@@ -215,9 +210,8 @@ contract Dreddit {
         post.body = postBody;
         subdreddit.postCount++;
         
-        // TODO: Upvote the post
-        //post.upvotes[msg.sender] = true;
-        //post.upvoteCount++;
+        // Upvote the post
+        upvotePost(subdredditId, subdreddit.postCount-1);
         
         // Add the post to the User's list
         User user = users[msg.sender];
@@ -288,7 +282,123 @@ contract Dreddit {
         post.deleted = true;
     }
     
-    // TODO: upvote (and remove), downvote (and remove)
+    // Post.upvote()
+    function upvotePost(uint32 subdredditId, uint32 postId) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        if (postId >= subdreddit.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = subdreddit.posts[postId];
+        if (post.upvotes[msg.sender]) {
+            // Throw if post already upvoted by user - saves gas
+            throw;
+        }
+        
+        // If post downvoted by user, remove downvote
+        if (post.downvotes[msg.sender]) {
+            removeDownvoteFromPost(subdredditId, postId);
+        }
+        
+        post.upvotes[msg.sender] = true;
+        post.upvoteCount++;
+        
+        User user = users[msg.sender];
+        user.karma++;
+    }
+    
+    // Post.removeUpvote()
+    function removeUpvoteFromPost(uint32 subdredditId, uint32 postId) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        if (postId >= subdreddit.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = subdreddit.posts[postId];
+        if (!post.upvotes[msg.sender]) {
+            // Throw if post not upvoted by user - saves gas
+            throw;
+        }
+        
+        post.upvotes[msg.sender] = false;
+        post.upvoteCount--;
+        
+        User user = users[msg.sender];
+        user.karma--;
+    }
+    
+    // Post.downvote()
+    function downvotePost(uint32 subdredditId, uint32 postId) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        if (postId >= subdreddit.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = subdreddit.posts[postId];
+        if (post.downvotes[msg.sender]) {
+            // Throw if post already downvoted by user - saves gas
+            throw;
+        }
+        
+        // If post upvoted by user, remove upvote
+        if (post.upvotes[msg.sender]) {
+            removeUpvoteFromPost(subdredditId, postId);
+        }
+        
+        post.downvotes[msg.sender] = true;
+        post.downvoteCount++;
+        
+        User user = users[msg.sender];
+        user.karma--;
+    }
+    
+    // Post.removeDownvote()
+    function removeDownvoteFromPost(uint32 subdredditId, uint32 postId) {
+        
+        if (subdredditId >= subdredditCount) {
+            // Throw if subdreddit not created - not permitted
+            throw;
+        }
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        if (postId >= subdreddit.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = subdreddit.posts[postId];
+        if (!post.downvotes[msg.sender]) {
+            // Throw if post not downvoted by user - saves gas
+            throw;
+        }
+        
+        post.downvotes[msg.sender] = false;
+        post.downvoteCount--;
+        
+        User user = users[msg.sender];
+        user.karma++;
+    }
     
     // Post.getOwner()
     function getOwnerOfPost(uint32 subdredditId, uint32 postId) constant returns (address) {
@@ -322,5 +432,37 @@ contract Dreddit {
         return post.deleted;
     }
     
-    // TODO: get upvote count, downvote count, comments
+    // Post.isUpvotedByUser()
+    function isPostUpvotedByUser(address userAddress, uint32 subdredditId, uint32 postId) constant returns (bool) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.upvotes[userAddress];
+    }
+    
+    // Post.getUpvoteCount()
+    function getUpvoteCountOfPost(uint32 subdredditId, uint32 postId) constant returns (uint32) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.upvoteCount;
+    }
+    
+    // Post.isDownvotedByUser()
+    function isPostDownvotedByUser(address userAddress, uint32 subdredditId, uint32 postId) constant returns (bool) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.downvotes[userAddress];
+    }
+    
+    // Post.getDownvoteCount()
+    function getDownvoteCountOfPost(uint32 subdredditId, uint32 postId) constant returns (uint32) {
+        
+        Subdreddit subdreddit = subdreddits[subdredditId];
+        Post post = subdreddit.posts[postId];
+        return post.downvoteCount;
+    }
+    
+    // TODO: get comments
 }
