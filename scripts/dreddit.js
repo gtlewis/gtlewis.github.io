@@ -232,17 +232,17 @@ function displaySubdreddit(subdredditId) {
 }
 
 function displayPost(subdredditId, postId, isUserView) {
-	if (!contract.isPostUpvotedByUser(subdredditId, postId)) {
+	if (!contract.isPostUpvotedByUser(currentUser, subdredditId, postId)) {
 		var upvote = '<button class="upvoteButton" onclick="contract.upvotePost(' + subdredditId + ', ' + postId + ')">Upvote</button>';
 	} else {
 		var upvote = '<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + subdredditId + ', ' + postId + ')">Upvoted</button>';
 	}
-	if (!contract.isPostDownvotedByUser(subdredditId, postId)) {
+	if (!contract.isPostDownvotedByUser(currentUser, subdredditId, postId)) {
 		var downvote = '<button class="downvoteButton" onclick="contract.downvotePost(' + subdredditId + ', ' + postId + ')">Downvote</button>';
 	} else {
 		var downvote = '<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + subdredditId + ', ' + postId + ')">Downvoted</button>';
 	}
-	var score = '<div class="text"> [' + (contract.getUpvoteCountOfPost(subdredditId, postId) - contract.getDownvoteCountOfPost(subdredditId, postId)) + '] </div>';
+	var score = '<div class="text">[' + (contract.getUpvoteCountOfPost(subdredditId, postId) - contract.getDownvoteCountOfPost(subdredditId, postId)) + ']</div>';
 	var isDeletedPost = contract.isDeletedPost(subdredditId, postId);
 	if (!isDeletedPost) {
 		var postTitle = contract.getTitleOfPost(subdredditId, postId);

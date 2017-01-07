@@ -80,9 +80,9 @@ contract Dreddit {
     }
     
     // User.isSubscribed()
-    function isSubscribedByUser(address userAddress, uint32 subdredditId) constant returns (bool) {
+    function isSubscribedByUser(uint32 subdredditId) constant returns (bool) {
         
-        User user = users[userAddress];
+        User user = users[msg.sender];
         return user.subscriptions[subdredditId];
     }
     
@@ -433,11 +433,11 @@ contract Dreddit {
     }
     
     // Post.isUpvotedByUser()
-    function isPostUpvotedByUser(address userAddress, uint32 subdredditId, uint32 postId) constant returns (bool) {
+    function isPostUpvotedByUser(uint32 subdredditId, uint32 postId) constant returns (bool) {
         
         Subdreddit subdreddit = subdreddits[subdredditId];
         Post post = subdreddit.posts[postId];
-        return post.upvotes[userAddress];
+        return post.upvotes[msg.sender];
     }
     
     // Post.getUpvoteCount()
@@ -449,11 +449,11 @@ contract Dreddit {
     }
     
     // Post.isDownvotedByUser()
-    function isPostDownvotedByUser(address userAddress, uint32 subdredditId, uint32 postId) constant returns (bool) {
+    function isPostDownvotedByUser(uint32 subdredditId, uint32 postId) constant returns (bool) {
         
         Subdreddit subdreddit = subdreddits[subdredditId];
         Post post = subdreddit.posts[postId];
-        return post.downvotes[userAddress];
+        return post.downvotes[msg.sender];
     }
     
     // Post.getDownvoteCount()
