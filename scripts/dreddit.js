@@ -227,12 +227,12 @@ function displayPost(subdredditId, postId, isUserView) {
 		var origin = '(' + displaySubdreddit(subdredditId) + ') ';
 	}
 	var edit = '';
-	var delete = '';
+	var delete_ = '';
 	if (!isDeletedPost && postOwner === currentUser) {
 		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
-		delete = '<a class="link" onClick="contract.deletePost(subdredditId, postId)">Delete</a> ';
+		delete_ = '<a class="link" onClick="contract.deletePost(subdredditId, postId)">Delete</a> ';
 	}
-	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + edit + '</td></tr>';
+	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + edit + delete_ '</td></tr>';
 }
 
 function getUrlParameter(sParam) {
