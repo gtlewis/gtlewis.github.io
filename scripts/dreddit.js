@@ -188,6 +188,7 @@ function createPost(subdredditId) {
 	var postTitle = $('#create_post_input').val();
 	if  (postTitle.length > 0 && postTitle.length < 256) {
 		contract.createPost(subdredditId, postTitle, "TODO: body");
+		$('#create_post_input').val('');
 	}
 }
 
@@ -195,7 +196,6 @@ function editPost(subdredditId, postId) {
 	var postBody = $('#post_body_input').val();
 	if  (postBody.length > 0 && postBody.length < 65536) {
 		contract.editPost(subdredditId, postId, postBody);
-		$('#create_post_input').val('');
 	}
 }
 
@@ -230,7 +230,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	var delete_ = '';
 	if (!isDeletedPost && postOwner === currentUser) {
 		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
-		delete_ = '<a class="link" href="#" onClick="contract.deletePost(' + subdredditId + ', ' + postId + ')">Delete</a> ';
+		delete_ = '<a class="link" href="#" onClick="contract.deletePost(' + subdredditId + ', ' + postId + ');return false;">Delete</a> ';
 	}
 	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + edit + delete_ + '</td></tr>';
 }
