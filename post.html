@@ -30,7 +30,7 @@
 			<tr><td class="cell"><div class="text" id="post_body"/></td></tr>
 			<tr>
 				<td class="cell">
-					<button class="button" id="edit_post_button" disabled="true" onclick="window.location.href='/post.html?subdreddit_id=' + '1' + '&post_id=' + '1'">Edit</button>
+					<button class="button" id="edit_post_button" disabled="true" onclick="window.location.href='/post.html?subdreddit_id=' + getUrlParameter() + '&post_id=' + getUrlParameter()">Edit</button>
 					<button class="button" id="delete_post_button" disabled="true" onclick="deletePost(getUrlParameter('subdreddit_id'), getUrlParameter('post_id'))">Delete</button>
 				</td>
 			</tr>
