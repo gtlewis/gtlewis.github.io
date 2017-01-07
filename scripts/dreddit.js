@@ -151,7 +151,7 @@ function showEditPostPage() {
 				if (contract.getOwnerOfPost(subdredditIdParameter, postIdParameter) === currentUser) {
 					$('#post_body_input').prop('disabled', false);
 					$('#submit_post_button').prop('disabled', false);
-					$('#cancel_post_button').prop('disabled', false);
+					$('#cancel_button').prop('disabled', false);
 				}
 			} else {
 				$('#post_title').html('[DELETED]');
@@ -214,7 +214,8 @@ function displaySubdreddit(subdredditId) {
 }
 
 function displayPost(subdredditId, postId, isUserView) {
-	if (!contract.isDeletedPost(subdredditId, postId)) {
+	var isDeletedPost = contract.isDeletedPost(subdredditId, postId);
+	if (!isDeletedPost) {
 		var postTitle = contract.getTitleOfPost(subdredditId, postId);
 	} else {
 		var postTitle = '[DELETED]';
@@ -226,7 +227,7 @@ function displayPost(subdredditId, postId, isUserView) {
 		var origin = '(' + displaySubdreddit(subdredditId) + ') ';
 	}
 	var edit = '';
-	if (postOwner === currentUser) {
+	if (!isDeletedPost && postOwner === currentUser) {
 		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a> ';
 	}
 	return '<tr><td class="cell"><a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + edit + '</td></tr>';
