@@ -31,6 +31,7 @@
 					<button class="button" id="create_post_button" disabled="true" onclick="window.location.href='/createpost.html?subdreddit_id=' + getUrlParameter(&#39;subdreddit_id&#39;)">Create post</button>
 				</td>
 				<td class="cell"><button class="button" id="subscribe_button" disabled="true" onclick="subscribe(getUrlParameter('subdreddit_id'))">Subscribe</button></td>
+				<td class="cell"><button class="button" id="unsubscribe_button" disabled="true" onclick="unsubscribe(getUrlParameter('subdreddit_id'))">Unsubscribe</button></td>
 			</tr>
 		</table>
 		<table class="table" id="posts_table"/>

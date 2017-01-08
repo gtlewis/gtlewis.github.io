@@ -76,11 +76,6 @@ function showSubdredditPage() {
 		if (name != undefined && name.length > 0) {
 			document.title = 'Dreddit - ' + name;
 			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
-			if (contract.isSubscribedByUser(subdredditIdParameter)) {
-				$('#subscribe_button').html('Unsubscribe');
-			} else {
-				$('#subscribe_button').html('Subscribe');
-			}
 			var postsFound = false;
 			var postCount = contract.getPostCountOfSubdreddit(subdredditIdParameter);
 			for(var i=0; i<postCount; i++) {
@@ -91,7 +86,11 @@ function showSubdredditPage() {
 				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
 			}
 			$('#create_post_button').prop('disabled', false);
-			$('#subscribe_button').prop('disabled', false);
+			if (!contract.isSubscribedByUser(subdredditIdParameter)) {
+				$('#subscribe_button').prop('disabled', false);
+			} else {
+				$('#unsubscribe_button').prop('disabled', false);
+			}
 		}
 	}
 }
@@ -161,6 +160,7 @@ function showEditPostPage() {
 		var postTitle = contract.getTitleOfPost(subdredditIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
 			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
+			$('#post_score').html(displayPostUpvote(subdredditIdParameter, postIdParameter) + displayPostDownvote(subdredditIdParameter, postIdParameter) + ' ' + displayPostScore(subdredditIdParameter, postIdParameter));
 			if (!contract.isDeletedPost(subdredditIdParameter, postIdParameter)) {
 				document.title = 'Dreddit - ' + postTitle;
 				$('#post_title').html(postTitle);
@@ -192,13 +192,11 @@ function createSubdreddit() {
 }
 
 function subscribe(subdredditId) {
-	if (contract.isSubscribedByUser(subdredditId)) {
-		contract.unsubscribeUser(subdredditId);
-		$('#subscribe_button').html('Subscribe');
-	} else {
-		contract.subscribeUser(subdredditId);
-		$('#subscribe_button').html('Unsubscribe');
-	}
+	contract.subscribeUser(subdredditId);
+}
+
+function unsubscribe(subdredditId) {
+	contract.unsubscribeUser(subdredditId);
 }
 
 function createPost(subdredditId) {
