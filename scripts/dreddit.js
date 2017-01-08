@@ -125,7 +125,7 @@ function showPostPage() {
 				document.title = 'Dreddit - ' + postTitle;
 				var postOwner = contract.getOwnerOfPost(subdredditIdParameter, postIdParameter);
 				$('#post_title').html(postTitle + ' (' + displayUser(postOwner) + ')');
-				$('#post_body').html(contract.getBodyOfPost(subdredditIdParameter, postIdParameter));
+				$('#post_body').html(new showdown.Converter().makeHtml(contract.getBodyOfPost(subdredditIdParameter, postIdParameter)));
 				if (postOwner === currentUser) {
 					$('#edit_post_button').prop('disabled', false);
 					$('#delete_post_button').prop('disabled', false);
