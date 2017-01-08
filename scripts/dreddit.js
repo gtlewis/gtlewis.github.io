@@ -84,7 +84,7 @@ function showSubdredditPage() {
 			var postsFound = false;
 			var postCount = contract.getPostCountOfSubdreddit(subdredditIdParameter);
 			for(var i=0; i<postCount; i++) {
-				$('#posts_table').append(displayPost(subdredditIdParameter, i, false));
+				$('#posts_table').append('<tr><td class="cell">' + displayPost(subdredditIdParameter, i, false) + '</tr></td>');
 				postsFound = true;
 			}
 			if (!postsFound) {
@@ -105,7 +105,7 @@ function showPostsPage() {
 		var postCount = contract.getPostsLengthForUser(userParameter);
 		for(var i=0; i<postCount; i++) {
 			var userPost = contract.getPostByUser(userParameter, i);
-			$('#posts_table').append(displayPost(userPost[0], userPost[1], true));
+			$('#posts_table').append('<tr><td class="cell">' + displayPost(userPost[0], userPost[1], true) + '</td></tr>');
 			postsFound = true;
 		}
 		if (!postsFound) {
@@ -121,6 +121,7 @@ function showPostPage() {
 		var postTitle = contract.getTitleOfPost(subdredditIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
 			$('#subdreddit_name').html(displaySubdreddit(subdredditIdParameter));
+			$('#post_score').html(displayPostUpvote(subdredditIdParameter, postIdParameter) + displayPostDownvote(subdredditIdParameter, postIdParameter) + ' ' + displayPostScore(subdredditIdParameter, postIdParameter));
 			if (!contract.isDeletedPost(subdredditIdParameter, postIdParameter)) {
 				document.title = 'Dreddit - ' + postTitle;
 				var postOwner = contract.getOwnerOfPost(subdredditIdParameter, postIdParameter);
@@ -261,6 +262,7 @@ function displayPost(subdredditId, postId, isUserView) {
 	} else {
 		var postTitle = '[DELETED]';
 	}
+	var post = '<a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a>';
 	var postOwner = contract.getOwnerOfPost(subdredditId, postId);
 	if (!isUserView) {
 		var origin = '(' + displayUser(postOwner) + ')';
@@ -273,7 +275,7 @@ function displayPost(subdredditId, postId, isUserView) {
 		edit = '<a class="link" href="/editpost.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">Edit</a>';
 		delete_ = '<a class="link" href="#" onClick="contract.deletePost(' + subdredditId + ', ' + postId + ');return false;">Delete</a>';
 	}
-	return '<tr><td class="cell">' + upvote + downvote + ' ' + score + ' <a class="link" href="/post.html?subdreddit_id=' + subdredditId + '&post_id=' + postId + '">' + postTitle + '</a> ' + origin + ' ' + edit + ' ' + delete_ + '</td></tr>';
+	return upvote + downvote + ' ' + score + ' ' + post + ' ' + origin + ' ' + edit + ' ' + delete_;
 }
 
 function getUrlParameter(sParam) {
