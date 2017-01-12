@@ -2,14 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<link href="/css/dreddit.css" rel="stylesheet"/>
-		<title>Dreddit</title>
+		<link href="/css/etherforum.css" rel="stylesheet"/>
+		<title>EtherForum</title>
 	</head>
 	<body>
 		<table class="table">
 			<tr>
 				<td class="cell"><a class="link" href="/index.html">Front Page</a></td>
-				<td class="cell"><a class="link" href="/subdreddits.html">Subdreddits</a></td>
+				<td class="cell"><a class="link" href="/forums.html">Forums</a></td>
 				<td class="cell">
 					<table>
 						<tr>
@@ -24,15 +24,15 @@
 				</td>
 			</tr>
 		</table>
-		<div class="heading" id="subdreddit_name">Post not found</div>
+		<div class="heading" id="forum_name">Post not found</div>
 		<table class="table" width="100%">
 			<tr><td class="cell"/><div class="text" id="post_score"/></td></tr>
 			<tr><td class="cell"><div class="text" id="post_title"/></td></tr>
 			<tr><td class="cell"><div class="text" id="post_body"/></td></tr>
 			<tr>
 				<td class="cell">
-					<button class="button" id="edit_post_button" disabled="true" onclick="window.location.href='/editpost.html?subdreddit_id=' + getUrlParameter(&#39;subdreddit_id&#39;) + '&post_id=' + getUrlParameter(&#39;post_id&#39;)">Edit</button>
-					<button class="button" id="delete_post_button" disabled="true" onclick="deletePost(getUrlParameter('subdreddit_id'), getUrlParameter('post_id'))">Delete</button>
+					<button class="button" id="edit_post_button" disabled="true" onclick="window.location.href='/editpost.html?forum_id=' + getUrlParameter(&#39;forum_id&#39;) + '&post_id=' + getUrlParameter(&#39;post_id&#39;)">Edit</button>
+					<button class="button" id="delete_post_button" disabled="true" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'))">Delete</button>
 				</td>
 			</tr>
 		</table>
@@ -40,6 +40,6 @@
 		<script src="/scripts/web3.min.js" type="text/javascript"></script>
 		<script src="/scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
 		<script src="/scripts/showdown.min.js" type="text/javascript"></script>
-		<script src="/scripts/dreddit.js" type="text/javascript"></script>
+		<script src="/scripts/etherforum.js" type="text/javascript"></script>
 	</body>
 </html>

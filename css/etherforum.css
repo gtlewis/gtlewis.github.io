@@ -1,0 +1,74 @@
+#body {
+	background-image: url('/images/Ethereum-homestead-background-10.jpg');
+	background-repeat: repeat;
+	background-position: top left;
+	background-attachment: scroll;
+}
+
+#page a {
+	border-bottom: none;
+	text-decoration: none;
+}
+
+#header-top {
+	background: #2d3642;
+	box-sizing: content-box;
+	color: rgba(255, 255, 255, 0.63);
+	min-height: 1.75rem;
+	padding: 1.25em 0;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+#header-top .inner {
+	box-sizing: border-box;
+	position: relative;
+}
+
+#header-top a {
+	color: inherit;
+	text-decoration: none;
+}
+
+#header-top a:hover,
+#header-top a:active,
+#header-top a:focus {
+	color: white;
+	outline: 0;
+}
+
+#header-top-text {
+	color: white;
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 1.5em;
+	font-weight: 700;
+	line-height: 1;
+	margin: 0;
+	position: relative;
+}
+
+#header-main {
+	background: #20b2aa;
+	color: #fff;
+	padding: 23px 0;
+}
+
+#header-main .inner {
+	position: relative;
+}
+
+#header-main-text {
+	color: white;
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 2.125rem;
+	font-weight: 900;
+	line-height: 1;
+	margin: 0;
+	padding: 8px 0;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.32);
+	word-wrap: break-word;
+}
+
+#header-main-text a {
+	color: inherit;
+	text-decoration: none;
+}

@@ -2,14 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<link href="/css/dreddit.css" rel="stylesheet"/>
-		<title>Dreddit</title>
+		<link href="/css/etherforum.css" rel="stylesheet"/>
+		<title>EtherForum</title>
 	</head>
 	<body>
 		<table class="table" width="100%">
 			<tr>
 				<td class="cell"><a class="link" href="/index.html">Front Page</a></td>
-				<td class="cell"><a class="link" href="/subdreddits.html">Subdreddits</a></td>
+				<td class="cell"><a class="link" href="/forums.html">Forums</a></td>
 				<td class="cell">
 					<table>
 						<tr>
@@ -24,20 +24,20 @@
 				</td>
 			</tr>
 		</table>
-		<div class="heading">Subdreddits</div>
+		<div class="heading">Forums</div>
 		<table class="table" width="100%">
 			<tr>
-				<td class="cell"><button class="button" id="show_subdreddits_button" disabled="true" onclick="showSubdreddits()">Show all subdreddits</button></td>
+				<td class="cell"><button class="button" id="show_forums_button" disabled="true" onclick="showForums()">Show all forums</button></td>
 				<td class="cell">
-					<input class="input" type="text" id="create_subdreddit_input" disabled="true"/>
-					<button class="button" id="create_subdreddit_button" disabled="true" onclick="createSubdreddit()">Create new subdreddit</button>
+					<input class="input" type="text" id="create_forum_input" disabled="true"/>
+					<button class="button" id="create_forum_button" disabled="true" onclick="createForum()">Create new forum</button>
 				</td>
 			</tr>
 		</table>
-		<table class="table" id="subdreddits_table"/>
-		<script type="text/javascript">var current_page = 'subdreddits'</script>
+		<table class="table" id="forums_table"/>
+		<script type="text/javascript">var current_page = 'forums'</script>
 		<script src="/scripts/web3.min.js" type="text/javascript"></script>
 		<script src="/scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
-		<script src="/scripts/dreddit.js" type="text/javascript"></script>
+		<script src="/scripts/etherforum.js" type="text/javascript"></script>
 	</body>
 </html>
