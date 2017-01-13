@@ -4,13 +4,14 @@ var contract;
 var currentUser;
 var showAllForums = false;
 
-$(function(){
-	// TODO: this all needs to be in web3 callback?? plus strange metamask error...
-	if (typeof web3 != 'undefined' && typeof web3.eth != 'undefined') {
+window.addEventListener('load', function() {
+	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
+		web3 = new Web3(web3.currentProvider);
 		contract = web3.eth.contract(contractAbi).at(contractAddress);
 		currentUser = web3.eth.accounts[0];
 		web3.eth.defaultAccount = currentUser;
 	}
+
 	if (currentUser != undefined) {
 		$('#user').html(displayUser(currentUser));
 		$('#karma').text(contract.getKarmaForUser(currentUser, initialCallback));
