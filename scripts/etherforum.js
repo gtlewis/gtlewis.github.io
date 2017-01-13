@@ -14,13 +14,13 @@ window.addEventListener('load', function() {
 
 	if (currentUser != undefined) {
 		$('#user').html(displayUser(currentUser));
-		$('#karma').text(contract.getKarmaForUser(currentUser, initialCallback));
+		contract.getKarmaForUser(currentUser, initialise_getKarmaForUser_callback);
 	}
 });
 
-function initialCallback(error, karma) {
-	$('#karma').text(karma);
+function initialise_getKarmaForUser_callback(error, karma) {
 	if (!error) {
+		$('#karma').text(karma);
 		if (current_page === 'front') {
 			showFrontPage();
 		} else if (current_page === 'forums') {
@@ -49,32 +49,40 @@ function showFrontPage() {
 
 function showForumsPage() {
 	if (currentUser != undefined) {
-		var forumCount = contract.getForumCount();
-		var forumsFound = false;
-		$('#forums_table').empty();
-		if (!showAllForums) {
-			document.title = 'EtherForum - ' + currentUser;
-			for(var i=0; i<forumCount; i++) {
-				if (contract.isSubscribedByUser(i)) {
+		contract.getForumCount(showForumsPage_getForumCount_callback);
+	}
+}
+
+function showForumsPage_getForumCount_callback(error, forumCount) {
+	if (!error) {
+			var forumsFound = false;
+			$('#forums_table').empty();
+			if (!showAllForums) {
+				document.title = 'EtherForum - ' + currentUser;
+				for(var i=0; i<forumCount; i++) {
+					if (contract.isSubscribedByUser(i)) {
+						$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
+						forumsFound = true;
+					}
+				}
+				$('#show_forums_button').html('Show all forums');
+			} else {
+				document.title = 'EtherForum';
+				for(var i=0; i<forumCount; i++) {
 					$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 					forumsFound = true;
 				}
+				$('#show_forums_button').html('Show my subscribed forums');
 			}
-			$('#show_forums_button').html('Show all forums');
-		} else {
-			document.title = 'EtherForum';
-			for(var i=0; i<forumCount; i++) {
-				$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
-				forumsFound = true;
+			if (!forumsFound) {
+				$('#forums_table').append('<tr><td class="cell">No forums found</td></tr>');
 			}
-			$('#show_forums_button').html('Show my subscribed forums');
+			$('#show_forums_button').prop('disabled', false);
+			$('#create_forum_input').prop('disabled', false);
+			$('#create_forum_button').prop('disabled', false);
 		}
-		if (!forumsFound) {
-			$('#forums_table').append('<tr><td class="cell">No forums found</td></tr>');
-		}
-		$('#show_forums_button').prop('disabled', false);
-		$('#create_forum_input').prop('disabled', false);
-		$('#create_forum_button').prop('disabled', false);
+	} else {
+		console.error(error);
 	}
 }
 
