@@ -32,7 +32,7 @@
 			<tr>
 				<td class="cell">
 					<button class="button" id="edit_post_button" disabled="true" onclick="window.location.href='/editpost.html?forum_id=' + getUrlParameter(&#39;forum_id&#39;) + '&post_id=' + getUrlParameter(&#39;post_id&#39;)">Edit</button>
-					<button class="button" id="delete_post_button" disabled="true" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'))">Delete</button>
+					<button class="button" id="delete_post_button" disabled="true" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'), void_callback)">Delete</button>
 				</td>
 			</tr>
 		</table>

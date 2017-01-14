@@ -60,7 +60,8 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 		if (!showAllForums) {
 			document.title = 'EtherForum - ' + currentUser;
 			for(var i=0; i<forumCount; i++) {
-				if (contract.isSubscribedByUser(i)) {
+				var isSubscribed = contract.isSubscribedByUser(i);
+				if (isSubscribed) {
 					$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 					forumsFound = true;
 				}
@@ -102,7 +103,8 @@ function showForumPage() {
 				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
 			}
 			$('#create_post_button').prop('disabled', false);
-			if (!contract.isSubscribedByUser(forumIdParameter)) {
+			var isSubscribed = contract.isSubscribedByUser(forumIdParameter);
+			if (!isSubscribed) {
 				$('#subscribe_button').prop('disabled', false);
 			} else {
 				$('#unsubscribe_button').prop('disabled', false);
@@ -115,7 +117,8 @@ function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = 'EtherForum - ' + userParameter;
-		$('#posts_by_user').html('Posts by User: <a class="link" href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + contract.getKarmaForUser(userParameter) + ')');
+		var karma = contract.getKarmaForUser(userParameter);
+		$('#posts_by_user').html('Posts by User: <a class="link" href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + karma + ')');
 		var postsFound = false;
 		var postCount = contract.getPostsLengthForUser(userParameter);
 		for(var i=0; i<postCount; i++) {
@@ -137,11 +140,13 @@ function showPostPage() {
 		if (postTitle != undefined && postTitle.length > 0) {
 			$('#forum_name').html(displayForum(forumIdParameter));
 			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter) + displayPostDownvote(forumIdParameter, postIdParameter) + ' ' + displayPostScore(forumIdParameter, postIdParameter));
-			if (!contract.isDeletedPost(forumIdParameter, postIdParameter)) {
+			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
+			if (!isDeletedPost) {
 				document.title = 'EtherForum - ' + postTitle;
 				var postOwner = contract.getOwnerOfPost(forumIdParameter, postIdParameter);
 				$('#post_title').html(postTitle + ' (' + displayUser(postOwner) + ')');
-				$('#post_body').html(new showdown.Converter().makeHtml(contract.getBodyOfPost(forumIdParameter, postIdParameter)));
+				var postBody = contract.getBodyOfPost(forumIdParameter, postIdParameter);
+				$('#post_body').html(new showdown.Converter().makeHtml(postBody));
 				if (postOwner === currentUser) {
 					$('#edit_post_button').prop('disabled', false);
 					$('#delete_post_button').prop('disabled', false);
@@ -177,11 +182,14 @@ function showEditPostPage() {
 		if (postTitle != undefined && postTitle.length > 0) {
 			$('#forum_name').html(displayForum(forumIdParameter));
 			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter) + displayPostDownvote(forumIdParameter, postIdParameter) + ' ' + displayPostScore(forumIdParameter, postIdParameter));
-			if (!contract.isDeletedPost(forumIdParameter, postIdParameter)) {
+			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
+			if (!isDeletedPost) {
 				document.title = 'EtherForum - ' + postTitle;
 				$('#post_title').html(postTitle);
-				$('#post_body_input').val(contract.getBodyOfPost(forumIdParameter, postIdParameter));
-				if (contract.getOwnerOfPost(forumIdParameter, postIdParameter) === currentUser) {
+				var postBody = contract.getBodyOfPost(forumIdParameter, postIdParameter);
+				$('#post_body_input').val(postBody);
+				var postOwner = contract.getOwnerOfPost(forumIdParameter, postIdParameter);
+				if (postOwner === currentUser) {
 					$('#post_body_input').prop('disabled', false);
 					$('#submit_post_button').prop('disabled', false);
 					$('#cancel_button').prop('disabled', false);
@@ -202,40 +210,52 @@ function showForums() {
 function createForum() {
 	var name = $('#create_forum_input').val();
 	if  (name.length > 0 && name.length <= 32) {
-		contract.createForum(name);
+		contract.createForum(name, createForum_callback);
+	}
+}
+
+function createForum_callback() {
+	if (!error) {
 		$('#create_forum_input').val('');
+	} else {
+		console.error(error);
 	}
 }
 
 function subscribe(forumId) {
-	contract.subscribeUser(forumId);
+	contract.subscribeUser(forumId, void_callback);
 }
 
 function unsubscribe(forumId) {
-	contract.unsubscribeUser(forumId);
+	contract.unsubscribeUser(forumId, void_callback);
 }
 
 function createPost(forumId) {
 	var postTitle = $('#post_title_input').val();
 	var postBody = $('#post_body_input').val();
 	if  (postTitle.length > 0 && postTitle.length < 256 && postBody.length < 65536) {
-		contract.createPost(forumId, postTitle, postBody);
+		contract.createPost(forumId, postTitle, postBody, createPost_callback);
+	}
+}
+
+function createPost_callback() {
+	if (!error) {
 		$('#post_title_input').val('');
 		$('#post_body_input').val('');
+	} else {
+		console.error(error);
 	}
 }
 
 function editPost(forumId, postId) {
 	var postBody = $('#post_body_input').val();
 	if  (postBody.length < 65536) {
-		contract.editPost(forumId, postId, postBody);
+		contract.editPost(forumId, postId, postBody, void_callback);
 	}
 }
 
 function deletePost(forumId, postId) {
-	contract.deletePost(forumId, postId);
-	$('#edit_post_button').prop('disabled', true);
-	$('#delete_post_button').prop('disabled', true);
+	contract.deletePost(forumId, postId, void_callback);
 }
 
 function displayUser(user) {
@@ -243,27 +263,32 @@ function displayUser(user) {
 }
 
 function displayForum(forumId) {
-	return '<a class="link" href="/forum.html?forum_id=' + forumId + '">' + contract.getNameOfForum(forumId) + '</a>';
+	var forumName = contract.getNameOfForum(forumId);
+	return '<a class="link" href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
 }
 
 function displayPostUpvote(forumId, postId) {
-	if (!contract.isPostUpvotedByUser(forumId, postId)) {
-		return '<button class="upvoteButton" onclick="contract.upvotePost(' + forumId + ', ' + postId + ')">Upvote</button>';
+	var isUpvoted = contract.isPostUpvotedByUser(forumId, postId);
+	if (!isUpvoted) {
+		return '<button class="upvoteButton" onclick="contract.upvotePost(' + forumId + ', ' + postId + ', void_callback)">Upvote</button>';
 	} else {
-		return '<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ')">Upvoted</button>';
+		return '<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Upvoted</button>';
 	}
 }
 
 function displayPostDownvote(forumId, postId) {
-	if (!contract.isPostDownvotedByUser(forumId, postId)) {
-		return downvote = '<button class="downvoteButton" onclick="contract.downvotePost(' + forumId + ', ' + postId + ')">Downvote</button>';
+	var isDownvoted = contract.isPostDownvotedByUser(forumId, postId);
+	if (!isDownvoted) {
+		return downvote = '<button class="downvoteButton" onclick="contract.downvotePost(' + forumId + ', ' + postId + ', void_callback)">Downvote</button>';
 	} else {
-		return downvote = '<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ')">Downvoted</button>';
+		return downvote = '<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Downvoted</button>';
 	}
 }
 
 function displayPostScore(forumId, postId) {
-	return '[' + (contract.getUpvoteCountOfPost(forumId, postId) - contract.getDownvoteCountOfPost(forumId, postId)) + ']';
+	var upvoteCount = contract.getUpvoteCountOfPost(forumId, postId);
+	var downvoteCount = contract.getDownvoteCountOfPost(forumId, postId);
+	return '[' + (upvoteCount - downvoteCount) + ']';
 }
 
 function displayPost(forumId, postId, isUserView) {
@@ -287,9 +312,15 @@ function displayPost(forumId, postId, isUserView) {
 	var delete_ = '';
 	if (!isDeletedPost && postOwner === currentUser) {
 		edit = '<a class="link" href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>';
-		delete_ = '<a class="link" href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ');return false;">Delete</a>';
+		delete_ = '<a class="link" href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>';
 	}
 	return upvote + downvote + ' ' + score + ' ' + post + ' ' + origin + ' ' + edit + ' ' + delete_;
+}
+
+function void_callback(error, result) {
+	if (error) {
+		console.error(error);
+	}
 }
 
 function getUrlParameter(sParam) {
