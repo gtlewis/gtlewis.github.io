@@ -214,7 +214,7 @@ function createForum() {
 	}
 }
 
-function createForum_callback() {
+function createForum_callback(error, result) {
 	if (!error) {
 		$('#create_forum_input').val('');
 	} else {
@@ -238,7 +238,7 @@ function createPost(forumId) {
 	}
 }
 
-function createPost_callback() {
+function createPost_callback(error, result) {
 	if (!error) {
 		$('#post_title_input').val('');
 		$('#post_body_input').val('');
