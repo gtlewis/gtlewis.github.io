@@ -56,7 +56,7 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 				//var isSubscribed = contract.isSubscribedByUser(i);
 var isSubscribed = true;
 				if (isSubscribed) {
-					$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
+//					$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 					forumsFound = true;
 				}
 			}
@@ -64,7 +64,7 @@ var isSubscribed = true;
 		} else {
 			document.title = 'EtherForum';
 			for(var i=0; i<forumCount; i++) {
-				$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
+//				$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 				forumsFound = true;
 			}
 			$('#show_forums_button').text('Show my subscribed forums');
