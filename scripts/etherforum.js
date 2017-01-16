@@ -51,7 +51,7 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 		var forumsFound = false;
 		$('#forums_table').empty();
 		if (!showAllForums) {
-			document.title = 'EtherForum - ' + currentUser;
+			document.title = '<Ether>Forum - ' + currentUser;
 			for(var i=0; i<forumCount; i++) {
 				//var isSubscribed = contract.isSubscribedByUser(i);
 var isSubscribed = true;
@@ -62,7 +62,7 @@ var isSubscribed = true;
 			}
 			$('#show_forums_button').text('Show all forums');
 		} else {
-			document.title = 'EtherForum';
+			document.title = '<Ether>Forum';
 			for(var i=0; i<forumCount; i++) {
 //				$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 				forumsFound = true;
@@ -85,7 +85,7 @@ function showForumPage() {
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
 		var name = contract.getNameOfForum(forumIdParameter);
 		if (name != undefined && name.length > 0) {
-			document.title = 'EtherForum - ' + name;
+			document.title = '<Ether>Forum - ' + name;
 			$('#forum_name').html(displayForum(forumIdParameter));
 			var postsFound = false;
 			var postCount = contract.getPostCountOfForum(forumIdParameter);
@@ -110,7 +110,7 @@ function showForumPage() {
 function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
-		document.title = 'EtherForum - ' + userParameter;
+		document.title = '<Ether>Forum - ' + userParameter;
 		var karma = contract.getKarmaForUser(userParameter);
 		$('#posts_by_user').html('Posts by User: <a class="link" href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + karma + ')');
 		var postsFound = false;
@@ -136,7 +136,7 @@ function showPostPage() {
 			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter) + displayPostDownvote(forumIdParameter, postIdParameter) + ' ' + displayPostScore(forumIdParameter, postIdParameter));
 			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
 			if (!isDeletedPost) {
-				document.title = 'EtherForum - ' + postTitle;
+				document.title = '<Ether>Forum - ' + postTitle;
 				var postOwner = contract.getOwnerOfPost(forumIdParameter, postIdParameter);
 				$('#post_title').html(postTitle + ' (' + displayUser(postOwner) + ')');
 				var postBody = contract.getBodyOfPost(forumIdParameter, postIdParameter);
@@ -158,7 +158,7 @@ function showCreatePostPage() {
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
 		var name = contract.getNameOfForum(forumIdParameter);
 		if (name != undefined && name.length > 0) {
-			document.title = 'EtherForum - ' + name;
+			document.title = '<Ether>Forum - ' + name;
 			$('#forum_name').html(displayForum(forumIdParameter));
 			$('#post_title_input').prop('disabled', false);
 			$('#post_body_input').prop('disabled', false);
@@ -178,7 +178,7 @@ function showEditPostPage() {
 			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter) + displayPostDownvote(forumIdParameter, postIdParameter) + ' ' + displayPostScore(forumIdParameter, postIdParameter));
 			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
 			if (!isDeletedPost) {
-				document.title = 'EtherForum - ' + postTitle;
+				document.title = '<Ether>Forum - ' + postTitle;
 				$('#post_title').html(postTitle);
 				var postBody = contract.getBodyOfPost(forumIdParameter, postIdParameter);
 				$('#post_body_input').val(postBody);

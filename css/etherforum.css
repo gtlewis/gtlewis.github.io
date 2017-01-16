@@ -101,8 +101,7 @@ p {
 }
 
 #header-top a:hover,
-#header-top a:active,
-#header-top a:focus {
+#header-top a:active {
 	color: white;
 	outline: 0;
 }
@@ -204,11 +203,8 @@ p {
 }
 
 #header-buttons > .header-button:hover > a,
-#header-buttons > .header-button:focus > a,
 #header-buttons > .header-button:active > a,
-#header-buttons > .header-button.focus > a,
 #header-buttons > .header-button > a:hover,
-#header-buttons > .header-button > a:focus,
 #header-buttons > .header-button > a:active {
 	background: white;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
@@ -314,8 +310,7 @@ p {
 }
 
 #content-footer a:hover,
-#content-footer a:active,
-#content-footer a:focus {
+#content-footer a:active {
 	color: #20b2aa;
 }
 
