@@ -13,7 +13,8 @@ window.addEventListener('load', function() {
 	}
 
 	if (currentUser != undefined) {
-		$('#header-user-text').html(displayUser(currentUser));
+		$('#header-user-text').text('');
+		$('#header-user-text').append(displayUser(currentUser));
 		contract.getKarmaForUser(currentUser, initialise_getKarmaForUser_callback);
 	}
 });
@@ -261,7 +262,9 @@ function deletePost(forumId, postId) {
 function displayUser(user) {
 	var blockie = blockies.create({seed:user, size:8, scale:3});
 	blockie.setAttribute('class', 'user');
-	return '<a href="/posts.html?user=' + user + '">' + blockie + '</a>';
+	var link = $('<a href="/posts.html?user=' + user + '"/>');
+	link.append(blockie);
+	return link;
 }
 
 function displayForum(forumId) {
