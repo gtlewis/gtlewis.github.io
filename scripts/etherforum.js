@@ -73,8 +73,8 @@ var isSubscribed = true;
 			$('#forums_table').append('<tr><td class="cell">No forums found</td></tr>');
 		}
 		$('#show_forums_button').prop('style', 'visibility:visible');
-		$('#create_forum_input').prop('disabled', false);
-		$('#create_forum_button').prop('disabled', false);
+// TODO		$('#create_forum_input').prop('disabled', false);
+		$('#create_forum_button').prop('style', 'visibility:visible');
 	} else {
 		console.error(error);
 	}
@@ -255,7 +255,7 @@ function deletePost(forumId, postId) {
 function displayUser(user) {
 	var blockie = blockies.create({seed:user, size:8, scale:3});
 	blockie.setAttribute('class', 'user');
-	var link = $('<a href="/posts.html?user=' + user + '"/>');
+	var link = $('<a href="/posts.html?user=' + user + '" title="' + user + '"/>');
 	link.append(blockie);
 	return link;
 }
