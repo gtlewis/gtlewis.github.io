@@ -53,7 +53,8 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 		if (!showAllForums) {
 			document.title = 'EtherForum - ' + currentUser;
 			for(var i=0; i<forumCount; i++) {
-				var isSubscribed = contract.isSubscribedByUser(i);
+				//var isSubscribed = contract.isSubscribedByUser(i);
+var isSubscribed = true;
 				if (isSubscribed) {
 					$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 					forumsFound = true;
