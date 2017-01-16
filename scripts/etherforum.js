@@ -22,9 +22,7 @@ window.addEventListener('load', function() {
 function initialise_getKarmaForUser_callback(error, karma) {
 	if (!error) {
 		$('#karma').text(karma);
-		if (current_page === 'front') {
-			showFrontPage();
-		} else if (current_page === 'forums') {
+		if (current_page === 'forums') {
 			showForumsPage();
 		} else if (current_page === 'forum') {
 			showForumPage();
@@ -39,12 +37,6 @@ function initialise_getKarmaForUser_callback(error, karma) {
 		}
 	} else {
 		console.error(error);
-	}
-}
-
-function showFrontPage() {
-	if (currentUser != undefined) {
-		document.title = 'EtherForum - ' + currentUser;
 	}
 }
 
@@ -67,19 +59,19 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 					forumsFound = true;
 				}
 			}
-			$('#show_forums_button').html('Show all forums');
+			$('#show_forums_button').text('Show all forums');
 		} else {
 			document.title = 'EtherForum';
 			for(var i=0; i<forumCount; i++) {
 				$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
 				forumsFound = true;
 			}
-			$('#show_forums_button').html('Show my subscribed forums');
+			$('#show_forums_button').text('Show my subscribed forums');
 		}
 		if (!forumsFound) {
 			$('#forums_table').append('<tr><td class="cell">No forums found</td></tr>');
 		}
-		$('#show_forums_button').prop('disabled', false);
+		$('#show_forums_button').prop('style', 'visibility:visible');
 		$('#create_forum_input').prop('disabled', false);
 		$('#create_forum_button').prop('disabled', false);
 	} else {
