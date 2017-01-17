@@ -15,30 +15,28 @@ window.addEventListener('load', function() {
 	if (currentUser != undefined) {
 		$('#header-user-text').text('');
 		$('#header-user-text').append(displayUser(currentUser));
-		contract.getKarmaForUser(currentUser, initialise_getKarmaForUser_callback);
+		contract.getKarmaForUser(currentUser, function(error, karma) {
+			if (!error) {
+				$('#karma').text(karma);
+				if (current_page === 'forums') {
+					showForumsPage();
+				} else if (current_page === 'forum') {
+					showForumPage();
+				} else if (current_page === 'posts') {
+					showPostsPage();
+				} else if (current_page === 'post') {
+					showPostPage();
+				} else if (current_page === 'createpost') {
+					showCreatePostPage();
+				} else if (current_page === 'editpost') {
+					showEditPostPage();
+				}
+			} else {
+				console.error(error);
+			}
+		});
 	}
 });
-
-function initialise_getKarmaForUser_callback(error, karma) {
-	if (!error) {
-		$('#karma').text(karma);
-		if (current_page === 'forums') {
-			showForumsPage();
-		} else if (current_page === 'forum') {
-			showForumPage();
-		} else if (current_page === 'posts') {
-			showPostsPage();
-		} else if (current_page === 'post') {
-			showPostPage();
-		} else if (current_page === 'createpost') {
-			showCreatePostPage();
-		} else if (current_page === 'editpost') {
-			showEditPostPage();
-		}
-	} else {
-		console.error(error);
-	}
-}
 
 function showForumsPage() {
 	if (currentUser != undefined) {
