@@ -49,32 +49,48 @@ function showForumsPage() {
 function showForumsPage_getForumCount_callback(error, forumCount) {
 	if (!error) {
 		var forumsFound = false;
-		$('#forums_table').empty();
+// TODO: ^count the rows instead...
+// TODO:!	$('#forums_table').empty();
 		if (!showAllForums) {
 			document.title = '<Ether>Forum - ' + currentUser;
 			for(var i=0; i<forumCount; i++) {
-				//var isSubscribed = contract.isSubscribedByUser(i);
-var isSubscribed = true;
-				if (isSubscribed) {
-//					$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
-					forumsFound = true;
-				}
+				contract.isSubscribedByUser(i, showForumsPage_getForumCount_isSubscribedByUser_callback);
 			}
 			$('#show_forums_button').text('Show all forums');
 		} else {
 			document.title = '<Ether>Forum';
 			for(var i=0; i<forumCount; i++) {
-//				$('#forums_table').append('<tr><td class="cell">' + displayForum(i) + '</td></tr>');
-				forumsFound = true;
+				contract.getNameOfForum(forumId, showForumsPage_getForumCount_getNameOfForum_callback);
 			}
 			$('#show_forums_button').text('Show my subscribed forums');
 		}
 		if (!forumsFound) {
-			$('#forums_table').append('<tr><td class="cell">No forums found</td></tr>');
+			$('#content-main').append('<h1 class="TODO">No forums found</h1>');
+// TODO: ^class of forum name!
 		}
 		$('#show_forums_button').prop('style', 'visibility:visible');
-// TODO		$('#create_forum_input').prop('disabled', false);
-		$('#create_forum_button').prop('style', 'visibility:visible');
+// TODO:	$('#create_forum_input').prop('disabled', false);
+// like post	$('#create_forum_button').prop('style', 'visibility:visible');
+	} else {
+		console.error(error);
+	}
+}
+
+function showForumsPage_getForumCount_isSubscribedByUser_callback(error, isSubscribed) {
+	if (!error) {
+		if (isSubscribed) {
+			contract.getNameOfForum(forumId, showForumsPage_getForumCount_getNameOfForum_callback);
+		}
+	} else {
+		console.error(error);
+	}
+}
+
+function showForumsPage_getForumCount_getNameOfForum_callback(error, forumName) {
+	if (!error) {
+		$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
+// TODO: ^class of forum name!
+		forumsFound = true;
 	} else {
 		console.error(error);
 	}
@@ -86,7 +102,8 @@ function showForumPage() {
 		var name = contract.getNameOfForum(forumIdParameter);
 		if (name != undefined && name.length > 0) {
 			document.title = '<Ether>Forum - ' + name;
-			$('#forum_name').html(displayForum(forumIdParameter));
+			var forumName = contract.getNameOfForum(forumId);
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			var postsFound = false;
 			var postCount = contract.getPostCountOfForum(forumIdParameter);
 			for(var i=0; i<postCount; i++) {
@@ -132,7 +149,8 @@ function showPostPage() {
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
 		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
-			$('#forum_name').html(displayForum(forumIdParameter));
+			var forumName = contract.getNameOfForum(forumId);
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter) + displayPostDownvote(forumIdParameter, postIdParameter) + ' ' + displayPostScore(forumIdParameter, postIdParameter));
 			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
 			if (!isDeletedPost) {
@@ -159,7 +177,8 @@ function showCreatePostPage() {
 		var name = contract.getNameOfForum(forumIdParameter);
 		if (name != undefined && name.length > 0) {
 			document.title = '<Ether>Forum - ' + name;
-			$('#forum_name').html(displayForum(forumIdParameter));
+			var forumName = contract.getNameOfForum(forumId);
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			$('#post_title_input').prop('disabled', false);
 			$('#post_body_input').prop('disabled', false);
 			$('#submit_post_button').prop('disabled', false);
@@ -174,7 +193,8 @@ function showEditPostPage() {
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
 		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
-			$('#forum_name').html(displayForum(forumIdParameter));
+			var forumName = contract.getNameOfForum(forumId);
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter) + displayPostDownvote(forumIdParameter, postIdParameter) + ' ' + displayPostScore(forumIdParameter, postIdParameter));
 			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
 			if (!isDeletedPost) {
@@ -260,8 +280,7 @@ function displayUser(user) {
 	return link;
 }
 
-function displayForum(forumId) {
-	var forumName = contract.getNameOfForum(forumId);
+function displayForum(forumId, forumName) {
 	return '<a class="link" href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
 }
 
@@ -304,7 +323,8 @@ function displayPost(forumId, postId, isUserView) {
 	if (!isUserView) {
 		var origin = '(' + displayUser(postOwner) + ')';
 	} else {
-		var origin = '(' + displayForum(forumId) + ')';
+		var forumName = contract.getNameOfForum(forumId);
+		var origin = '(' + displayForum(forumId, forumName) + ')';
 	}
 	var edit = '';
 	var delete_ = '';
