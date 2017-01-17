@@ -89,8 +89,8 @@ function showForumsPage() {
 // TODO: ^class of forum name!
 				}
 				$('#show_forums_button').prop('style', 'visibility:visible');
-// TODO:			$('#create_forum_input').prop('disabled', false);
-// like post			$('#create_forum_button').prop('style', 'visibility:visible');
+// TODO: do create like post	$('#create_forum_input').prop('disabled', false);
+				$('#create_forum_button').prop('style', 'visibility:visible');
 			} else {
 				console.error(error);
 			}
@@ -224,7 +224,8 @@ function showForums() {
 }
 
 function createForum() {
-	var name = $('#create_forum_input').val();
+// TODO var name = $('#create_forum_input').val();
+var name= "test";
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createForum(name, createForum_callback);
 	}
