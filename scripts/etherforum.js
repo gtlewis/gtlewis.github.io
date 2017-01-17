@@ -48,14 +48,13 @@ function showForumsPage() {
 				if (!showAllForums) {
 					document.title = '<Ether>Forum - ' + currentUser;
 					for(var i=0; i<forumCount; i++) {
-						function(i) {
-							contract.isSubscribedByUser(i, function(error, isSubscribed) {
+						(function(forumId) {
+							contract.isSubscribedByUser(forumId, function(error, isSubscribed) {
 								if (!error) {
 									if (isSubscribed) {
-										contract.getNameOfForum(i, function(error, forumName) {
+										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
-												$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
-// TODO: ^class of forum name!
+												$('#content-main').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
 												forumsFound = true;
 // TODO: ^count rows instead?
 											} else {
@@ -67,24 +66,23 @@ function showForumsPage() {
 									console.error(error);
 								}
 							});
-						}
+						})(i);
 					}
 					$('#show_forums_button').text('Show all forums');
 				} else {
 					document.title = '<Ether>Forum';
 					for(var i=0; i<forumCount; i++) {
-						function(i) {
-							contract.getNameOfForum(i, function(error, forumName) {
+						(function(forumId) {
+							contract.getNameOfForum(forumId, function(error, forumName) {
 								if (!error) {
-									$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
-// TODO: ^class of forum name!
+									$('#content-main').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
 									forumsFound = true;
 // TODO: ^count rows instead?
 								} else {
 									console.error(error);
 								}
 							});
-						}
+						})(i);
 					}
 					$('#show_forums_button').text('Show my subscribed forums');
 				}
