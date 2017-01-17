@@ -43,18 +43,44 @@ function showForumsPage() {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
 				var forumsFound = false;
-// TODO: ^count the rows instead?...
+// TODO: ^count the rows instead?... rather start with 'No found' and have every time add remove this special id...?
 // TODO:!			$('#forums_table').empty();
 				if (!showAllForums) {
 					document.title = '<Ether>Forum - ' + currentUser;
 					for(var i=0; i<forumCount; i++) {
-						contract.isSubscribedByUser(i, showForumsPage_getForumCount_isSubscribedByUser_callback);
+						contract.isSubscribedByUser(i, function(error, isSubscribed) {
+							if (!error) {
+								if (isSubscribed) {
+									contract.getNameOfForum(i, function(error, forumName) {
+										if (!error) {
+											$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
+// TODO: ^class of forum name!
+											forumsFound = true;
+// TODO: ^count rows instead?
+										} else {
+											console.error(error);
+										}
+									});
+								}
+							} else {
+								console.error(error);
+							}
+						});
 					}
 					$('#show_forums_button').text('Show all forums');
 				} else {
 					document.title = '<Ether>Forum';
 					for(var i=0; i<forumCount; i++) {
-						contract.getNameOfForum(i, showForumsPage_getForumCount_getNameOfForum_callback);
+						contract.getNameOfForum(i, function(error, forumName) {
+							if (!error) {
+								$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
+// TODO: ^class of forum name!
+								forumsFound = true;
+// TODO: ^count rows instead?
+							} else {
+								console.error(error);
+							}
+						});
 					}
 					$('#show_forums_button').text('Show my subscribed forums');
 				}
@@ -69,29 +95,6 @@ function showForumsPage() {
 				console.error(error);
 			}
 		});
-	}
-}
-
-function showForumsPage_getForumCount_isSubscribedByUser_callback(error, isSubscribed) {
-	if (!error) {
-		if (isSubscribed) {
-			contract.getNameOfForum(i, showForumsPage_getForumCount_getNameOfForum_callback);
-// TODO: ^can't use i - count rows instead?!?
-		}
-	} else {
-		console.error(error);
-	}
-}
-
-function showForumsPage_getForumCount_getNameOfForum_callback(error, forumName) {
-	if (!error) {
-		$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
-// TODO: ^can't use i - count rows instead?!?
-// TODO: ^class of forum name!
-		forumsFound = true;
-// TODO: ^count rows instead?
-	} else {
-		console.error(error);
 	}
 }
 
