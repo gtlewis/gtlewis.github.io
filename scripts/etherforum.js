@@ -40,37 +40,35 @@ window.addEventListener('load', function() {
 
 function showForumsPage() {
 	if (currentUser != undefined) {
-		contract.getForumCount(showForumsPage_getForumCount_callback);
-	}
-}
-
-function showForumsPage_getForumCount_callback(error, forumCount) {
-	if (!error) {
-		var forumsFound = false;
-// TODO: ^count the rows instead...
-// TODO:!	$('#forums_table').empty();
-		if (!showAllForums) {
-			document.title = '<Ether>Forum - ' + currentUser;
-			for(var i=0; i<forumCount; i++) {
-				contract.isSubscribedByUser(i, showForumsPage_getForumCount_isSubscribedByUser_callback);
-			}
-			$('#show_forums_button').text('Show all forums');
-		} else {
-			document.title = '<Ether>Forum';
-			for(var i=0; i<forumCount; i++) {
-				contract.getNameOfForum(i, showForumsPage_getForumCount_getNameOfForum_callback);
-			}
-			$('#show_forums_button').text('Show my subscribed forums');
-		}
-		if (!forumsFound) {
-			$('#content-main').append('<h1 class="TODO">No forums found</h1>');
+		contract.getForumCount(function(error, forumCount) {
+			if (!error) {
+				var forumsFound = false;
+// TODO: ^count the rows instead?...
+// TODO:!			$('#forums_table').empty();
+				if (!showAllForums) {
+					document.title = '<Ether>Forum - ' + currentUser;
+					for(var i=0; i<forumCount; i++) {
+						contract.isSubscribedByUser(i, showForumsPage_getForumCount_isSubscribedByUser_callback);
+					}
+					$('#show_forums_button').text('Show all forums');
+				} else {
+					document.title = '<Ether>Forum';
+					for(var i=0; i<forumCount; i++) {
+						contract.getNameOfForum(i, showForumsPage_getForumCount_getNameOfForum_callback);
+					}
+					$('#show_forums_button').text('Show my subscribed forums');
+				}
+				if (!forumsFound) {
+					$('#content-main').append('<h1 class="TODO">No forums found</h1>');
 // TODO: ^class of forum name!
-		}
-		$('#show_forums_button').prop('style', 'visibility:visible');
-// TODO:	$('#create_forum_input').prop('disabled', false);
-// like post	$('#create_forum_button').prop('style', 'visibility:visible');
-	} else {
-		console.error(error);
+				}
+				$('#show_forums_button').prop('style', 'visibility:visible');
+// TODO:			$('#create_forum_input').prop('disabled', false);
+// like post			$('#create_forum_button').prop('style', 'visibility:visible');
+			} else {
+				console.error(error);
+			}
+		});
 	}
 }
 
