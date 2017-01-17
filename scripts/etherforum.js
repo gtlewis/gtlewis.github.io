@@ -42,11 +42,11 @@ function showForumsPage() {
 	if (currentUser != undefined) {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
-				var forumsFound = false;
-// TODO: ^count the rows instead?... rather start with 'No found' and have every time add remove this special id...?
-// TODO:!			$('#forums_table').empty();
+				$('#content-main').empty();
+				$('#content-main').append('<h1 class="content-main-title" id="no-forums-found">No forums found</h1>');
 				if (!showAllForums) {
 					document.title = '<Ether>Forum - ' + currentUser;
+					$('#show_forums_button').text('Show all forums');
 					for(var i=0; i<forumCount; i++) {
 						(function(forumId) {
 							contract.isSubscribedByUser(forumId, function(error, isSubscribed) {
@@ -54,9 +54,8 @@ function showForumsPage() {
 									if (isSubscribed) {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
+												$('#no-forums-found').remove();
 												$('#content-main').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
-												forumsFound = true;
-// TODO: ^count rows instead?
 											} else {
 												console.error(error);
 											}
@@ -68,26 +67,21 @@ function showForumsPage() {
 							});
 						})(i);
 					}
-					$('#show_forums_button').text('Show all forums');
 				} else {
 					document.title = '<Ether>Forum';
+					$('#show_forums_button').text('Show my subscribed forums');
 					for(var i=0; i<forumCount; i++) {
 						(function(forumId) {
 							contract.getNameOfForum(forumId, function(error, forumName) {
 								if (!error) {
+									$('#no-forums-found').remove();
 									$('#content-main').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
-									forumsFound = true;
-// TODO: ^count rows instead?
 								} else {
 									console.error(error);
 								}
 							});
 						})(i);
 					}
-					$('#show_forums_button').text('Show my subscribed forums');
-				}
-				if (!forumsFound) {
-					$('#content-main').append('<h1 class="content-main-title">No forums found</h1>');
 				}
 				$('#show_forums_button').prop('style', 'visibility:visible');
 // TODO: do create like post	$('#create_forum_input').prop('disabled', false);
@@ -225,8 +219,7 @@ function showForums() {
 }
 
 function createForum() {
-// TODO var name = $('#create_forum_input').val();
-var name= "test";
+	var name = $('#create_forum_input').val();
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createForum(name, createForum_callback);
 	}
