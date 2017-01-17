@@ -87,8 +87,7 @@ function showForumsPage() {
 					$('#show_forums_button').text('Show my subscribed forums');
 				}
 				if (!forumsFound) {
-					$('#content-main').append('<h1 class="TODO">No forums found</h1>');
-// TODO: ^class of forum name!
+					$('#content-main').append('<h1 class="content-main-title">No forums found</h1>');
 				}
 				$('#show_forums_button').prop('style', 'visibility:visible');
 // TODO: do create like post	$('#create_forum_input').prop('disabled', false);
@@ -111,11 +110,11 @@ function showForumPage() {
 			var postsFound = false;
 			var postCount = contract.getPostCountOfForum(forumIdParameter);
 			for(var i=0; i<postCount; i++) {
-				$('#posts_table').append('<tr><td class="cell">' + displayPost(forumIdParameter, i, false) + '</tr></td>');
+				$('#posts_table').append('<tr><td>' + displayPost(forumIdParameter, i, false) + '</tr></td>');
 				postsFound = true;
 			}
 			if (!postsFound) {
-				$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
+				$('#posts_table').append('<tr><td>No posts found</td></tr>');
 			}
 			$('#create_post_button').prop('disabled', false);
 			var isSubscribed = contract.isSubscribedByUser(forumIdParameter);
@@ -133,16 +132,16 @@ function showPostsPage() {
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = '<Ether>Forum - ' + userParameter;
 		var karma = contract.getKarmaForUser(userParameter);
-		$('#posts_by_user').html('Posts by User: <a class="link" href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + karma + ')');
+		$('#posts_by_user').html('Posts by User: <a href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + karma + ')');
 		var postsFound = false;
 		var postCount = contract.getPostsLengthForUser(userParameter);
 		for(var i=0; i<postCount; i++) {
 			var userPost = contract.getPostByUser(userParameter, i);
-			$('#posts_table').append('<tr><td class="cell">' + displayPost(userPost[0], userPost[1], true) + '</td></tr>');
+			$('#posts_table').append('<tr><td>' + displayPost(userPost[0], userPost[1], true) + '</td></tr>');
 			postsFound = true;
 		}
 		if (!postsFound) {
-			$('#posts_table').append('<tr><td class="cell">No posts found</td></tr>');
+			$('#posts_table').append('<tr><td>No posts found</td></tr>');
 		}
 	}
 }
@@ -286,7 +285,7 @@ function displayUser(user) {
 }
 
 function displayForum(forumId, forumName) {
-	return '<a class="link" href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
+	return '<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
 }
 
 function displayPostUpvote(forumId, postId) {
@@ -323,7 +322,7 @@ function displayPost(forumId, postId, isUserView) {
 	} else {
 		var postTitle = '[DELETED]';
 	}
-	var post = '<a class="link" href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>';
+	var post = '<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>';
 	var postOwner = contract.getOwnerOfPost(forumId, postId);
 	if (!isUserView) {
 		var origin = '(' + displayUser(postOwner) + ')';
@@ -334,8 +333,8 @@ function displayPost(forumId, postId, isUserView) {
 	var edit = '';
 	var delete_ = '';
 	if (!isDeletedPost && postOwner === currentUser) {
-		edit = '<a class="link" href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>';
-		delete_ = '<a class="link" href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>';
+		edit = '<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>';
+		delete_ = '<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>';
 	}
 	return upvote + downvote + ' ' + score + ' ' + post + ' ' + origin + ' ' + edit + ' ' + delete_;
 }
