@@ -48,39 +48,43 @@ function showForumsPage() {
 				if (!showAllForums) {
 					document.title = '<Ether>Forum - ' + currentUser;
 					for(var i=0; i<forumCount; i++) {
-						contract.isSubscribedByUser(i, function(error, isSubscribed) {
-							if (!error) {
-								if (isSubscribed) {
-									contract.getNameOfForum(i, function(error, forumName) {
-										if (!error) {
-											$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
+						function(i) {
+							contract.isSubscribedByUser(i, function(error, isSubscribed) {
+								if (!error) {
+									if (isSubscribed) {
+										contract.getNameOfForum(i, function(error, forumName) {
+											if (!error) {
+												$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
 // TODO: ^class of forum name!
-											forumsFound = true;
+												forumsFound = true;
 // TODO: ^count rows instead?
-										} else {
-											console.error(error);
-										}
-									});
+											} else {
+												console.error(error);
+											}
+										});
+									}
+								} else {
+									console.error(error);
 								}
-							} else {
-								console.error(error);
-							}
-						});
+							});
+						}
 					}
 					$('#show_forums_button').text('Show all forums');
 				} else {
 					document.title = '<Ether>Forum';
 					for(var i=0; i<forumCount; i++) {
-						contract.getNameOfForum(i, function(error, forumName) {
-							if (!error) {
-								$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
+						function(i) {
+							contract.getNameOfForum(i, function(error, forumName) {
+								if (!error) {
+									$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
 // TODO: ^class of forum name!
-								forumsFound = true;
+									forumsFound = true;
 // TODO: ^count rows instead?
-							} else {
-								console.error(error);
-							}
-						});
+								} else {
+									console.error(error);
+								}
+							});
+						}
 					}
 					$('#show_forums_button').text('Show my subscribed forums');
 				}
