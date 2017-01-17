@@ -60,7 +60,7 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 		} else {
 			document.title = '<Ether>Forum';
 			for(var i=0; i<forumCount; i++) {
-				contract.getNameOfForum(forumId, showForumsPage_getForumCount_getNameOfForum_callback);
+				contract.getNameOfForum(i, showForumsPage_getForumCount_getNameOfForum_callback);
 			}
 			$('#show_forums_button').text('Show my subscribed forums');
 		}
@@ -79,7 +79,8 @@ function showForumsPage_getForumCount_callback(error, forumCount) {
 function showForumsPage_getForumCount_isSubscribedByUser_callback(error, isSubscribed) {
 	if (!error) {
 		if (isSubscribed) {
-			contract.getNameOfForum(forumId, showForumsPage_getForumCount_getNameOfForum_callback);
+			contract.getNameOfForum(i, showForumsPage_getForumCount_getNameOfForum_callback);
+// TODO: ^can't use i - count rows instead?!?
 		}
 	} else {
 		console.error(error);
@@ -89,8 +90,10 @@ function showForumsPage_getForumCount_isSubscribedByUser_callback(error, isSubsc
 function showForumsPage_getForumCount_getNameOfForum_callback(error, forumName) {
 	if (!error) {
 		$('#content-main').append('<h1 class="TODO">' + displayForum(i, forumName) + '</h1>');
+// TODO: ^can't use i - count rows instead?!?
 // TODO: ^class of forum name!
 		forumsFound = true;
+// TODO: ^count rows instead?
 	} else {
 		console.error(error);
 	}
