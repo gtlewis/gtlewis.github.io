@@ -281,7 +281,7 @@ function displayUser(user) {
 
 function displayKarma(karma) {
 karma = -99;
-	var div = $('<div class="karma" title=' + karma + '>' + abs(karma) + '</div>');
+	var div = $('<div class="karma" title=' + karma + '>' + Math.abs(karma) + '</div>');
 	if (karma < 0) {
 		div.prop('style', 'color:red');
 	}
