@@ -280,7 +280,7 @@ function displayUser(user) {
 }
 
 function displayKarma(karma) {
-	var div = $('<div title=' + karma + '>' + karma + '</div>');
+	var div = $('<div class="karma" title=' + karma + '>' + karma + '</div>');
 	return div;
 }
 

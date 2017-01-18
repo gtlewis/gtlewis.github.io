@@ -138,27 +138,6 @@ p {
 	white-space: nowrap;
 }
 
-#header-karma-text {
-	color: red;
-	background-color: #f7f7f7;
-	font-family: "Source Sans Pro", sans-serif;
-	font-size: 1.1em;
-	font-weight: 600;
-	line-height: 1;
-	margin: 0;
-	position: relative;
-	float: left;
-	padding-top: 2px;
-	text-align: center;
-	white-space: nowrap;
-	width: 24px;
-	height: 24px;
-	border-style:solid;
-	border-width: 2px;
-	border-radius: 50%;
-	border-color: #20b2aa;
-}
-
 #header-main {
 	background: #20b2aa;
 	color: #fff;
@@ -412,4 +391,25 @@ p {
 	background-repeat: no-repeat;
 	border-radius: 50%;
 	box-shadow: inset rgba(0, 0, 0, 0.5) 0 2px 5px, inset rgba(0, 0, 0, 0.3) 0 -2px 6px;
+}
+
+.karma {
+	color: red;
+	background-color: #f7f7f7;
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 1.1em;
+	font-weight: 600;
+	line-height: 1;
+	margin: 0;
+	position: relative;
+	float: left;
+	padding-top: 2px;
+	text-align: center;
+	white-space: nowrap;
+	width: 24px;
+	height: 24px;
+	border-style:solid;
+	border-width: 2px;
+	border-radius: 50%;
+	border-color: #20b2aa;
 }
