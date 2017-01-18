@@ -280,7 +280,6 @@ function displayUser(user) {
 }
 
 function displayKarma(karma) {
-karma = -777;
 	var value = Math.abs(karma);
 	if (value >99) {
 		value = 99;
