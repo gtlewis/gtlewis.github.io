@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
 		$('#header-user-text').append(displayUser(currentUser));
 		contract.getKarmaForUser(currentUser, function(error, karma) {
 			if (!error) {
-				$('#karma').text(karma);
+				$('#header-karma-text').replaceWith(displayKarma(karma));
 				if (current_page === 'forums') {
 					showForumsPage();
 				} else if (current_page === 'forum') {
@@ -127,6 +127,7 @@ function showPostsPage() {
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = '<Ether>Forum - ' + userParameter;
 		var karma = contract.getKarmaForUser(userParameter);
+		// TODO: user and karma...
 		$('#posts_by_user').html('Posts by User: <a href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + karma + ')');
 		var postsFound = false;
 		var postCount = contract.getPostsLengthForUser(userParameter);
@@ -276,6 +277,11 @@ function displayUser(user) {
 	var link = $('<a href="/posts.html?user=' + user + '" title="' + user + '"/>');
 	link.append(blockie);
 	return link;
+}
+
+function displayKarma(karma) {
+	var div = $('<div title=' + karma + '>' + karma + '</div>');
+	return div;
 }
 
 function displayForum(forumId, forumName) {
