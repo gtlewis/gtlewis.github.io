@@ -43,10 +43,10 @@ function showForumsPage() {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
 				$('#content-main').empty();
-				$('#content-main').append('<h1 class="content-main-title" id="no-forums-found">No forums found</h1>');
 				if (!showAllForums) {
+					$('#content-main').append('<h1 class="content-main-title" id="no-forums-found">Not subscribed to any forums</h1>');
 					document.title = '<Ether>Forum - ' + currentUser;
-					$('#show_forums_button').text('Show all forums');
+					$('#show_forums_button').text('Show All Forums');
 					for(var i=0; i<forumCount; i++) {
 						(function(forumId) {
 							contract.isSubscribedByUser(forumId, function(error, isSubscribed) {
@@ -68,8 +68,9 @@ function showForumsPage() {
 						})(i);
 					}
 				} else {
+					$('#content-main').append('<h1 class="content-main-title" id="no-forums-found">No forums found</h1>');
 					document.title = '<Ether>Forum';
-					$('#show_forums_button').text('Show my subscribed forums');
+					$('#show_forums_button').text('Show Subscribed');
 					for(var i=0; i<forumCount; i++) {
 						(function(forumId) {
 							contract.getNameOfForum(forumId, function(error, forumName) {
