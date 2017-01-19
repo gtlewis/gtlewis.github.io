@@ -94,31 +94,36 @@ function showForumsPage() {
 	}
 }
 
+// TODO - this next
 function showForumPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
-		var name = contract.getNameOfForum(forumIdParameter);
-		if (name != undefined && name.length > 0) {
-			document.title = '<Ether>Forum - ' + name;
-			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
-			var postsFound = false;
-			var postCount = contract.getPostCountOfForum(forumIdParameter);
-			for(var i=0; i<postCount; i++) {
-				$('#posts_table').append('<tr><td>' + displayPost(forumIdParameter, i, false) + '</tr></td>');
-				postsFound = true;
-			}
-			if (!postsFound) {
-				$('#posts_table').append('<tr><td>No posts found</td></tr>');
-			}
-			$('#create_post_button').prop('disabled', false);
-			var isSubscribed = contract.isSubscribedByUser(forumIdParameter);
-			if (!isSubscribed) {
-				$('#subscribe_button').prop('disabled', false);
+		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+			if (!error) {
+				if (forumName != undefined && forumName.length > 0) {
+					document.title = '<Ether>Forum - ' + name;
+					$('#forum_name').html(displayForum(forumIdParameter, forumName));
+					var postsFound = false;
+					var postCount = contract.getPostCountOfForum(forumIdParameter);
+					for(var i=0; i<postCount; i++) {
+						$('#posts_table').append('<tr><td>' + displayPost(forumIdParameter, i, false) + '</tr></td>');
+						postsFound = true;
+					}
+					if (!postsFound) {
+						$('#posts_table').append('<tr><td>No posts found</td></tr>');
+					}
+					$('#create_post_button').prop('disabled', false);
+					var isSubscribed = contract.isSubscribedByUser(forumIdParameter);
+					if (!isSubscribed) {
+						$('#subscribe_button').prop('disabled', false);
+					} else {
+						$('#unsubscribe_button').prop('disabled', false);
+					}
+				}
 			} else {
-				$('#unsubscribe_button').prop('disabled', false);
+				console.error(error);
 			}
-		}
+		});
 	}
 }
 
