@@ -85,7 +85,7 @@ function showForumsPage() {
 					}
 				}
 				$('#show_forums_button').prop('style', 'visibility:visible');
-// TODO: do create like post	$('#create_forum_input').prop('disabled', false);
+				$('#content-main-text').prop('style', 'visibility:visible');
 				$('#create_forum_button').prop('style', 'visibility:visible');
 			} else {
 				console.error(error);
