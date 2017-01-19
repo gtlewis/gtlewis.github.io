@@ -103,15 +103,16 @@ function showForumPage() {
 				if (forumName != undefined && forumName.length > 0) {
 					document.title = '<Ether>Forum - ' + name;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
+					$('#content-main-titles').empty();
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
 							var postsFound = false;
 							for(var i=0; i<postCount; i++) {
-								$('#content-main').append('<h1 class="content-main-title">' + displayPost(forumIdParameter, i, false) + '</h1>');
+								$('#content-main-titles').append('<h1 class="content-main-title">' + displayPost(forumIdParameter, i, false) + '</h1>');
 								postsFound = true;
 							}
 							if (!postsFound) {
-								$('#content-main').append('<h1 class="content-main-title">No posts found</h1>');
+								$('#content-main-titles').append('<h1 class="content-main-title">No posts found</h1>');
 							}
 							$('#create_post_button').parent().prop('style', 'margin-left:15px');
 							$('#create_post_button').prop('style', 'display:block');
