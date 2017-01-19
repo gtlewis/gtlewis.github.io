@@ -221,17 +221,15 @@ function showForums() {
 }
 
 function createForum() {
-	var name = $('#create_forum_input').val();
+	var name = $('#content-main-text').val();
 	if  (name.length > 0 && name.length <= 32) {
-		contract.createForum(name, createForum_callback);
-	}
-}
-
-function createForum_callback(error, result) {
-	if (!error) {
-		$('#create_forum_input').val('');
-	} else {
-		console.error(error);
+		contract.createForum(name, function (error, result) {
+			if (!error) {
+				$('#content-main-text').val('');
+			} else {
+				console.error(error);
+			}
+		});
 	}
 }
 
