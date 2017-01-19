@@ -42,9 +42,9 @@ function showForumsPage() {
 	if (currentUser != undefined) {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
-				$('#content-main').empty();
+				$('#content-main-titles').empty();
 				if (!showAllForums) {
-					$('#content-main').append('<h1 class="content-main-title" id="no-forums-found">Not subscribed to any forums</h1>');
+					$('#content-main-titles').append('<h1 class="content-main-title" id="no-forums-found">Not subscribed to any forums</h1>');
 					document.title = '<Ether>Forum - ' + currentUser;
 					$('#show_forums_button').text('Show All Forums');
 					for(var i=0; i<forumCount; i++) {
@@ -55,7 +55,7 @@ function showForumsPage() {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
 												$('#no-forums-found').remove();
-												$('#content-main').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
+												$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
 											} else {
 												console.error(error);
 											}
@@ -68,7 +68,7 @@ function showForumsPage() {
 						})(i);
 					}
 				} else {
-					$('#content-main').append('<h1 class="content-main-title" id="no-forums-found">No forums found</h1>');
+					$('#content-main-titles').append('<h1 class="content-main-title" id="no-forums-found">No forums found</h1>');
 					document.title = '<Ether>Forum';
 					$('#show_forums_button').text('Show Subscribed');
 					for(var i=0; i<forumCount; i++) {
@@ -76,7 +76,7 @@ function showForumsPage() {
 							contract.getNameOfForum(forumId, function(error, forumName) {
 								if (!error) {
 									$('#no-forums-found').remove();
-									$('#content-main').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
+									$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
 								} else {
 									console.error(error);
 								}
