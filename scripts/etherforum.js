@@ -84,7 +84,7 @@ function showForumsPage() {
 						})(i);
 					}
 				}
-				$('#show_forums_button').prop('style', 'margin-left:15px');
+				$('#show_forums_button').parent().prop('style', 'margin-left:15px');
 				$('#show_forums_button').prop('style', 'display:block');
 				$('#content-main-text').prop('style', 'visibility:visible');
 				$('#create_forum_button').prop('style', 'visibility:visible');
@@ -113,15 +113,15 @@ function showForumPage() {
 							if (!postsFound) {
 								$('#content-main').append('<h1 class="content-main-title">No posts found</h1>');
 							}
-							$('#create_post_button').prop('style', 'margin-left:15px');
+							$('#create_post_button').parent().prop('style', 'margin-left:15px');
 							$('#create_post_button').prop('style', 'display:block');
 							contract.isSubscribedByUser(forumIdParameter, function (error, isSubscribed) {
 								if (!error) {
 									if (!isSubscribed) {
-										$('#subscribe_button').prop('style', 'margin-left:15px');
+										$('#subscribe_button').parent().prop('style', 'margin-left:15px');
 										$('#subscribe_button').prop('style', 'display:block');
 									} else {
-										$('#unsubscribe_button').prop('style', 'margin-left:15px');
+										$('#unsubscribe_button').parent().prop('style', 'margin-left:15px');
 										$('#unsubscribe_button').prop('style', 'display:block');
 									}
 								} else {
