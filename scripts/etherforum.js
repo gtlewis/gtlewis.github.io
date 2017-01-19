@@ -94,7 +94,6 @@ function showForumsPage() {
 	}
 }
 
-// TODO - this next
 function showForumPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
@@ -102,23 +101,33 @@ function showForumPage() {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
 					document.title = '<Ether>Forum - ' + name;
-					$('#forum_name').html(displayForum(forumIdParameter, forumName));
-					var postsFound = false;
-					var postCount = contract.getPostCountOfForum(forumIdParameter);
-					for(var i=0; i<postCount; i++) {
-						$('#posts_table').append('<tr><td>' + displayPost(forumIdParameter, i, false) + '</tr></td>');
-						postsFound = true;
-					}
-					if (!postsFound) {
-						$('#posts_table').append('<tr><td>No posts found</td></tr>');
-					}
-					$('#create_post_button').prop('disabled', false);
-					var isSubscribed = contract.isSubscribedByUser(forumIdParameter);
-					if (!isSubscribed) {
-						$('#subscribe_button').prop('disabled', false);
-					} else {
-						$('#unsubscribe_button').prop('disabled', false);
-					}
+					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
+					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
+						if (!error) {
+							var postsFound = false;
+							for(var i=0; i<postCount; i++) {
+								$('#content-main').append('<h1 class="content-main-title">' + displayPost(forumIdParameter, i, false) + '</h1>');
+								postsFound = true;
+							}
+							if (!postsFound) {
+								$('#content-main').append('<h1 class="content-main-title">No posts found</h1>');
+							}
+							$('#create_post_button').prop('style', 'visibility:visible');
+							contract.isSubscribedByUser(forumIdParameter, function (error, isSubscribed) {
+								if (!error) {
+									if (!isSubscribed) {
+										$('#subscribe_button').prop('style', 'visibility:visible');
+									} else {
+										$('#unsubscribe_button').prop('style', 'visibility:visible');
+									}
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
 				}
 			} else {
 				console.error(error);
