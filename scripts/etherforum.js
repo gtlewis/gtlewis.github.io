@@ -250,6 +250,14 @@ function createForum() {
 				console.error(error);
 			}
 		});
+	} else {
+		if (name.length > 32) {
+			var errorText = 'Forum name too long';
+		} else {
+			var errorText = 'Forum name is empty';
+		}
+		$('#content-error').text(errorText);
+		$('#content-error').prop('style', 'visibility:visible');
 	}
 }
 
@@ -266,6 +274,7 @@ function createPost(forumId) {
 	var postBody = $('#post_body_input').val();
 	if  (postTitle.length > 0 && postTitle.length < 256 && postBody.length < 65536) {
 		contract.createPost(forumId, postTitle, postBody, createPost_callback);
+	}
 }
 
 function createPost_callback(error, result) {
