@@ -250,14 +250,6 @@ function createForum() {
 				console.error(error);
 			}
 		});
-	} else {
-		if (name.length > 32) {
-			var errorText = 'Forum name too long';
-		} else {
-			var errorText = 'Forum name is empty';
-		}
-		$('#content-error').text(errorText);
-		$('#content-error').prop('style', 'visibility:visible');
 	}
 }
 
