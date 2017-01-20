@@ -240,7 +240,7 @@ function showForums() {
 }
 
 function createForum() {
-	$('content-error').prop('style', 'visibility:hidden');
+	$('#content-error').prop('style', 'visibility:hidden');
 	var name = $('#content-main-text').val();
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createForum(name, function (error, result) {
@@ -256,8 +256,8 @@ function createForum() {
 		} else {
 			var errorText = 'Forum name is empty';
 		}
-		$('content-error').text(errorText);
-		$('content-error').prop('style', 'visibility:visible');
+		$('#content-error').text(errorText);
+		$('#content-error').prop('style', 'visibility:visible');
 	}
 }
 
@@ -388,4 +388,4 @@ function getUrlParameter(sParam) {
             return sParameterName[1] === undefined ? true : sParameterName[1];
         }
     }
-};
+}
