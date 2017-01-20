@@ -55,7 +55,7 @@ function showForumsPage() {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
 												$('#no-forums-found').remove();
-												$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName).html() + '</h1>');
+												$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
 											} else {
 												console.error(error);
 											}
@@ -240,6 +240,7 @@ function showForums() {
 }
 
 function createForum() {
+	$('content-error').prop('style', 'visibility:hidden');
 	var name = $('#content-main-text').val();
 	if  (name.length > 0 && name.length <= 32) {
 		contract.createForum(name, function (error, result) {
@@ -249,6 +250,14 @@ function createForum() {
 				console.error(error);
 			}
 		});
+	} else {
+		if (name.length > 32) {
+			var errorText = 'Forum name too long';
+		} else {
+			var errorText = 'Forum name is empty';
+		}
+		$('content-error').text(errorText);
+		$('content-error').prop('style', 'visibility:visible');
 	}
 }
 
@@ -265,7 +274,6 @@ function createPost(forumId) {
 	var postBody = $('#post_body_input').val();
 	if  (postTitle.length > 0 && postTitle.length < 256 && postBody.length < 65536) {
 		contract.createPost(forumId, postTitle, postBody, createPost_callback);
-	}
 }
 
 function createPost_callback(error, result) {
@@ -309,7 +317,7 @@ function displayKarma(karma) {
 }
 
 function displayForum(forumId, forumName) {
-	return $('<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>');
+	return '<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
 }
 
 function displayPostUpvote(forumId, postId) {

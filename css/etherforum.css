@@ -237,7 +237,7 @@ p {
 
 #content-main {
 	background-color: #fff;
-	padding-bottom: 30px;
+	padding-bottom: 7px;
 	padding-top: 30px;
 	padding-right: 30px;
 	padding-left: 30px;
@@ -329,6 +329,15 @@ p {
 	padding-right: 15px;
 	text-align: left;
 	white-space: nowrap;
+}
+
+#content-error {
+	color: red;
+	clear: both;
+	display: block;
+	font-size: 0.9rem;
+	word-wrap: break-word;
+	visibility: hidden;
 }
 
 #content-sidebar {
