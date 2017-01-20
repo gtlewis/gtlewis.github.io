@@ -55,7 +55,7 @@ function showForumsPage() {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
 												$('#no-forums-found').remove();
-												$('#content-main-titles').append('<h1 class="content-main-title"/>').append(displayForum(forumId, forumName));
+												$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName).html() + '</h1>');
 											} else {
 												console.error(error);
 											}
