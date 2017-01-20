@@ -55,7 +55,7 @@ function showForumsPage() {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
 												$('#no-forums-found').remove();
-												$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
+												$('#content-main-titles').append('<h1 class="content-main-title"/>').append(displayForum(forumId, forumName)));
 											} else {
 												console.error(error);
 											}
@@ -309,7 +309,7 @@ function displayKarma(karma) {
 }
 
 function displayForum(forumId, forumName) {
-	return '<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
+	return $('<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>');
 }
 
 function displayPostUpvote(forumId, postId) {
