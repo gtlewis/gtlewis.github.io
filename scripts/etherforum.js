@@ -255,8 +255,10 @@ function showPostsPage() {
 								});
 							})(i);
 						}
+					} else {
+						console.error(error);
 					}
-				}
+				});
 			} else {
 				console.error(error);
 			}
