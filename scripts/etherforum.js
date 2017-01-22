@@ -189,27 +189,32 @@ function showForumPage() {
 function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
+		$('#content-main-titles').empty();
+		$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
 		document.title = '<Ether>Forum - ' + userParameter;
-		var karma = contract.getKarmaForUser(userParameter);
-		// TODO: user and karma...
-		$('#posts_by_user').html('Posts by User: <a href="https://etherscan.io/address/' + userParameter + '">' + userParameter + '</a> (' + karma + ')');
-		var postsFound = false;
-		var postCount = contract.getPostsLengthForUser(userParameter);
-		for(var i=0; i<postCount; i++) {
-			var userPost = contract.getPostByUser(userParameter, i);
-			var isUpvoted = contract.isPostUpvotedByUser(userPost[0], userPost[1]);
-			var isDownvoted = contract.isPostDownvotedByUser(userPost[0], userPost[1]);
-			var upvoteCount = contract.getUpvoteCountOfPost(userPost[0], userPost[1]);
-			var downvoteCount = contract.getDownvoteCountOfPost(userPost[0], userPost[1]);
-			var isDeletedPost = contract.isDeletedPost(userPost[0], userPost[1]);
-			var postTitle = contract.getTitleOfPost(userPost[0], userPost[1]);
-			var forumName = contract.getNameOfForum(userPost[0]);
-			$('#posts_table').append('<tr><td>' + displayPostByUser(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter) + '</td></tr>');
-			postsFound = true;
-		}
-		if (!postsFound) {
-			$('#posts_table').append('<tr><td>No posts found</td></tr>');
-		}
+		contract.getKarmaForUser(userParameter, function (error, karma) {
+			if (!error) {
+				$('#header-main-text').html('Posts by User');
+				var user = displayUser(userParameter);
+				user.prop('href', 'https://etherchain.org/account/' + userParameter);
+				$('#header-main-text').append(user);
+				$('#header-main-text').append(displayKarma(karma));
+				var postCount = contract.getPostsLengthForUser(userParameter);
+				for(var i=0; i<postCount; i++) {
+					var userPost = contract.getPostByUser(userParameter, i);
+					var isUpvoted = contract.isPostUpvotedByUser(userPost[0], userPost[1]);
+					var isDownvoted = contract.isPostDownvotedByUser(userPost[0], userPost[1]);
+					var upvoteCount = contract.getUpvoteCountOfPost(userPost[0], userPost[1]);
+					var downvoteCount = contract.getDownvoteCountOfPost(userPost[0], userPost[1]);
+					var isDeletedPost = contract.isDeletedPost(userPost[0], userPost[1]);
+					var postTitle = contract.getTitleOfPost(userPost[0], userPost[1]);
+					var forumName = contract.getNameOfForum(userPost[0]);
+					$('#posts_table').append('<tr><td>' + displayPostByUser(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter) + '</td></tr>');
+				}
+			} else {
+				console.error(error);
+			}
+		});
 	}
 }
 
