@@ -220,7 +220,7 @@ function showPostPage() {
 		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
 			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').append(displayForum(forumIdParameter, forumName));
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, postIdParameter);
 			var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, postIdParameter);
 			var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter);
@@ -252,7 +252,7 @@ function showCreatePostPage() {
 		if (name != undefined && name.length > 0) {
 			document.title = '<Ether>Forum - ' + name;
 			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').append(displayForum(forumIdParameter, forumName));
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			$('#post_title_input').prop('disabled', false);
 			$('#post_body_input').prop('disabled', false);
 			$('#submit_post_button').prop('disabled', false);
@@ -268,7 +268,7 @@ function showEditPostPage() {
 		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
 			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').append(displayForum(forumIdParameter, forumName));
+			$('#forum_name').html(displayForum(forumIdParameter, forumName));
 			var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, postIdParameter);
 			var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, postIdParameter);
 			var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter);
