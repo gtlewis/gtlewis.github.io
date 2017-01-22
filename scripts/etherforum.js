@@ -108,7 +108,7 @@ function showForumPage() {
 					$('#content-main-titles').empty();
 					$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
 					document.title = '<Ether>Forum - ' + forumName;
-					$('#header-main-text').append(displayForum(forumIdParameter, forumName));
+					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
 							for(var i=0; i<postCount; i++) {
