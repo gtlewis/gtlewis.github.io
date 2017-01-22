@@ -128,7 +128,7 @@ function showForumPage() {
 																					contract.getOwnerOfPost(forumIdParameter, postId, function (error, postOwner) {
 																						if (!error) {
 																							$('#no-posts-found').remove();
-																							$('#content-main-titles').append('<h1 class="content-main-title">' + displayPostInForum(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner) + '</h1>');
+																							$('#content-main-titles').append(displayPostInForum(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner));
 																						} else {
 																							console.error(error);
 																						}
@@ -376,46 +376,45 @@ function displayKarma(karma) {
 }
 
 function displayForum(forumId, forumName) {
-	var link = $('<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>');
-	return link;
+	return $('<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>');
 }
 
 function displayPostUpvote(forumId, postId, isUpvoted) {
 	if (!isUpvoted) {
-		return '<button class="upvoteButton" onclick="contract.upvotePost(' + forumId + ', ' + postId + ', void_callback)">Upvote</button>';
+		return $('<button class="upvoteButton" onclick="contract.upvotePost(' + forumId + ', ' + postId + ', void_callback)">Upvote</button>');
 	} else {
-		return '<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Upvoted</button>';
+		return $('<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Upvoted</button>');
 	}
 }
 
 function displayPostDownvote(forumId, postId, isDownvoted) {
 	if (!isDownvoted) {
-		return downvote = '<button class="downvoteButton" onclick="contract.downvotePost(' + forumId + ', ' + postId + ', void_callback)">Downvote</button>';
+		return $('<button class="downvoteButton" onclick="contract.downvotePost(' + forumId + ', ' + postId + ', void_callback)">Downvote</button>');
 	} else {
-		return downvote = '<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Downvoted</button>';
+		return $('<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Downvoted</button>');
 	}
 }
 
 function displayPostScore(upvoteCount, downvoteCount) {
-	return '[' + (upvoteCount - downvoteCount) + ']';
+	// TODO
+	return $('<div class="TODO">' + (upvoteCount - downvoteCount) + '</div>');
 }
 
 function displayPostInForum(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner) {
-	var upvote = displayPostUpvote(forumId, postId, isUpvoted);
-	var downvote = displayPostDownvote(forumId, postId, isDownvoted);
-	var score = displayPostScore(upvoteCount, downvoteCount);
 	if (isDeletedPost) {
 		postTitle = '[DELETED]';
-	}
-	var post = '<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>';
-	var user = displayUser(postOwner);
-	var edit = '';
-	var delete_ = '';
+	}	
+	var div = $('<h1 class="content-main-title"/>');
+	div.append(displayPostUpvote(forumId, postId, isUpvoted));
+	div.append(displayPostDownvote(forumId, postId, isDownvoted));
+	div.append(displayPostScore(upvoteCount, downvoteCount));
+	div.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
+	div.append(displayUser(postOwner));
 	if (!isDeletedPost && postOwner === currentUser) {
-		edit = '<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>';
-		delete_ = '<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>';
+		div.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
+		div.append($('<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
 	}
-	return upvote + downvote + ' ' + score + ' ' + post + ' ' + user + ' ' + edit + ' ' + delete_;
+	return div;
 }
 
 function displayPostByUser(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner) {
