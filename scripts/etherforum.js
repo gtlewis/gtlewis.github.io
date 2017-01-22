@@ -102,9 +102,8 @@ function showForumPage() {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
 					$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
-					document.title = '<Ether>Forum - ' + name;
+					document.title = '<Ether>Forum - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
-					$('#content-main-titles').empty();
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
 							for(var i=0; i<postCount; i++) {
