@@ -55,7 +55,9 @@ function showForumsPage() {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
 												$('#no-forums-found').remove();
-												$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
+												var forum = $('<h1 class="content-main-title"/>');
+												forum.append(displayForum(forumId, forumName));
+												$('#content-main-titles').append(forum);
 											} else {
 												console.error(error);
 											}
@@ -76,7 +78,9 @@ function showForumsPage() {
 							contract.getNameOfForum(forumId, function(error, forumName) {
 								if (!error) {
 									$('#no-forums-found').remove();
-									$('#content-main-titles').append('<h1 class="content-main-title">' + displayForum(forumId, forumName) + '</h1>');
+									var forum = $('<h1 class="content-main-title"/>');
+									forum.append(displayForum(forumId, forumName));
+									$('#content-main-titles').append(forum);
 								} else {
 									console.error(error);
 								}
@@ -104,7 +108,7 @@ function showForumPage() {
 					$('#content-main-titles').empty();
 					$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
 					document.title = '<Ether>Forum - ' + forumName;
-					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
+					$('#header-main-text').append(displayForum(forumIdParameter, forumName));
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
 							for(var i=0; i<postCount; i++) {
@@ -216,7 +220,7 @@ function showPostPage() {
 		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
 			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
+			$('#forum_name').append(displayForum(forumIdParameter, forumName));
 			var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, postIdParameter);
 			var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, postIdParameter);
 			var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter);
@@ -248,7 +252,7 @@ function showCreatePostPage() {
 		if (name != undefined && name.length > 0) {
 			document.title = '<Ether>Forum - ' + name;
 			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
+			$('#forum_name').append(displayForum(forumIdParameter, forumName));
 			$('#post_title_input').prop('disabled', false);
 			$('#post_body_input').prop('disabled', false);
 			$('#submit_post_button').prop('disabled', false);
@@ -264,7 +268,7 @@ function showEditPostPage() {
 		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
 		if (postTitle != undefined && postTitle.length > 0) {
 			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
+			$('#forum_name').append(displayForum(forumIdParameter, forumName));
 			var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, postIdParameter);
 			var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, postIdParameter);
 			var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter);
@@ -372,7 +376,8 @@ function displayKarma(karma) {
 }
 
 function displayForum(forumId, forumName) {
-	return '<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>';
+	var link = $('<a href="/forum.html?forum_id=' + forumId + '">' + forumName + '</a>');
+	return link;
 }
 
 function displayPostUpvote(forumId, postId, isUpvoted) {
@@ -403,7 +408,7 @@ function displayPostInForum(forumId, postId, isUpvoted, isDownvoted, upvoteCount
 		postTitle = '[DELETED]';
 	}
 	var post = '<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>';
-	var user = '(' + displayUser(postOwner) + ')';
+	var user = displayUser(postOwner);
 	var edit = '';
 	var delete_ = '';
 	if (!isDeletedPost && postOwner === currentUser) {
