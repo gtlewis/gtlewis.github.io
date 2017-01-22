@@ -381,23 +381,23 @@ function displayForum(forumId, forumName) {
 
 function displayPostUpvote(forumId, postId, isUpvoted) {
 	if (!isUpvoted) {
-		return $('<button class="upvoteButton" onclick="contract.upvotePost(' + forumId + ', ' + postId + ', void_callback)">Upvote</button>');
+		return $('<a href="#" onclick="contract.upvotePost(' + forumId + ', ' + postId + ', void_callback)">Upvote</a>');
 	} else {
-		return $('<button class="upvotedButton" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Upvoted</button>');
+		return $('<a href="#" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Upvoted</a>');
 	}
 }
 
 function displayPostDownvote(forumId, postId, isDownvoted) {
 	if (!isDownvoted) {
-		return $('<button class="downvoteButton" onclick="contract.downvotePost(' + forumId + ', ' + postId + ', void_callback)">Downvote</button>');
+		return $('<a href="#" onclick="contract.downvotePost(' + forumId + ', ' + postId + ', void_callback)">Downvote</a>');
 	} else {
-		return $('<button class="downvotedButton" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Downvoted</button>');
+		return $('<a href="#" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback)">Downvoted</a>');
 	}
 }
 
 function displayPostScore(upvoteCount, downvoteCount) {
 	// TODO
-	return $('<div class="TODO">' + (upvoteCount - downvoteCount) + '</div>');
+	return $('<span class="TODO">' + (upvoteCount - downvoteCount) + '</span>');
 }
 
 function displayPostInForum(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner) {
