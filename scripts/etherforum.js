@@ -101,6 +101,7 @@ function showForumPage() {
 		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
+					$('#content-main-titles').empty();
 					$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
 					document.title = '<Ether>Forum - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
