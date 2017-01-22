@@ -101,26 +101,59 @@ function showForumPage() {
 		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
+					$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
 					document.title = '<Ether>Forum - ' + name;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 					$('#content-main-titles').empty();
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
-							var postsFound = false;
 							for(var i=0; i<postCount; i++) {
-								var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, i);
-								var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, i);
-								var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, i);
-								var downvoteCount = contract.getDownvoteCountOfPost(forumIdParameter, i);
-								var isDeletedPost = contract.isDeletedPost(forumIdParameter, i);
-								var postTitle = contract.getTitleOfPost(forumIdParameter, i);
-								var postOwner = contract.getOwnerOfPost(forumIdParameter, i);
-								$('#content-main-titles').append('<h1 class="content-main-title">' + displayPostInForum(forumIdParameter, i, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner) + '</h1>');
-								postsFound = true;
-							}
-							if (!postsFound) {
-								$('#content-main-titles').append('<h1 class="content-main-title">No posts found</h1>');
-							}
+								(function(postId) {
+									contract.isPostUpvotedByUser(forumIdParameter, postId, function (error, isUpvoted) {
+										if (!error) {
+											contract.isPostDownvotedByUser(forumIdParameter, postId, function (error, isDownvoted) {
+												if (!error) {
+													contract.getUpvoteCountOfPost(forumIdParameter, postId, function (error, upvoteCount) {
+														if (!error) {
+															contract.getDownvoteCountOfPost(forumIdParameter, postId, function (error, downvoteCount) {
+																if (!error) {
+																	contract.isDeletedPost(forumIdParameter, postId, function (error, isDeletedPost) {
+																		if (!error) {
+																			contract.getTitleOfPost(forumIdParameter, postId, function (error, postTitle) {
+																				if (!error) {
+																					contract.getOwnerOfPost(forumIdParameter, postId, function (error, postOwner) {
+																						if (!error) {
+																							$('#no-posts-found').remove();
+																							$('#content-main-titles').append('<h1 class="content-main-title">' + displayPostInForum(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner) + '</h1>');
+																						} else {
+																							console.error(error);
+																						}
+																					});
+																				} else {
+																					console.error(error);
+																				}
+																			});
+																		} else {
+																			console.error(error);
+																		}
+																	});
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								})(i);
 							$('#create_post_button').parent().prop('style', 'margin-left:15px');
 							$('#create_post_button').prop('style', 'display:block');
 							contract.isSubscribedByUser(forumIdParameter, function (error, isSubscribed) {
@@ -166,8 +199,7 @@ function showPostsPage() {
 			var isDeletedPost = contract.isDeletedPost(userPost[0], userPost[1]);
 			var postTitle = contract.getTitleOfPost(userPost[0], userPost[1]);
 			var forumName = contract.getNameOfForum(userPost[0]);
-			var postOwner = contract.getOwnerOfPost(userPost[0], userPost[1]);
-			$('#posts_table').append('<tr><td>' + displayPostByUser(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner) + '</td></tr>');
+			$('#posts_table').append('<tr><td>' + displayPostByUser(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter) + '</td></tr>');
 			postsFound = true;
 		}
 		if (!postsFound) {
