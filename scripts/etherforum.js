@@ -496,7 +496,7 @@ function displayPostScore(upvoteCount, downvoteCount) {
 	return $('<span class="TODO">' + (upvoteCount - downvoteCount) + '</span>');
 }
 
-function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, displayForum, displayUser, displayEditDelete) {
+function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, isDisplayForum, isDisplayUser, isDisplayEditDelete) {
 	if (isDeletedPost) {
 		postTitle = '[DELETED]';
 	}
@@ -505,13 +505,13 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	div.append(displayPostDownvote(forumId, postId, isDownvoted));
 	div.append(displayPostScore(upvoteCount, downvoteCount));
 	div.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
-	if (displayForum) {
+	if (isDisplayForum) {
 		div.append(displayForum(forumId, forumName));
 	}
-	if (displayUser) {
+	if (isDisplayUser) {
 		div.append(displayUser(postOwner));
 	}
-	if (displayEditDelete && !isDeletedPost && postOwner === currentUser) {
+	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
 		div.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
 		div.append($('<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
 	}
