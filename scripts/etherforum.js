@@ -128,7 +128,7 @@ function showForumPage() {
 																					contract.getOwnerOfPost(forumIdParameter, postId, function (error, postOwner) {
 																						if (!error) {
 																							$('#no-posts-found').remove();
-																							$('#content-main-titles').append(displayPostInForum(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner));
+																							$('#content-main-titles').append(displayPost(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
 																						} else {
 																							console.error(error);
 																						}
@@ -220,7 +220,7 @@ function showPostsPage() {
 																						contract.getNameOfForum(userPost[0], function (error, forumName) {
 																							if (!error) {
 																								$('#no-posts-found').remove();
-																								$('#content-main-titles').append(displayPostByUser(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter));
+																								$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter, true, false, true));
 																							} else {
 																								console.error(error);
 																							}
@@ -270,31 +270,74 @@ function showPostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	var postIdParameter = getUrlParameter('post_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
-		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
-		if (postTitle != undefined && postTitle.length > 0) {
-			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
-			var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, postIdParameter);
-			var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, postIdParameter);
-			var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter);
-			var downvoteCount = contract.getDownvoteCountOfPost(forumIdParameter, postIdParameter);
-			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter, isUpvoted) + displayPostDownvote(forumIdParameter, postIdParameter, isDownvoted) + ' ' + displayPostScore(upvoteCount, downvoteCount));
-			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
-			if (!isDeletedPost) {
-				document.title = '<Ether>Forum - ' + postTitle;
-				var postOwner = contract.getOwnerOfPost(forumIdParameter, postIdParameter);
-				$('#post_title').html(postTitle + ' (' + displayUser(postOwner) + ')');
-				var postBody = contract.getBodyOfPost(forumIdParameter, postIdParameter);
-				$('#post_body').html(new showdown.Converter().makeHtml(postBody));
-				if (postOwner === currentUser) {
-					$('#edit_post_button').prop('disabled', false);
-					$('#delete_post_button').prop('disabled', false);
+		contract.getTitleOfPost(forumIdParameter, postIdParameter, function (error, postTitle) {
+			if (!error) {
+				if (postTitle != undefined && postTitle.length > 0) {
+					contract.isPostUpvotedByUser(forumIdParameter, postIdParameter, function (error, isUpvoted) {
+						if (!error) {
+							contract.isPostDownvotedByUser(forumIdParameter, postIdParameter, function (error, isDownvoted) {
+								if (!error) {
+									contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter, function (error, upvoteCount) {
+										if (!error) {
+											contract.getDownvoteCountOfPost(forumIdParameter, postIdParameter, function (error, downvoteCount) {
+												if (!error) {
+													contract.isDeletedPost(forumIdParameter, postIdParameter, function (error, isDeletedPost) {
+														if (!error) {
+															contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+																if (!error) {
+																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
+																		if (!error) {
+																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
+																			$('#content-main-titles').html(displayPost(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, false, true, false));
+																			if (!isDeletedPost) {
+																				document.title = '<Ether>Forum - ' + postTitle;
+																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
+																					if (!error) {
+																						$('#content-main-text').html(new showdown.Converter().makeHtml(postBody));
+																						if (postOwner === currentUser) {
+																							$('#edit_post_button').prop('style', 'visibility:visible');
+																							$('#delete_post_button').prop('style', 'visibility:visible');
+																						}
+																					} else {
+																						console.error(error);
+																					}
+																				});
+																			} else {
+																				$('#content-main-text').html('[DELETED BY OWNER]');
+																			}
+																		} else {
+																			console.error(error);
+																		}
+																	});
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
 				}
 			} else {
-				$('#post_title').html('[DELETED]');
-				$('#post_body').html('[DELETED BY OWNER]');
+				console.error(error);
 			}
-		}
+		});
 	}
 }
 
@@ -453,24 +496,7 @@ function displayPostScore(upvoteCount, downvoteCount) {
 	return $('<span class="TODO">' + (upvoteCount - downvoteCount) + '</span>');
 }
 
-function displayPostInForum(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, postOwner) {
-	if (isDeletedPost) {
-		postTitle = '[DELETED]';
-	}	
-	var div = $('<h1 class="content-main-title"/>');
-	div.append(displayPostUpvote(forumId, postId, isUpvoted));
-	div.append(displayPostDownvote(forumId, postId, isDownvoted));
-	div.append(displayPostScore(upvoteCount, downvoteCount));
-	div.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
-	div.append(displayUser(postOwner));
-	if (!isDeletedPost && postOwner === currentUser) {
-		div.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
-		div.append($('<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
-	}
-	return div;
-}
-
-function displayPostByUser(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner) {
+function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, displayForum, displayUser, displayEditDelete) {
 	if (isDeletedPost) {
 		postTitle = '[DELETED]';
 	}
@@ -479,8 +505,13 @@ function displayPostByUser(forumId, postId, isUpvoted, isDownvoted, upvoteCount,
 	div.append(displayPostDownvote(forumId, postId, isDownvoted));
 	div.append(displayPostScore(upvoteCount, downvoteCount));
 	div.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
-	div.append(displayForum(forumId, forumName));
-	if (!isDeletedPost && postOwner === currentUser) {
+	if (displayForum) {
+		div.append(displayForum(forumId, forumName));
+	}
+	if (displayUser) {
+		div.append(displayUser(postOwner));
+	}
+	if (displayEditDelete && !isDeletedPost && postOwner === currentUser) {
 		div.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
 		div.append($('<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
 	}
