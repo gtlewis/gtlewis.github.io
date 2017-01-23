@@ -288,7 +288,7 @@ function showPostPage() {
 																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
 																		if (!error) {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
-																			$('#content-main-titles').html(displayPost(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, false, true, false));
+																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, false, true, false));
 																			if (!isDeletedPost) {
 																				document.title = '<Ether>Forum - ' + postTitle;
 																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
