@@ -361,32 +361,73 @@ function showEditPostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	var postIdParameter = getUrlParameter('post_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
-		var postTitle = contract.getTitleOfPost(forumIdParameter, postIdParameter);
-		if (postTitle != undefined && postTitle.length > 0) {
-			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
-			var isUpvoted = contract.isPostUpvotedByUser(forumIdParameter, postIdParameter);
-			var isDownvoted = contract.isPostDownvotedByUser(forumIdParameter, postIdParameter);
-			var upvoteCount = contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter);
-			var downvoteCount = contract.getDownvoteCountOfPost(forumIdParameter, postIdParameter);
-			$('#post_score').html(displayPostUpvote(forumIdParameter, postIdParameter, isUpvoted) + displayPostDownvote(forumIdParameter, postIdParameter, isDownvoted) + ' ' + displayPostScore(upvoteCount, downvoteCount));
-			var isDeletedPost = contract.isDeletedPost(forumIdParameter, postIdParameter);
-			if (!isDeletedPost) {
-				document.title = '<Ether>Forum - ' + postTitle;
-				$('#post_title').html(postTitle);
-				var postBody = contract.getBodyOfPost(forumIdParameter, postIdParameter);
-				$('#post_body_input').val(postBody);
-				var postOwner = contract.getOwnerOfPost(forumIdParameter, postIdParameter);
-				if (postOwner === currentUser) {
-					$('#post_body_input').prop('disabled', false);
-					$('#submit_post_button').prop('disabled', false);
-					$('#cancel_button').prop('disabled', false);
+		contract.getTitleOfPost(forumIdParameter, postIdParameter, function (error, postTitle) {
+			if (!error) {
+				if (postTitle != undefined && postTitle.length > 0) {
+					contract.isPostUpvotedByUser(forumIdParameter, postIdParameter, function (error, isUpvoted) {
+						if (!error) {
+							contract.isPostDownvotedByUser(forumIdParameter, postIdParameter, function (error, isDownvoted) {
+								if (!error) {
+									contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter, function (error, upvoteCount) {
+										if (!error) {
+											contract.getDownvoteCountOfPost(forumIdParameter, postIdParameter, function (error, downvoteCount) {
+												if (!error) {
+													contract.isDeletedPost(forumIdParameter, postIdParameter, function (error, isDeletedPost) {
+														if (!error) {
+															contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+																if (!error) {
+																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
+																		if (!error) {
+																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
+																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, false, false, false));
+																			if (!isDeletedPost) {
+																				document.title = '<Ether>Forum - ' + postTitle;
+																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
+																					if (!error) {
+																						$('#content-main-text').val(postBody);
+																						if (postOwner === currentUser) {
+																							$('#content-main-text').prop('style', 'visibility:visible');
+																							$('#submit_post_button').prop('style', 'visibility:visible');
+																							$('#cancel_button').prop('style', 'visibility:visible');
+																						}
+																					} else {
+																						console.error(error);
+																					}
+																				});
+																			}
+																		} else {
+																			console.error(error);
+																		}
+																	});
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
 				}
 			} else {
-				$('#post_title').html('[DELETED]');
-				$('#post_body_input').val('[DELETED BY OWNER]');
+				console.error(error);
 			}
-		}
+		});
 	}
 }
 
