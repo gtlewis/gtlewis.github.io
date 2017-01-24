@@ -344,16 +344,19 @@ function showPostPage() {
 function showCreatePostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
-		var name = contract.getNameOfForum(forumIdParameter);
-		if (name != undefined && name.length > 0) {
-			document.title = '<Ether>Forum - ' + name;
-			var forumName = contract.getNameOfForum(forumId);
-			$('#forum_name').html(displayForum(forumIdParameter, forumName));
-			$('#post_title_input').prop('disabled', false);
-			$('#post_body_input').prop('disabled', false);
-			$('#submit_post_button').prop('disabled', false);
-			$('#cancel_button').prop('disabled', false);
-		}
+		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+			if (!error) {
+				if (forumName != undefined && forumName.length > 0) {
+					document.title = '<Ether>Forum - ' + forumName;
+					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
+					$('#post_title_input').prop('style', 'visibility:visible');
+					$('#content-main-text').prop('style', 'visibility:visible');
+					$('#submit_post_button').prop('style', 'visibility:visible');
+					$('#cancel_button').prop('style', 'visibility:visible');
+			} else {
+				console.error(error);
+			}
+		});
 	}
 }
 
@@ -467,6 +470,7 @@ function unsubscribe(forumId) {
 }
 
 function createPost(forumId) {
+	// TODO: length errors
 	var postTitle = $('#post_title_input').val();
 	var postBody = $('#post_body_input').val();
 	if  (postTitle.length > 0 && postTitle.length < 256 && postBody.length < 65536) {
@@ -482,6 +486,7 @@ function createPost(forumId) {
 }
 
 function editPost(forumId, postId) {
+	// TODO: length errors
 	var postBody = $('#post_body_input').val();
 	if  (postBody.length < 65536) {
 		contract.editPost(forumId, postId, postBody, void_callback);
