@@ -471,10 +471,10 @@ function unsubscribe(forumId) {
 }
 
 function createPost(forumId) {
-	// TODO: length errors
+	$('#content-error').prop('style', 'visibility:hidden');
 	var postTitle = $('#post_title_input').val();
 	var postBody = $('#content-main-text').val();
-	if  (postTitle.length > 0 && postTitle.length < 256 && postBody.length < 65536) {
+	if  (postTitle.length > 0 && postTitle.length <= 256 && postBody.length <= 65536) {
 		contract.createPost(forumId, postTitle, postBody, function (error, result) {
 			if (!error) {
 				$('#post_title_input').val('');
@@ -483,14 +483,28 @@ function createPost(forumId) {
 				console.error(error);
 			}
 		});
+	} else {
+		if (postTitle.length > 256) {
+			var errorText = 'Title too long';
+		} else if (postBody.length > 65536) {
+			var errorText = 'Post too long';
+		} else {
+			var errorText = 'Title is empty';
+		}
+		$('#content-error').text(errorText);
+		$('#content-error').prop('style', 'visibility:visible');
 	}
 }
 
 function editPost(forumId, postId) {
-	// TODO: length errors
+	$('#content-error').prop('style', 'visibility:hidden');
 	var postBody = $('#content-main-text').val();
-	if  (postBody.length < 65536) {
+	if  (postBody.length <= 65536) {
 		contract.editPost(forumId, postId, postBody, void_callback);
+	} else {
+		var errorText = 'Post too long';
+		$('#content-error').text(errorText);
+		$('#content-error').prop('style', 'visibility:visible');
 	}
 }
 
