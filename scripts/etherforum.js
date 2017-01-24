@@ -353,6 +353,7 @@ function showCreatePostPage() {
 					$('#content-main-text').prop('style', 'visibility:visible');
 					$('#submit_post_button').prop('style', 'visibility:visible');
 					$('#cancel_button').prop('style', 'visibility:visible');
+				}
 			} else {
 				console.error(error);
 			}
