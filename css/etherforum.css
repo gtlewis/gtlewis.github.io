@@ -447,8 +447,14 @@ p {
 }
 
 .post-info {
-	font-size: 1.0rem;
-	text-align: center;
-	margin: 5px;
+	margin-bottom: 15px;
 	float: left;
+}
+
+.post-info a {
+	color: #20b2aa;
+	text-decoration: none;
+	font-size: 1.0rem;
+	text-align: left;
+	margin-left: 8px;
 }
