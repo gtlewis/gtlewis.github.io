@@ -290,7 +290,6 @@ p {
 #content-main-text {
 	clear: both;
 	display: block;
-	margin-top: 1em;
 	font-size: 1.125rem;
 	word-wrap: break-word;
 	width: 100%;
@@ -421,7 +420,7 @@ p {
 	line-height: 1;
 	margin: 0;
 	position: relative;
-	float: left;
+	float: right;
 	padding-top: 2px;
 	text-align: center;
 	white-space: nowrap;
