@@ -447,8 +447,10 @@ p {
 }
 
 .post-info {
-	margin-bottom: 15px;
+	line-height: 0.6;
+	margin-bottom: 45px;
 	float: left;
+	width: 100%;
 }
 
 .post-info a {
@@ -456,5 +458,5 @@ p {
 	text-decoration: none;
 	font-size: 1.0rem;
 	text-align: left;
-	margin-left: 8px;
+	margin-left: 9px;
 }
