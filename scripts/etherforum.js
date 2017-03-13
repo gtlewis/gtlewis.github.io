@@ -46,7 +46,11 @@ function showForumsPage() {
 				if (forumCount == 0) {
 					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">No forums found</h1>');
 				} else {
-					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
+					if (!showAllForums) {
+						$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Not subscribed to any forums</h1>');
+					} else {
+						$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
+					}
 				}
 				if (!showAllForums) {
 					document.title = '<Ether>Forum - ' + currentUser;
