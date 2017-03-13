@@ -159,8 +159,6 @@ function showForumPage() {
 									});
 								})(i);
 							}
-							$('#create_post_button').parent().prop('style', 'margin-left:15px');
-							$('#create_post_button').prop('style', 'display:block');
 							contract.isSubscribedByUser(forumIdParameter, function (error, isSubscribed) {
 								if (!error) {
 									if (!isSubscribed) {
@@ -174,6 +172,8 @@ function showForumPage() {
 									console.error(error);
 								}
 							});
+							$('#create_post_button').parent().prop('style', 'margin-left:15px');
+							$('#create_post_button').prop('style', 'display:block');
 						} else {
 							console.error(error);
 						}
