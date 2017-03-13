@@ -448,6 +448,9 @@ function showEditPostPage() {
 							console.error(error);
 						}
 					});
+				} else {
+					$('#header-main-text').html('Post not found');
+					$('#content-main-titles').html('<h1 class="content-main-title">Post not found</h1>');
 				}
 			} else {
 				console.error(error);
