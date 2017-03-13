@@ -275,9 +275,6 @@ function showPostsPage() {
 					}
 				});
 			} else {
-				$('#header-main-text').html('User not found');
-				$('#content-main-titles').empty();
-				$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
 				console.error(error);
 			}
 		});
@@ -351,6 +348,10 @@ function showPostPage() {
 							console.error(error);
 						}
 					});
+				} else {
+					$('#header-main-text').html('Post not found');
+					$('#content-main-titles').html('Post not found');
+					$('#content-main-text').html('Post not found');
 				}
 			} else {
 				console.error(error);
