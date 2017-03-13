@@ -200,8 +200,6 @@ function showForumPage() {
 function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
-		$('#content-main-titles').empty();
-		$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
 		document.title = '<Ether>Forum - ' + userParameter;
 		contract.getKarmaForUser(userParameter, function (error, karma) {
 			if (!error) {
@@ -212,6 +210,12 @@ function showPostsPage() {
 				$('#header-main-text').append(displayKarma(karma));
 				contract.getPostsLengthForUser(userParameter, function (error, postCount) {
 					if (!error) {
+						$('#content-main-titles').empty();
+						if (postCount == 0) {
+							$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
+						} else {
+							$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
+						}
 						for(var i=0; i<postCount; i++) {
 							(function(postId) {
 								contract.getPostByUser(userParameter, postId, function (error, userPost) {
@@ -271,6 +275,9 @@ function showPostsPage() {
 					}
 				});
 			} else {
+				$('#header-main-text').html('User not found');
+				$('#content-main-titles').empty();
+				$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
 				console.error(error);
 			}
 		});
