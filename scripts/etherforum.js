@@ -43,7 +43,7 @@ function showForumsPage() {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
 				$('#content-main-titles').empty();
-				if (true) {//forumCount === 0) {
+				if (forumCount === 0) {
 					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">No forums found</h1>');
 				} else {
 					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
@@ -108,12 +108,16 @@ function showForumPage() {
 		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
-					$('#content-main-titles').empty();
-					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
 					document.title = '<Ether>Forum - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
+							$('#content-main-titles').empty();
+							if (postCount === 0) {
+								$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
+							} else {
+								$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
+							}
 							for(var i=0; i<postCount; i++) {
 								(function(postId) {
 									contract.isPostUpvotedByUser(forumIdParameter, postId, function (error, isUpvoted) {
@@ -181,6 +185,8 @@ function showForumPage() {
 							console.error(error);
 						}
 					});
+				} else {
+					$('#header-main-text').html('Forum not found');
 				}
 			} else {
 				console.error(error);
