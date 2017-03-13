@@ -43,7 +43,11 @@ function showForumsPage() {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
 				$('#content-main-titles').empty();
-				$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
+				if (true) {//forumCount === 0) {
+					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">No forums found</h1>');
+				} else {
+					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
+				}
 				if (!showAllForums) {
 					document.title = '<Ether>Forum - ' + currentUser;
 					$('#show_forums_button').text('Show All Forums');
