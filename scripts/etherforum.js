@@ -43,8 +43,8 @@ function showForumsPage() {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
 				$('#content-main-titles').empty();
+				$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
 				if (!showAllForums) {
-					$('#content-main-titles').append('<h1 class="content-main-title" id="no-forums-found">Not subscribed to any forums</h1>');
 					document.title = '<Ether>Forum - ' + currentUser;
 					$('#show_forums_button').text('Show All Forums');
 					for(var i=0; i<forumCount; i++) {
@@ -54,7 +54,7 @@ function showForumsPage() {
 									if (isSubscribed) {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
-												$('#no-forums-found').remove();
+												$('#loading-forums').remove();
 												var forum = $('<h1 class="content-main-title"/>');
 												forum.append(displayForum(forumId, forumName));
 												$('#content-main-titles').append(forum);
@@ -70,14 +70,13 @@ function showForumsPage() {
 						})(i);
 					}
 				} else {
-					$('#content-main-titles').append('<h1 class="content-main-title" id="no-forums-found">No forums found</h1>');
 					document.title = '<Ether>Forum';
 					$('#show_forums_button').text('Show Subscribed');
 					for(var i=0; i<forumCount; i++) {
 						(function(forumId) {
 							contract.getNameOfForum(forumId, function(error, forumName) {
 								if (!error) {
-									$('#no-forums-found').remove();
+									$('#loading-forums').remove();
 									var forum = $('<h1 class="content-main-title"/>');
 									forum.append(displayForum(forumId, forumName));
 									$('#content-main-titles').append(forum);
@@ -106,7 +105,7 @@ function showForumPage() {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
 					$('#content-main-titles').empty();
-					$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
+					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
 					document.title = '<Ether>Forum - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
@@ -127,7 +126,7 @@ function showForumPage() {
 																				if (!error) {
 																					contract.getOwnerOfPost(forumIdParameter, postId, function (error, postOwner) {
 																						if (!error) {
-																							$('#no-posts-found').remove();
+																							$('#loading-posts').remove();
 																							$('#content-main-titles').append(displayPost(forumIdParameter, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
 																						} else {
 																							console.error(error);
@@ -190,7 +189,7 @@ function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		$('#content-main-titles').empty();
-		$('#content-main-titles').append('<h1 class="content-main-title" id="no-posts-found">No posts found</h1>');
+		$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
 		document.title = '<Ether>Forum - ' + userParameter;
 		contract.getKarmaForUser(userParameter, function (error, karma) {
 			if (!error) {
@@ -219,7 +218,7 @@ function showPostsPage() {
 																					if (!error) {
 																						contract.getNameOfForum(userPost[0], function (error, forumName) {
 																							if (!error) {
-																								$('#no-posts-found').remove();
+																								$('#loading-posts').remove();
 																								$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter, true, false, true));
 																							} else {
 																								console.error(error);
