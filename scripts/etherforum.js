@@ -349,7 +349,7 @@ function showPostPage() {
 						}
 					});
 				} else {
-					$('#header-main-text').html('Post not found');
+					$('#header-main-text').html('Forum not found');
 					$('#content-main-titles').html('<h1 class="content-main-title">Post not found</h1>');
 					$('#content-main-text').html('Post not found');
 				}
@@ -449,7 +449,7 @@ function showEditPostPage() {
 						}
 					});
 				} else {
-					$('#header-main-text').html('Post not found');
+					$('#header-main-text').html('Forum not found');
 					$('#content-main-titles').html('<h1 class="content-main-title">Post not found</h1>');
 				}
 			} else {
