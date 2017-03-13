@@ -350,7 +350,7 @@ function showPostPage() {
 					});
 				} else {
 					$('#header-main-text').html('Post not found');
-					$('#content-main-titles').html('Post not found');
+					$('#content-main-titles').html('<h1 class="content-main-title">Post not found</h1>');
 					$('#content-main-text').html('Post not found');
 				}
 			} else {
@@ -372,6 +372,8 @@ function showCreatePostPage() {
 					$('#content-main-text').prop('style', 'visibility:visible');
 					$('#submit_post_button').prop('style', 'visibility:visible');
 					$('#cancel_button').prop('style', 'visibility:visible');
+				} else {
+					$('#header-main-text').html('Forum not found');
 				}
 			} else {
 				console.error(error);
