@@ -20,17 +20,66 @@ window.addEventListener('load', function() {
 				$('#header-karma-text').replaceWith(displayKarma(karma));
 				if (current_page === 'forums') {
 					showForumsPage();
+					var sidebarPost = 0;
 				} else if (current_page === 'forum') {
 					showForumPage();
+					var sidebarPost = 1;
 				} else if (current_page === 'posts') {
 					showPostsPage();
+					var sidebarPost = 2;
 				} else if (current_page === 'post') {
 					showPostPage();
+					var sidebarPost = 3;
 				} else if (current_page === 'createpost') {
 					showCreatePostPage();
+					var sidebarPost = 4;
 				} else if (current_page === 'editpost') {
 					showEditPostPage();
+					var sidebarPost = 5;
 				}
+				contract.isPostUpvotedByUser(0, sidebarPost, function (error, isUpvoted) {
+					if (!error) {
+						contract.isPostDownvotedByUser(0, sidebarPost, function (error, isDownvoted) {
+							if (!error) {
+								contract.getUpvoteCountOfPost(0, sidebarPost, function (error, upvoteCount) {
+									if (!error) {
+										contract.getDownvoteCountOfPost(0, sidebarPost, function (error, downvoteCount) {
+											if (!error) {
+												contract.isDeletedPost(0, sidebarPost, function (error, isDeletedPost) {
+													if (!error) {
+														contract.getTitleOfPost(0, sidebarPost, function (error, postTitle) {
+															if (!error) {
+																contract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
+																	if (!error) {
+																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
+																	} else {
+																		console.error(error);
+																	}
+																});
+															} else {
+																console.error(error);
+															}
+														});
+													} else {
+														console.error(error);
+													}
+												});
+											} else {
+												console.error(error);
+											}
+										});
+									} else {
+										console.error(error);
+									}
+								});
+							} else {
+								console.error(error);
+							}
+						});
+					} else {
+						console.error(error);
+					}
+				});
 			} else {
 				console.error(error);
 			}
