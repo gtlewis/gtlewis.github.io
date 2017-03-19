@@ -51,7 +51,7 @@ window.addEventListener('load', function() {
 															if (!error) {
 																contract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
 																	if (!error) {
-																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
+																		$('#content-sidebar-title').replace(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
 																	} else {
 																		console.error(error);
 																	}

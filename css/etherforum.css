@@ -365,24 +365,8 @@ p {
 	width: 30%;
 }
 
-#content-sidebar .widget:nth-child(n+2):before {
-	margin-left: 0;
-	margin-right: 0;
-}
-
 #content-sidebar:before {
 	display: none;
-}
-
-#content-sidebar-title {
-	font-size: 15px;
-	font-weight: 600;
-	margin: 0 0 20px 0;
-	word-wrap: break-word;
-}
-
-#content-sidebar-title a {
-	text-decoration: none;
 }
 
 #content-sidebar-text {
