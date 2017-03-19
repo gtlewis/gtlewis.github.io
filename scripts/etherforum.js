@@ -88,7 +88,7 @@ window.addEventListener('load', function() {
 		$('#header-user-text').text('Not Connected');
 		$('#header-karma-text').text('?');
 		$('#content-sidebar-title').prop('style', 'color:red');
-		$('#content-sidebar-title').html('Not Connected');
+		$('#content-sidebar-title').html('<h1>Not Connected<h1>');
 		$('#content-sidebar-text').html('TODO: Not connected text, use <a href="todo">Metamask</a> or <a href="todo">Mist</a> (or <a href="todo">Parity</a>?)');
 	}
 });
