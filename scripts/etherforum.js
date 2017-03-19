@@ -35,6 +35,10 @@ window.addEventListener('load', function() {
 				console.error(error);
 			}
 		});
+	} else {
+		$('#content-sidebar-title').prop('style', 'color:red');
+		$('#content-sidebar-title').html('Not Connected);
+		$('#content-sidebar-text').html('TODO: Not connected text, use <a href="todo">Metamask</a> or <a href="todo">Mist</a> (or <a href="todo">Parity</a>?)');
 	}
 });
 
