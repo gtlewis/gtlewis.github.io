@@ -51,7 +51,7 @@ window.addEventListener('load', function() {
 															if (!error) {
 																contract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
 																	if (!error) {
-																		$('#content-sidebar-title').replaceWith(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
+																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
 																	} else {
 																		console.error(error);
 																	}
@@ -650,7 +650,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	if (isDeletedPost) {
 		postTitle = '[DELETED]';
 	}
-	var h1 = $('<h1 class="content-main-title"/>');
+	var h1 = $('<h1/>');
 	var div1 = $('<div class="post-vote"/>');
 	div1.append(displayPostUpvote(forumId, postId, isUpvoted));
 	div1.append(displayPostScore(upvoteCount, downvoteCount));

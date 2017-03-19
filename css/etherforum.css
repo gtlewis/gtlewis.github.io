@@ -369,6 +369,17 @@ p {
 	display: none;
 }
 
+#content-sidebar-title {
+	font-size: 15px;
+	font-weight: 600;
+	margin: 0 0 20px 0;
+	word-wrap: break-word;
+}
+
+#content-sidebar-title a {
+	text-decoration: none;
+}
+
 #content-sidebar-text {
 	clear: both;
 	display: block;
