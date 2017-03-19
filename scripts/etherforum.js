@@ -99,12 +99,12 @@ function showForumsPage() {
 			if (!error) {
 				$('#content-main-titles').empty();
 				if (forumCount == 0) {
-					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">No forums found</h1>');
+					$('#content-main-titles').append('<h1 id="loading-forums">No forums found</h1>');
 				} else {
 					if (!showAllForums) {
-						$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Not subscribed to any forums</h1>');
+						$('#content-main-titles').append('<h1 id="loading-forums">Not subscribed to any forums</h1>');
 					} else {
-						$('#content-main-titles').append('<h1 class="content-main-title" id="loading-forums">Loading forums...</h1>');
+						$('#content-main-titles').append('<h1 id="loading-forums">Loading forums...</h1>');
 					}
 				}
 				if (!showAllForums) {
@@ -118,7 +118,7 @@ function showForumsPage() {
 										contract.getNameOfForum(forumId, function(error, forumName) {
 											if (!error) {
 												$('#loading-forums').remove();
-												var forum = $('<h1 class="content-main-title"/>');
+												var forum = $('<h1/>');
 												forum.append(displayForum(forumId, forumName));
 												$('#content-main-titles').append(forum);
 											} else {
@@ -140,7 +140,7 @@ function showForumsPage() {
 							contract.getNameOfForum(forumId, function(error, forumName) {
 								if (!error) {
 									$('#loading-forums').remove();
-									var forum = $('<h1 class="content-main-title"/>');
+									var forum = $('<h1/>');
 									forum.append(displayForum(forumId, forumName));
 									$('#content-main-titles').append(forum);
 								} else {
@@ -173,9 +173,9 @@ function showForumPage() {
 						if (!error) {
 							$('#content-main-titles').empty();
 							if (postCount == 0) {
-								$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
+								$('#content-main-titles').append('<h1 id="loading-posts">No posts found</h1>');
 							} else {
-								$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
+								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 							}
 							for(var i=0; i<postCount; i++) {
 								(function(postId) {
@@ -247,7 +247,7 @@ function showForumPage() {
 				} else {
 					$('#header-main-text').html('Forum not found');
 					$('#content-main-titles').empty();
-					$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
+					$('#content-main-titles').append('<h1 id="loading-posts">No posts found</h1>');
 				}
 			} else {
 				console.error(error);
@@ -271,9 +271,9 @@ function showPostsPage() {
 					if (!error) {
 						$('#content-main-titles').empty();
 						if (postCount == 0) {
-							$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">No posts found</h1>');
+							$('#content-main-titles').append('<h1 id="loading-posts">No posts found</h1>');
 						} else {
-							$('#content-main-titles').append('<h1 class="content-main-title" id="loading-posts">Loading posts...</h1>');
+							$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 						}
 						for(var i=0; i<postCount; i++) {
 							(function(postId) {
@@ -409,7 +409,7 @@ function showPostPage() {
 					});
 				} else {
 					$('#header-main-text').html('Forum not found');
-					$('#content-main-titles').html('<h1 class="content-main-title">Post not found</h1>');
+					$('#content-main-titles').html('<h1>Post not found</h1>');
 					$('#content-main-text').html('Post not found');
 				}
 			} else {
@@ -509,7 +509,7 @@ function showEditPostPage() {
 					});
 				} else {
 					$('#header-main-text').html('Forum not found');
-					$('#content-main-titles').html('<h1 class="content-main-title">Post not found</h1>');
+					$('#content-main-titles').html('<h1>Post not found</h1>');
 				}
 			} else {
 				console.error(error);
