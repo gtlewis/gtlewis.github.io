@@ -80,6 +80,13 @@ window.addEventListener('load', function() {
 						console.error(error);
 					}
 				});
+				contract.getBodyOfPost(0, sidebarPost, function (error, postBody) {
+					if (!error) {
+						$('#content-sidebar-text').html(new showdown.Converter().makeHtml(postBody));
+					} else {
+						console.error(error);
+					}
+				});
 			} else {
 				console.error(error);
 			}
