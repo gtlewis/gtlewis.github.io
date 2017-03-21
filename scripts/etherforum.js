@@ -274,8 +274,7 @@ function showPostsPage() {
 				user.prop('href', 'https://etherchain.org/account/' + userParameter);
 				$('#header-main-text').append(user);
 				var score = displayScore(score);
-				score.prop('style', 'margin-top:5px');
-				score.prop('style', 'border-color:#888888');
+				score.prop('style', 'margin-top:5px; border-color:#888888');
 				$('#header-main-text').append(score);
 				contract.getPostsLengthForUser(userParameter, function (error, postCount) {
 					if (!error) {
