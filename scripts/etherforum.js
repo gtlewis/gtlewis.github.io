@@ -15,9 +15,9 @@ window.addEventListener('load', function() {
 	if (currentUser != undefined) {
 		$('#header-user-text').text('');
 		$('#header-user-text').append(displayUser(currentUser));
-		contract.getKarmaForUser(currentUser, function(error, karma) {
+		contract.getKarmaForUser(currentUser, function(error, score) {
 			if (!error) {
-				$('#header-karma-text').replaceWith(displayKarma(karma));
+				$('#header-score-text').replaceWith(displayScore(score));
 				if (current_page === 'forums') {
 					showForumsPage();
 					var sidebarPost = 0;
@@ -93,7 +93,7 @@ window.addEventListener('load', function() {
 		});
 	} else {
 		$('#header-user-text').text('Not Connected');
-		$('#header-karma-text').text('?');
+		$('#header-score-text').text('?');
 		$('#content-sidebar-title').prop('style', 'color:red');
 		$('#content-sidebar-title').html('<h1>Not Connected<h1>');
 		$('#content-sidebar-text').html('TODO: Not connected text, use <a href="todo">Metamask</a> or <a href="todo">Mist</a> (or <a href="todo">Parity</a>?)');
@@ -267,13 +267,16 @@ function showPostsPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = '<Ether>Forum - ' + userParameter;
-		contract.getKarmaForUser(userParameter, function (error, karma) {
+		contract.getKarmaForUser(userParameter, function (error, score) {
 			if (!error) {
 				$('#header-main-text').html('Posts by User');
 				var user = displayUser(userParameter);
 				user.prop('href', 'https://etherchain.org/account/' + userParameter);
 				$('#header-main-text').append(user);
-				$('#header-main-text').append(displayKarma(karma));
+				var score = displayScore(score);
+				score.prop('style', 'margin-top:5px');
+				score.prop('style', 'border-color:#888888');
+				$('#header-main-text').append(score);
 				contract.getPostsLengthForUser(userParameter, function (error, postCount) {
 					if (!error) {
 						$('#content-main-titles').empty();
@@ -610,13 +613,13 @@ function displayUser(user) {
 	return link;
 }
 
-function displayKarma(karma) {
-	var value = Math.abs(karma);
+function displayScore(score) {
+	var value = Math.abs(score);
 	if (value >99) {
 		value = 99;
 	}
-	var div = $('<div class="karma" title=' + karma + '>' + value + '</div>');
-	if (karma < 0) {
+	var div = $('<div class="score" title=' + score + '>' + value + '</div>');
+	if (score < 0) {
 		div.prop('style', 'color:red');
 	}
 	return div;
