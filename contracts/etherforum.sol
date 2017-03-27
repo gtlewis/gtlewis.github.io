@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity ^0.4.8;
 
 // EtherForum
 contract EtherForum {
@@ -16,6 +16,17 @@ contract EtherForum {
         return forumCount;
     }
     
+    // getForumScores()
+    function getForumScores(uint32 from, uint32 to) constant returns (int32[]) {
+        
+        int32[] memory scores;
+        for (uint32 i = from; i < to; i++) {
+            scores[i] = forums[i].score;
+        }
+        
+        return scores;
+    }
+    
     // User
     struct User {
         
@@ -28,8 +39,8 @@ contract EtherForum {
         // The user's list of comments (reference)
         UserComment[] comments;
         
-        // The user's karma
-        int32 karma;
+        // The user's score
+        int32 score;
     }
     
     // User.Post
@@ -99,12 +110,21 @@ contract EtherForum {
         User user = users[userAddress];
         return user.posts.length;
     }
-    
-    // User.getKarma()
-    function getKarmaForUser(address userAddress) constant returns (int32) {
+
+    // TODO: User.getComment()
+
+    // User.getCommentsLength()
+    function getCommentsLengthForUser(address userAddress) constant returns (uint) {
         
         User user = users[userAddress];
-        return user.karma;
+        return user.comments.length;
+    }
+    
+    // User.getScore()
+    function getScoreForUser(address userAddress) constant returns (int32) {
+        
+        User user = users[userAddress];
+        return user.score;
     }
     
     // Forum
@@ -116,6 +136,9 @@ contract EtherForum {
         // The forum's list of posts
         mapping(uint32 => Post) posts;
         uint32 postCount;
+
+        // The forum's score
+        int32 score;
     }
     
     // Forum.create()
@@ -153,6 +176,15 @@ contract EtherForum {
         
         Forum forum = forums[forumId];
         return forum.postCount;
+    }
+    
+    // TODO: Forum.getPostScores(from, to)
+    
+    // Forum.getScore()
+    function getScoreForForum(uint32 forumId) constant returns (int32) {
+        
+        Forum forum = forums[forumId];
+        return forum.score;
     }
     
     // Post
@@ -311,7 +343,8 @@ contract EtherForum {
         post.upvoteCount++;
         
         User user = users[post.owner];
-        user.karma++;
+        user.score++;
+        forum.score++;
     }
     
     // Post.removeUpvote()
@@ -338,7 +371,8 @@ contract EtherForum {
         post.upvoteCount--;
         
         User user = users[post.owner];
-        user.karma--;
+        user.score--;
+        forum.score--;
     }
     
     // Post.downvote()
@@ -370,7 +404,8 @@ contract EtherForum {
         post.downvoteCount++;
         
         User user = users[post.owner];
-        user.karma--;
+        user.score--;
+        forum.score--;
     }
     
     // Post.removeDownvote()
@@ -397,7 +432,8 @@ contract EtherForum {
         post.downvoteCount--;
         
         User user = users[post.owner];
-        user.karma++;
+        user.score++;
+        forum.score++;
     }
     
     // Post.getOwner()
@@ -464,5 +500,7 @@ contract EtherForum {
         return post.downvoteCount;
     }
     
-    // TODO: get comments
+    // TODO: Post.getCommentCount()
+    
+    // TODO: Post.getCommentScores(from, to)
 }
