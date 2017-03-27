@@ -200,7 +200,7 @@ function showForumPage() {
 							} else {
 								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 							}
-							contract.getPostScores(0, postCount, function(error, postScores) {
+							contract.getPostScores(forumIdParameter, 0, postCount, function(error, postScores) {
 								if (!error) {
 									web3.eth.getBlockNumber(function(error, currentBlockNumber) {
 										if (!error) {
