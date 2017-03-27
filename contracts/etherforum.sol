@@ -23,7 +23,7 @@ contract EtherForum {
         for (uint32 i = from; i < to; i++) {
             scores[i] = forums[i].score;
         }
-    
+        
         return scores;
     }
     
@@ -150,12 +150,6 @@ contract EtherForum {
             throw;
         }
         
-        // TODO: uniqueness check
-        //if (name not unique) {
-            // Throw if forum name not unique - not permitted
-            //throw;
-        //}
-        
         Forum forum = forums[forumCount];
         forum.name = name;
         forumCount++;
@@ -178,7 +172,21 @@ contract EtherForum {
         return forum.postCount;
     }
     
-    // TODO: Forum.getPostScores(from, to)
+    // Forum.getPostScores()
+    function getPostScores(uint32 forumId, uint32 from, uint32 to) constant returns (uint32[], uint32[], uint[]) {
+        
+        Forum forum = forums[forumId];
+        uint32[] memory upvotes = new uint32[](to - from);
+        uint32[] memory downvotes = new uint32[](to - from);
+        uint[] memory blockNumbers = new uint[](to - from);
+        for (uint32 i = from; i < to; i++) {
+            upvotes[i] = forum.posts[i].upvoteCount;
+            downvotes[i] = forum.posts[i].downvoteCount;
+            blockNumbers[i] = forum.posts[i].blockNumber;
+        }
+        
+        return (upvotes, downvotes, blockNumbers);
+    }
     
     // Forum.getScore()
     function getScoreForForum(uint32 forumId) constant returns (int32) {
@@ -198,6 +206,9 @@ contract EtherForum {
         
         // The post's body
         string body;
+        
+        // The post's block number
+        uint blockNumber;
         
         // The post's deleted flag
         bool deleted;
@@ -240,6 +251,7 @@ contract EtherForum {
         post.owner = msg.sender;
         post.title = postTitle;
         post.body = postBody;
+        post.blockNumber = block.number;
         forum.postCount++;
         
         // Upvote the post
@@ -458,6 +470,14 @@ contract EtherForum {
         Forum forum = forums[forumId];
         Post post = forum.posts[postId];
         return post.body;
+    }
+    
+    // Post.getBlockNumber()
+    function getBlockNumberOfPost(uint32 forumId, uint32 postId) constant returns (uint) {
+        
+        Forum forum = forums[forumId];
+        Post post = forum.posts[postId];
+        return post.blockNumber;
     }
     
     // Post.isDeleted()
