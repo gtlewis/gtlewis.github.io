@@ -17,14 +17,11 @@ contract EtherForum {
     }
     
     // getForumScores()
-    function getForumScores(uint32 from, uint32 to) constant returns (int32[]) {
+    function getForumScores(uint32 from, uint32 to) constant returns (int32[] scores) {
         
-        int32[] memory scores;
         for (uint32 i = from; i < to; i++) {
             scores[i] = forums[i].score;
         }
-        
-        return scores;
     }
     
     // User
