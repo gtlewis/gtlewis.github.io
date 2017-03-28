@@ -3,6 +3,7 @@ var contractAddress = '0x2918a805D949a6e1142ec6C28C56Da407F5230dF';
 var contract;
 var currentUser;
 var showAllForums = false;
+var POST_AGE_WEIGHT = 256;
 
 window.addEventListener('load', function() {
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
@@ -212,9 +213,8 @@ function showForumPage() {
 												sorted[i] = i;
 											}
 											sorted.sort(function(a, b) {
-												// TODO: weight??? 250??
-												var score_a = (250 * (upvotes[a] - downvotes[a])) - (currentBlockNumber - blockNumbers[a]);
-												var score_b = (250 * (upvotes[b] - downvotes[b])) - (currentBlockNumber - blockNumbers[b]);
+												var score_a = (POST_AGE_WEIGHT * (upvotes[a] - downvotes[a])) - (currentBlockNumber - blockNumbers[a]);
+												var score_b = (POST_AGE_WEIGHT * (upvotes[b] - downvotes[b])) - (currentBlockNumber - blockNumbers[b]);
 												return score_b - score_a;
 											});
 											for(var i=0; i<postCount; i++) {
@@ -325,7 +325,7 @@ function showPostsPage() {
 						} else {
 							$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 						}
-						for(var i=0; i<postCount; i++) {
+						for(var i=postCount-1; i>=0; i--) {
 							(function(postId) {
 								contract.getPostByUser(userParameter, postId, function (error, userPost) {
 									if (!error) {
