@@ -582,6 +582,8 @@ function showEditPostPage() {
 
 function showForums() {
 	showAllForums = !showAllForums;
+	sortedListofIndexes = [];
+	latestListItemDisplayed = 0;
 	showForumsPage();
 }
 
