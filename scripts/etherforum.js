@@ -380,6 +380,7 @@ function displayPageOfUserPosts(user) {
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
 		(function(postId) {
+			contract.getPostByUser(user, sortedListofIndexes[postId], function (error, userPost) {
 				if (!error) {
 					contract.isPostUpvotedByUser(userPost[0], userPost[1], function (error, isUpvoted) {
 						if (!error) {
