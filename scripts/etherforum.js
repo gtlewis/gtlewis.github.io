@@ -353,8 +353,9 @@ function showPostsPage() {
 						} else {
 							$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 						}
+						var index = 0;
 						for(var i=postCount-1; i>=0; i--) {
-							sortedListofIndexes[i] = i;
+							sortedListofIndexes[index++] = i;
 						}
 						displayPageOfUserPosts(userParameter);
 					} else {
