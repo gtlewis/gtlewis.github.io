@@ -226,63 +226,16 @@ function showForumPage() {
 											var upvotes = postScores[0];
 											var downvotes = postScores[1];
 											var blockNumbers = postScores[2];
-											var sorted = [];
 											for(var i=0; i<postCount; i++) {
-												sorted[i] = i;
+												sortedListofIndexes[i] = i;
 											}
-											sorted.sort(function(a, b) {
+											sortedListofIndexes.sort(function(a, b) {
 												var score_a = (POST_AGE_WEIGHT * (upvotes[a] - downvotes[a])) - (currentBlockNumber - blockNumbers[a]);
 												var score_b = (POST_AGE_WEIGHT * (upvotes[b] - downvotes[b])) - (currentBlockNumber - blockNumbers[b]);
 												return score_b - score_a;
 											});
-											for(var i=0; i<postCount; i++) {
-												(function(postId) {
-													contract.isPostUpvotedByUser(forumIdParameter, sorted[postId], function (error, isUpvoted) {
-														if (!error) {
-															contract.isPostDownvotedByUser(forumIdParameter, sorted[postId], function (error, isDownvoted) {
-																if (!error) {
-																	contract.getUpvoteCountOfPost(forumIdParameter, sorted[postId], function (error, upvoteCount) {
-																		if (!error) {
-																			contract.getDownvoteCountOfPost(forumIdParameter, sorted[postId], function (error, downvoteCount) {
-																				if (!error) {
-																					contract.isDeletedPost(forumIdParameter, sorted[postId], function (error, isDeletedPost) {
-																						if (!error) {
-																							contract.getTitleOfPost(forumIdParameter, sorted[postId], function (error, postTitle) {
-																								if (!error) {
-																									contract.getOwnerOfPost(forumIdParameter, sorted[postId], function (error, postOwner) {
-																										if (!error) {
-																											$('#loading-posts').remove();
-																											$('#content-main-titles').append(displayPost(forumIdParameter, sorted[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
-																										} else {
-																											console.error(error);
-																										}
-																									});
-																								} else {
-																									console.error(error);
-																								}
-																							});
-																						} else {
-																							console.error(error);
-																						}
-																					});
-																				} else {
-																					console.error(error);
-																				}
-																			});
-																		} else {
-																			console.error(error);
-																		}
-																	});
-																} else {
-																	console.error(error);
-																}
-															});
-														} else {
-															console.error(error);
-														}
-													});
-												})(i);
-											}
+											listCount = postCount;
+											displayPageOfForumPosts();
 										} else {
 											console.error(error);
 										}
@@ -319,6 +272,66 @@ function showForumPage() {
 				console.error(error);
 			}
 		});
+	}
+}
+
+function displayPageOfForumPosts() {
+	var from = latestListItemDisplayed;
+	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
+	if (to >= listCount) {
+		to = listCount;
+		$('#view_more_posts_button').prop('style', 'visibility:hidden');
+	} else {
+		$('#view_more_posts_button').prop('style', 'visibility:visible');
+	}
+	for(var i=from; i<to; i++) {
+		latestListItemDisplayed++;
+		(function(postId) {
+			contract.isPostUpvotedByUser(forumIdParameter, sortedListofIndexes[postId], function (error, isUpvoted) {
+				if (!error) {
+					contract.isPostDownvotedByUser(forumIdParameter, sortedListofIndexes[postId], function (error, isDownvoted) {
+						if (!error) {
+							contract.getUpvoteCountOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, upvoteCount) {
+								if (!error) {
+									contract.getDownvoteCountOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, downvoteCount) {
+										if (!error) {
+											contract.isDeletedPost(forumIdParameter, sortedListofIndexes[postId], function (error, isDeletedPost) {
+												if (!error) {
+													contract.getTitleOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, postTitle) {
+														if (!error) {
+															contract.getOwnerOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, postOwner) {
+																if (!error) {
+																	$('#loading-posts').remove();
+																	$('#content-main-titles').append(displayPost(forumIdParameter, sortedListofIndexes[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
+				} else {
+					console.error(error);
+				}
+			});
+		})(i);
 	}
 }
 
