@@ -110,6 +110,7 @@ function showForumsPage() {
 		contract.getForumCount(function(error, forumCount) {
 			if (!error) {
 				$('#content-main-titles').empty();
+				$('#view_more_forums_button').prop('style', 'visibility:hidden');
 				if (forumCount == 0) {
 					$('#content-main-titles').append('<h1 id="loading-forums">No forums found</h1>');
 				} else {
@@ -178,8 +179,11 @@ function displayPageOfForums() {
 	} else {
 		var from = latestListItemDisplayed;
 		var to = latestListItemDisplayed + LIST_PAGE_SIZE;
-		if (to > listCount) {
+		if (to >= listCount) {
 			to = listCount;
+			$('#view_more_forums_button').prop('style', 'visibility:hidden');
+		} else {
+			$('#view_more_forums_button').prop('style', 'visibility:visible');
 		}
 		for(var i=from; i<to; i++) {
 			latestListItemDisplayed++;
