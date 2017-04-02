@@ -5,6 +5,7 @@ var currentUser;
 var showAllForums = false;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
+var listCount = 0;
 var LIST_PAGE_SIZE = 2;
 var POST_AGE_WEIGHT = 256;
 
@@ -126,7 +127,8 @@ function showForumsPage() {
 						sortedListofIndexes.sort(function(a, b) {
 							return forumScores[b] - forumScores[a];
 						});
-						displayPageOfForums(forumCount);
+						listCount = forumCount;
+						displayPageOfForums();
 					} else {
 						console.error(error);
 					}
@@ -149,9 +151,9 @@ function showForumsPage() {
 	}
 }
 
-function displayPageOfForums(forumCount) {
+function displayPageOfForums() {
 	if (!showAllForums) {
-		for(var i=0; i<forumCount; i++) {
+		for(var i=0; i<listCount; i++) {
 			(function(forumId) {
 				contract.isSubscribedByUser(sortedListofIndexes[forumId], function(error, isSubscribed) {
 					if (!error) {
@@ -176,8 +178,8 @@ function displayPageOfForums(forumCount) {
 	} else {
 		var from = latestListItemDisplayed;
 		var to = latestListItemDisplayed + LIST_PAGE_SIZE;
-		if (to > forumCount) {
-			to = forumCount;
+		if (to > listCount) {
+			to = listCount;
 		}
 		for(var i=from; i<to; i++) {
 			latestListItemDisplayed++;
@@ -584,6 +586,7 @@ function showForums() {
 	showAllForums = !showAllForums;
 	sortedListofIndexes = [];
 	latestListItemDisplayed = 0;
+	listCount = 0;
 	showForumsPage();
 }
 
