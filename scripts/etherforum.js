@@ -354,59 +354,9 @@ function showPostsPage() {
 							$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 						}
 						for(var i=postCount-1; i>=0; i--) {
-							(function(postId) {
-								contract.getPostByUser(userParameter, postId, function (error, userPost) {
-									if (!error) {
-										contract.isPostUpvotedByUser(userPost[0], userPost[1], function (error, isUpvoted) {
-											if (!error) {
-												contract.isPostDownvotedByUser(userPost[0], userPost[1], function (error, isDownvoted) {
-													if (!error) {
-														contract.getUpvoteCountOfPost(userPost[0], userPost[1], function (error, upvoteCount) {
-															if (!error) {
-																contract.getDownvoteCountOfPost(userPost[0], userPost[1], function (error, downvoteCount) {
-																	if (!error) {
-																		contract.isDeletedPost(userPost[0], userPost[1], function (error, isDeletedPost) {
-																			if (!error) {
-																				contract.getTitleOfPost(userPost[0], userPost[1], function (error, postTitle) {
-																					if (!error) {
-																						contract.getNameOfForum(userPost[0], function (error, forumName) {
-																							if (!error) {
-																								$('#loading-posts').remove();
-																								$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, userParameter, true, false, true));
-																							} else {
-																								console.error(error);
-																							}
-																						});
-																					} else {
-																						console.error(error);
-																					}
-																				});
-																			} else {
-																				console.error(error);
-																			}
-																		});
-																	} else {
-																		console.error(error);
-																	}
-																});
-															} else {
-																console.error(error);
-															}
-														});
-													} else {
-														console.error(error);
-													}
-												});
-											} else {
-												console.error(error);
-											}
-										});
-									} else {
-										console.error(error);
-									}
-								});
-							})(i);
+							sortedListofIndexes[i] = i;
 						}
+						displayPageOfUserPosts(userParameter);
 					} else {
 						console.error(error);
 					}
@@ -415,6 +365,71 @@ function showPostsPage() {
 				console.error(error);
 			}
 		});
+	}
+}
+
+function displayPageOfUserPosts(user) {
+	var from = latestListItemDisplayed;
+	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
+	if (to >= sortedListofIndexes.length) {
+		to = sortedListofIndexes.length;
+		$('#view_more_posts_button').prop('style', 'visibility:hidden');
+	} else {
+		$('#view_more_posts_button').prop('style', 'visibility:visible');
+	}
+	for(var i=from; i<to; i++) {
+		latestListItemDisplayed++;
+		(function(postId) {
+				if (!error) {
+					contract.isPostUpvotedByUser(userPost[0], userPost[1], function (error, isUpvoted) {
+						if (!error) {
+							contract.isPostDownvotedByUser(userPost[0], userPost[1], function (error, isDownvoted) {
+								if (!error) {
+									contract.getUpvoteCountOfPost(userPost[0], userPost[1], function (error, upvoteCount) {
+										if (!error) {
+											contract.getDownvoteCountOfPost(userPost[0], userPost[1], function (error, downvoteCount) {
+												if (!error) {
+													contract.isDeletedPost(userPost[0], userPost[1], function (error, isDeletedPost) {
+														if (!error) {
+															contract.getTitleOfPost(userPost[0], userPost[1], function (error, postTitle) {
+																if (!error) {
+																	contract.getNameOfForum(userPost[0], function (error, forumName) {
+																		if (!error) {
+																			$('#loading-posts').remove();
+																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, false, true));
+																		} else {
+																			console.error(error);
+																		}
+																	});
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
+				} else {
+					console.error(error);
+				}
+			});
+		})(i);
 	}
 }
 
