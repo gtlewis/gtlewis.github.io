@@ -5,7 +5,6 @@ var currentUser;
 var showAllForums = false;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
-var listCount = 0;
 var LIST_PAGE_SIZE = 2;
 var POST_AGE_WEIGHT = 256;
 
@@ -128,7 +127,6 @@ function showForumsPage() {
 						sortedListofIndexes.sort(function(a, b) {
 							return forumScores[b] - forumScores[a];
 						});
-						listCount = forumCount;
 						displayPageOfForums();
 					} else {
 						console.error(error);
@@ -154,7 +152,7 @@ function showForumsPage() {
 
 function displayPageOfForums() {
 	if (!showAllForums) {
-		for(var i=0; i<listCount; i++) {
+		for(var i=0; i<sortedListofIndexes.length; i++) {
 			(function(forumId) {
 				contract.isSubscribedByUser(sortedListofIndexes[forumId], function(error, isSubscribed) {
 					if (!error) {
@@ -179,8 +177,8 @@ function displayPageOfForums() {
 	} else {
 		var from = latestListItemDisplayed;
 		var to = latestListItemDisplayed + LIST_PAGE_SIZE;
-		if (to >= listCount) {
-			to = listCount;
+		if (to >= sortedListofIndexes.length) {
+			to = sortedListofIndexes.length;
 			$('#view_more_forums_button').prop('style', 'visibility:hidden');
 		} else {
 			$('#view_more_forums_button').prop('style', 'visibility:visible');
@@ -234,8 +232,7 @@ function showForumPage() {
 												var score_b = (POST_AGE_WEIGHT * (upvotes[b] - downvotes[b])) - (currentBlockNumber - blockNumbers[b]);
 												return score_b - score_a;
 											});
-											listCount = postCount;
-											displayPageOfForumPosts();
+											displayPageOfForumPosts(forumIdParameter);
 										} else {
 											console.error(error);
 										}
@@ -275,11 +272,11 @@ function showForumPage() {
 	}
 }
 
-function displayPageOfForumPosts() {
+function displayPageOfForumPosts(forumId) {
 	var from = latestListItemDisplayed;
 	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
-	if (to >= listCount) {
-		to = listCount;
+	if (to >= sortedListofIndexes.length) {
+		to = sortedListofIndexes.length;
 		$('#view_more_posts_button').prop('style', 'visibility:hidden');
 	} else {
 		$('#view_more_posts_button').prop('style', 'visibility:visible');
@@ -287,22 +284,22 @@ function displayPageOfForumPosts() {
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
 		(function(postId) {
-			contract.isPostUpvotedByUser(forumIdParameter, sortedListofIndexes[postId], function (error, isUpvoted) {
+			contract.isPostUpvotedByUser(forumId, sortedListofIndexes[postId], function (error, isUpvoted) {
 				if (!error) {
-					contract.isPostDownvotedByUser(forumIdParameter, sortedListofIndexes[postId], function (error, isDownvoted) {
+					contract.isPostDownvotedByUser(forumId, sortedListofIndexes[postId], function (error, isDownvoted) {
 						if (!error) {
-							contract.getUpvoteCountOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, upvoteCount) {
+							contract.getUpvoteCountOfPost(forumId, sortedListofIndexes[postId], function (error, upvoteCount) {
 								if (!error) {
-									contract.getDownvoteCountOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, downvoteCount) {
+									contract.getDownvoteCountOfPost(forumId, sortedListofIndexes[postId], function (error, downvoteCount) {
 										if (!error) {
-											contract.isDeletedPost(forumIdParameter, sortedListofIndexes[postId], function (error, isDeletedPost) {
+											contract.isDeletedPost(forumId, sortedListofIndexes[postId], function (error, isDeletedPost) {
 												if (!error) {
-													contract.getTitleOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, postTitle) {
+													contract.getTitleOfPost(forumId, sortedListofIndexes[postId], function (error, postTitle) {
 														if (!error) {
-															contract.getOwnerOfPost(forumIdParameter, sortedListofIndexes[postId], function (error, postOwner) {
+															contract.getOwnerOfPost(forumId, sortedListofIndexes[postId], function (error, postOwner) {
 																if (!error) {
 																	$('#loading-posts').remove();
-																	$('#content-main-titles').append(displayPost(forumIdParameter, sortedListofIndexes[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
+																	$('#content-main-titles').append(displayPost(forumId, sortedListofIndexes[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
 																} else {
 																	console.error(error);
 																}
@@ -603,7 +600,6 @@ function showForums() {
 	showAllForums = !showAllForums;
 	sortedListofIndexes = [];
 	latestListItemDisplayed = 0;
-	listCount = 0;
 	showForumsPage();
 }
 
