@@ -3,6 +3,9 @@ var contractAddress = '0x2918a805D949a6e1142ec6C28C56Da407F5230dF';
 var contract;
 var currentUser;
 var showAllForums = false;
+var sortedListofIndexes = [];
+var latestListItemDisplayed = 0;
+var LIST_PAGE_SIZE = 2;
 var POST_AGE_WEIGHT = 256;
 
 window.addEventListener('load', function() {
@@ -117,52 +120,13 @@ function showForumsPage() {
 				}
 				contract.getForumScores(0, forumCount, function(error, forumScores) {
 					if (!error) {
-						var sorted = [];
 						for(var i=0; i<forumCount; i++) {
-							sorted[i] = i;
+							sortedListofIndexes[i] = i;
 						}
-						sorted.sort(function(a, b) {
+						sortedListofIndexes.sort(function(a, b) {
 							return forumScores[b] - forumScores[a];
 						});
-						if (!showAllForums) {
-							for(var i=0; i<forumCount; i++) {
-								(function(forumId) {
-									contract.isSubscribedByUser(sorted[forumId], function(error, isSubscribed) {
-										if (!error) {
-											if (isSubscribed) {
-												contract.getNameOfForum(sorted[forumId], function(error, forumName) {
-													if (!error) {
-														$('#loading-forums').remove();
-														var forum = $('<h1/>');
-														forum.append(displayForum(sorted[forumId], forumName));
-														$('#content-main-titles').append(forum);
-													} else {
-														console.error(error);
-													}
-												});
-											}
-										} else {
-											console.error(error);
-										}
-									});
-								})(i);
-							}
-						} else {
-							for(var i=0; i<forumCount; i++) {
-								(function(forumId) {
-									contract.getNameOfForum(sorted[forumId], function(error, forumName) {
-										if (!error) {
-											$('#loading-forums').remove();
-											var forum = $('<h1/>');
-											forum.append(displayForum(sorted[forumId], forumName));
-											$('#content-main-titles').append(forum);
-										} else {
-											console.error(error);
-										}
-									});
-								})(i);
-							}
-						}
+						displayPageOfForums(forumCount);
 					} else {
 						console.error(error);
 					}
@@ -182,6 +146,54 @@ function showForumsPage() {
 				console.error(error);
 			}
 		});
+	}
+}
+
+function displayPageOfForums(forumCount) {
+	if (!showAllForums) {
+		for(var i=0; i<forumCount; i++) {
+			(function(forumId) {
+				contract.isSubscribedByUser(sortedListofIndexes[forumId], function(error, isSubscribed) {
+					if (!error) {
+						if (isSubscribed) {
+							contract.getNameOfForum(sortedListofIndexes[forumId], function(error, forumName) {
+								if (!error) {
+									$('#loading-forums').remove();
+									var forum = $('<h1/>');
+									forum.append(displayForum(sortedListofIndexes[forumId], forumName));
+									$('#content-main-titles').append(forum);
+								} else {
+									console.error(error);
+								}
+							});
+						}
+					} else {
+						console.error(error);
+					}
+				});
+			})(i);
+		}
+	} else {
+		var from = latestListItemDisplayed;
+		var to = latestListItemDisplayed + LIST_PAGE_SIZE;
+		if (to > forumCount) {
+			to = forumCount;
+		}
+		for(var i=from; i<to; i++) {
+			latestListItemDisplayed++;
+			(function(forumId) {
+				contract.getNameOfForum(sortedListofIndexes[forumId], function(error, forumName) {
+					if (!error) {
+						$('#loading-forums').remove();
+						var forum = $('<h1/>');
+						forum.append(displayForum(sortedListofIndexes[forumId], forumName));
+						$('#content-main-titles').append(forum);
+					} else {
+						console.error(error);
+					}
+				});
+			})(i);
+		}
 	}
 }
 
