@@ -463,6 +463,7 @@ function showPostPage() {
 																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
 																					if (!error) {
 																						$('#content-main-text').html(new showdown.Converter().makeHtml(postBody));
+																						$('#create_comment_button').prop('style', 'visibility:visible');
 																						if (postOwner === currentUser) {
 																							$('#edit_post_button').prop('style', 'visibility:visible');
 																							$('#delete_post_button').prop('style', 'visibility:visible');
@@ -774,7 +775,7 @@ function editPost(forumId, postId) {
 
 function createComment(forumId, postId) {
 	// TODO: proper create comment
-	contract.createComment(forumId, postId, "An example comment (here)[http://www.bbc.co.uk]", void_callback);
+	contract.createComment(forumId, postId, "An example comment [here](http://www.bbc.co.uk)", void_callback);
 }
 
 function deletePost(forumId, postId) {
