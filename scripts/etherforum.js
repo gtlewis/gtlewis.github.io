@@ -473,11 +473,13 @@ function showPostPage() {
 																							if (!error) {
 																								contract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
 																									if (!error) {
+																										var upvotes = commentScores[0];
+																										var downvotes = commentScores[1];
 																										for(var i=0; i<commentCount; i++) {
 																											sortedListofIndexes[i] = i;
 																											}
 																										sortedListofIndexes.sort(function(a, b) {
-																											return commentScores[b] - commentScores[a];
+																											return (upvotes[b] - downvotes[b]) - (upvotes[a] - downvotes[a]);
 																										});
 																										displayPageOfPostComments();
 																									} else {
