@@ -481,7 +481,7 @@ function showPostPage() {
 																										sortedListofIndexes.sort(function(a, b) {
 																											return (upvotes[b] - downvotes[b]) - (upvotes[a] - downvotes[a]);
 																										});
-																										displayPageOfPostComments();
+																										displayPageOfPostComments(forumIdParameter, postIdParameter);
 																									} else {
 																										console.error(error);
 																									}
