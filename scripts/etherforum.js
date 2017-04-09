@@ -889,7 +889,7 @@ function displayCommentScore(upvoteCount, downvoteCount) {
 
 function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedComment, commentBody, commentOwner) {
 	if (isDeletedComment) {
-		CommentBody = '[DELETED]';
+		commentBody = '[DELETED]';
 	}
 	var h1 = $('<h1/>');
 	// TODO: post vost?
@@ -902,7 +902,7 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	// TODO: post info?
 	var div2 = $('<div class="post-info"/>');
 	div2.append(displayUser(commentOwner));
-	if (commentOwner === currentUser) {
+	if (!isDeletedComment && commentOwner === currentUser) {
 		// TODO: edit???
 		div2.append($('<a href="#" onClick="createComment(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
 		div2.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
