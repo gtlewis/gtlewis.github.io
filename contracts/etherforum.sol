@@ -111,8 +111,13 @@ contract EtherForum {
         return user.posts.length;
     }
 
-    // TODO: User.getComment()
-
+    // User.getComment()
+    function getCommentByUser(address userAddress, uint index) constant returns (uint32, uint32, uint32) {
+        
+        User user = users[userAddress];
+        return (user.comments[index].forumId, user.comments[index].postId, user.comments[index].commentId);
+    }
+    
     // User.getCommentsLength()
     function getCommentsLengthForUser(address userAddress) constant returns (uint) {
         
@@ -173,7 +178,7 @@ contract EtherForum {
     }
     
     // Forum.getPostScores()
-    function getPostScores(uint32 forumId, uint32 from, uint32 to) constant returns (uint32[], uint32[], uint[]) {
+    function getPostScoresForForum(uint32 forumId, uint32 from, uint32 to) constant returns (uint32[], uint32[], uint[]) {
         
         Forum forum = forums[forumId];
         uint32[] memory upvotes = new uint32[](to - from);
@@ -222,8 +227,8 @@ contract EtherForum {
         uint32 downvoteCount;
         
         // The post's list of comments
-        //mapping(uint32 => Comment) comments;
-        //uint32 commentCount;
+        mapping(uint32 => Comment) comments;
+        uint32 commentCount;
     }
     
     // Post.create()
@@ -520,7 +525,361 @@ contract EtherForum {
         return post.downvoteCount;
     }
     
-    // TODO: Post.getCommentCount()
+    // Post.getCommentCount()
+    function getCommentCountOfPost(uint32 forumId, uint32 postId) constant returns (uint32) {
+        
+        Forum forum = forums[forumId];
+        Post post = forum.posts[postId];
+        return post.commentCount;
+    }
     
-    // TODO: Post.getCommentScores(from, to)
+    // Post.getCommentScores()
+    function getCommentScoresForPost(uint32 forumId, uint32 postId, uint32 from, uint32 to) constant returns (uint32[], uint32[]) {
+
+        Forum forum = forums[forumId];
+        Post post = forum.posts[postId];
+        uint32[] memory upvotes = new uint32[](to - from);
+        uint32[] memory downvotes = new uint32[](to - from);
+        for (uint32 i = from; i < to; i++) {
+            upvotes[i] = post.comments[i].upvoteCount;
+            downvotes[i] = post.comments[i].downvoteCount;
+        }
+        
+        return (upvotes, downvotes);
+    }
+
+    // Comment
+    struct Comment {
+        
+        // The comment's owner
+        address owner;
+        
+        // The comment's body
+        string body;
+        
+        // The comment's deleted flag
+        bool deleted;
+        
+        // The comment's list of upvotes
+        mapping(address => bool) upvotes;
+        uint32 upvoteCount;
+        
+        // The comment's list of downvotes
+        mapping(address => bool) downvotes;
+        uint32 downvoteCount;
+    }
+    
+    // Comment.create()
+    function createComment(uint32 forumId, uint32 postId, string commentBody) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        bytes memory commentBodyBytes = bytes(commentBody);
+        if (commentBodyBytes.length > 65535) {
+            // Throw if comment body too long - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[post.commentCount];
+        comment.owner = msg.sender;
+        comment.body = commentBody;
+        post.commentCount++;
+        
+        // Upvote the comment
+        upvoteComment(forumId, postId, post.commentCount-1);
+        
+        // Add the comment to the User's list
+        User user = users[msg.sender];
+        user.comments.push(UserComment(forumId, postId, post.commentCount-1));
+    }
+    
+    // Comment.edit()
+    function editComment(uint32 forumId, uint32 postId, uint32 commentId, string commentBody) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        if (commentId >= post.commentCount) {
+            // Throw if comment not created - not permitted
+            throw;
+        }
+        
+        Comment comment = post.comments[commentId];
+        if (comment.owner != msg.sender) {
+            // Throw if sender not comment owner - not permitted
+            throw;
+        }
+
+        if (comment.deleted) {
+            // Throw if comment deleted - not permitted
+            throw;
+        }
+        
+        bytes memory commentBodyBytes = bytes(commentBody);
+        if (commentBodyBytes.length > 65535) {
+            // Throw if comment body too long - not permitted
+            throw;
+        }
+        
+        comment.body = commentBody;
+    }
+    
+    // Comment.delete()
+    function deleteComment(uint32 forumId, uint32 postId, uint32 commentId) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        if (commentId >= post.commentCount) {
+            // Throw if comment not created - not permitted
+            throw;
+        }
+        
+        Comment comment = post.comments[commentId];
+        if (comment.owner != msg.sender) {
+            // Throw if sender not comment owner - not permitted
+            throw;
+        }
+        
+        if (comment.deleted) {
+            // Throw if comment already deleted - saves gas
+            throw;
+        }
+
+        comment.body = "-";
+        comment.deleted = true;
+    }
+    
+    // Comment.upvote()
+    function upvoteComment(uint32 forumId, uint32 postId, uint32 commentId) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        if (commentId >= post.commentCount) {
+            // Throw if comment not created - not permitted
+            throw;
+        }
+        
+        Comment comment = post.comments[commentId];
+        if (comment.upvotes[msg.sender]) {
+            // Throw if comment already upvoted by user - saves gas
+            throw;
+        }
+        
+        // If comment downvoted by user, remove downvote
+        if (comment.downvotes[msg.sender]) {
+            removeDownvoteFromComment(forumId, postId, commentId);
+        }
+        
+        comment.upvotes[msg.sender] = true;
+        comment.upvoteCount++;
+        
+        User user = users[comment.owner];
+        user.score++;
+    }
+    
+    // Comment.removeUpvote()
+    function removeUpvoteFromComment(uint32 forumId, uint32 postId, uint32 commentId) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        if (commentId >= post.commentCount) {
+            // Throw if comment not created - not permitted
+            throw;
+        }
+        
+        Comment comment = post.comments[commentId];
+        if (!comment.upvotes[msg.sender]) {
+            // Throw if comment not upvoted by user - saves gas
+            throw;
+        }
+        
+        comment.upvotes[msg.sender] = false;
+        comment.upvoteCount--;
+        
+        User user = users[comment.owner];
+        user.score--;
+    }
+    
+    // Comment.downvote()
+    function downvoteComment(uint32 forumId, uint32 postId, uint32 commentId) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        if (commentId >= post.commentCount) {
+            // Throw if comment not created - not permitted
+            throw;
+        }
+        
+        Comment comment = post.comments[commentId];
+        if (comment.downvotes[msg.sender]) {
+            // Throw if comment already downvoted by user - saves gas
+            throw;
+        }
+        
+        // If comment upvoted by user, remove upvote
+        if (comment.upvotes[msg.sender]) {
+            removeUpvoteFromComment(forumId, postId, commentId);
+        }
+        
+        comment.downvotes[msg.sender] = true;
+        comment.downvoteCount++;
+        
+        User user = users[comment.owner];
+        user.score--;
+    }
+    
+    // Comment.removeDownvote()
+    function removeDownvoteFromComment(uint32 forumId, uint32 postId, uint32 commentId) {
+        
+        if (forumId >= forumCount) {
+            // Throw if forum not created - not permitted
+            throw;
+        }
+        
+        Forum forum = forums[forumId];
+        if (postId >= forum.postCount) {
+            // Throw if post not created - not permitted
+            throw;
+        }
+        
+        Post post = forum.posts[postId];
+        if (commentId >= post.commentCount) {
+            // Throw if comment not created - not permitted
+            throw;
+        }
+        
+        Comment comment = post.comments[commentId];
+        if (!comment.downvotes[msg.sender]) {
+            // Throw if comment not downvoted by user - saves gas
+            throw;
+        }
+        
+        comment.downvotes[msg.sender] = false;
+        comment.downvoteCount--;
+        
+        User user = users[comment.owner];
+        user.score++;
+    }
+    
+    // Comment.getOwner()
+    function getOwnerOfComment(uint32 forumId, uint32 postId, uint32 commentId) constant returns (address) {
+
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.owner;
+    }
+        
+    // Comment.getBody()
+    function getBodyOfComment(uint32 forumId, uint32 postId, uint32 commentId) constant returns (string) {
+        
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.body;
+    }
+    
+    // Comment.isDeleted()
+    function isDeletedComment(uint32 forumId, uint32 postId, uint32 commentId) constant returns (bool) {
+        
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.deleted;
+    }
+    
+    // Comment.isUpvotedByUser()
+    function isCommentUpvotedByUser(uint32 forumId, uint32 postId, uint32 commentId) constant returns (bool) {
+        
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.upvotes[msg.sender];
+    }
+    
+    // Comment.getUpvoteCount()
+    function getUpvoteCountOfComment(uint32 forumId, uint32 postId, uint32 commentId) constant returns (uint32) {
+        
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.upvoteCount;
+    }
+    
+    // Comment.isDownvotedByUser()
+    function isCommentDownvotedByUser(uint32 forumId, uint32 postId, uint32 commentId) constant returns (bool) {
+        
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.downvotes[msg.sender];
+    }
+    
+    // Comment.getDownvoteCount()
+    function getDownvoteCountOfComment(uint32 forumId, uint32 postId, uint32 commentId) constant returns (uint32) {
+        
+        Forum forum = forums[forumId];        
+        Post post = forum.posts[postId];
+        Comment comment = post.comments[commentId];
+        return comment.downvoteCount;
+    }
 }

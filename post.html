@@ -33,6 +33,7 @@
 					<div id="content-main-text">Loading post...</div>
 					<footer id="content-footer">
 						<div id="content-footer-buttons">
+							<div class="content-footer-button"><a id="create_comment_button" href="#" onclick="createComment(getUrlParameter('forum_id'), getUrlParameter('post_id'))" style="visibility:hidden">Comment</a></div>
 							<div class="content-footer-button"><a id="edit_post_button" href="#" onclick="window.location.href='/editpost.html?forum_id=' + getUrlParameter(&#39;forum_id&#39;) + '&post_id=' + getUrlParameter(&#39;post_id&#39;)" style="visibility:hidden">Edit</a></div>
 							<div class="content-footer-button"><a id="delete_post_button" href="#" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'))" style="visibility:hidden">Delete</a></div>
 						</div>

@@ -1,5 +1,5 @@
-var contractAbi = [{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getTitleOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeUpvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getPostsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBodyOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getNameOfForum","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"postBody","type":"string"}],"name":"editPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getScoreForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getDownvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getOwnerOfPost","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postTitle","type":"string"},{"name":"postBody","type":"string"}],"name":"createPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getCommentsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getForumCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getUpvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBlockNumberOfPost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getPostCountOfForum","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createForum","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"deletePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getScoreForForum","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getPostByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isDeletedPost","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeDownvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"upvotePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getPostScores","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"},{"name":"","type":"uint256[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getForumScores","outputs":[{"name":"","type":"int32[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"downvotePost","outputs":[],"payable":false,"type":"function"}];
-var contractAddress = '0x2918a805D949a6e1142ec6C28C56Da407F5230dF';
+var contractAbi = [{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getTitleOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getOwnerOfComment","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"deleteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeUpvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getPostsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBodyOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getNameOfForum","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"postBody","type":"string"}],"name":"editPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getPostScoresForForum","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"},{"name":"","type":"uint256[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getCommentScoresForPost","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isCommentDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getScoreForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getDownvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"},{"name":"commentBody","type":"string"}],"name":"editComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getOwnerOfPost","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentBody","type":"string"}],"name":"createComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getBodyOfComment","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postTitle","type":"string"},{"name":"postBody","type":"string"}],"name":"createPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"removeDownvoteFromComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getCommentsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getForumCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getUpvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBlockNumberOfPost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getPostCountOfForum","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getUpvoteCountOfComment","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"}],"name":"createForum","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"deletePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getScoreForForum","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"removeUpvoteFromComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getPostByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getCommentCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isCommentUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"downvoteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"upvoteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isDeletedPost","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeDownvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"upvotePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getCommentByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getDownvoteCountOfComment","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isDeletedComment","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getForumScores","outputs":[{"name":"","type":"int32[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"downvotePost","outputs":[],"payable":false,"type":"function"}];
+var contractAddress = '0x1CdcB764Ab41b3CeA545d6aE9C0A394f94be5363';
 var contract;
 var currentUser;
 var showAllForums = false;
@@ -217,7 +217,7 @@ function showForumPage() {
 							} else {
 								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 							}
-							contract.getPostScores(forumIdParameter, 0, postCount, function(error, postScores) {
+							contract.getPostScoresForForum(forumIdParameter, 0, postCount, function(error, postScores) {
 								if (!error) {
 									web3.eth.getBlockNumber(function(error, currentBlockNumber) {
 										if (!error) {
@@ -467,6 +467,26 @@ function showPostPage() {
 																							$('#edit_post_button').prop('style', 'visibility:visible');
 																							$('#delete_post_button').prop('style', 'visibility:visible');
 																						}
+																						// TODO: do this here for now, where it should be?
+																						contract.getCommentCountOfPost(forumIdParameter, postIdParameter, function (error, commentCount) {
+																							if (!error) {
+																								contract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
+																									if (!error) {
+																										for(var i=0; i<commentCount; i++) {
+																											sortedListofIndexes[i] = i;
+																											}
+																										sortedListofIndexes.sort(function(a, b) {
+																											return commentScores[b] - commentScores[a];
+																										});
+																										displayPageOfPostComments();
+																									} else {
+																										console.error(error);
+																									}
+																								});
+																							} else {
+																								console.error(error);
+																							}
+																						});
 																					} else {
 																						console.error(error);
 																					}
@@ -511,6 +531,70 @@ function showPostPage() {
 				console.error(error);
 			}
 		});
+	}
+}
+
+function displayPageOfPostComments(forumId, postId) {
+	var from = latestListItemDisplayed;
+	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
+	if (to >= sortedListofIndexes.length) {
+		to = sortedListofIndexes.length;
+		// TODO: add a button!
+		$('#view_more_comments_button').prop('style', 'visibility:hidden');
+	} else {
+		// TODO: add a button!
+		$('#view_more_comments_button').prop('style', 'visibility:visible');
+	}
+	for(var i=from; i<to; i++) {
+		latestListItemDisplayed++;
+		(function(commentId) {
+			contract.isCommentUpvotedByUser(forumId, postId, sortedListofIndexes[commentId], function (error, isUpvoted) {
+				if (!error) {
+					contract.isCommentDownvotedByUser(forumId, postId, sortedListofIndexes[commentId], function (error, isDownvoted) {
+						if (!error) {
+							contract.getUpvoteCountOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, upvoteCount) {
+								if (!error) {
+									contract.getDownvoteCountOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, downvoteCount) {
+										if (!error) {
+											contract.isDeletedComment(forumId, postId, sortedListofIndexes[commentId], function (error, isDeletedComment) {
+												if (!error) {
+													contract.getBodyOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentBody) {
+														if (!error) {
+															contract.getOwnerOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentOwner) {
+																if (!error) {
+																	// TODO: loading comments!
+																	$('#loading-comments').remove();
+																	// TODO: put this in proper comment place!
+																	$('#content-main-titles').append(displayComment(forumId, postId, sortedListofIndexes[commentId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, commentBody, commentOwner));
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
+				} else {
+					console.error(error);
+				}
+			});
+		})(i);
 	}
 }
 
@@ -688,6 +772,11 @@ function editPost(forumId, postId) {
 	}
 }
 
+function createComment(forumId, postId) {
+	// TODO: proper create comment
+	contract.createComment(forumId, postId, "An example comment (here)[http://www.bbc.co.uk]", void_callback);
+}
+
 function deletePost(forumId, postId) {
 	contract.deletePost(forumId, postId, void_callback);
 }
@@ -764,6 +853,58 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
 		div2.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
 		div2.append($('<a href="#" onClick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
+	}
+	h1.append(div2);
+	return h1;
+}
+
+function displayCommentUpvote(forumId, postId, commentId, isUpvoted) {
+	if (!isUpvoted) {
+		return $('<a href="#" onclick="contract.upvoteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback)"><img src="/images/upvote.png"/></a>');
+	} else {
+		return $('<a href="#" onclick="contract.removeUpvoteFromComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback)"><img src="/images/upvoted.png"/></a>');
+	}
+}
+
+function displayCommentDownvote(forumId, postId, commentId, isDownvoted) {
+	if (!isDownvoted) {
+		return $('<a href="#" onclick="contract.downvoteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback)"><img src="/images/downvote.png"/></a>');
+	} else {
+		return $('<a href="#" onclick="contract.removeDownvoteFromComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback)"><img src="/images/downvoted.png"/></a>');
+	}
+}
+
+function displayCommentScore(upvoteCount, downvoteCount) {
+	var score = upvoteCount - downvoteCount;
+	// TODO: post vote score??? - make generic or keep this function twice??
+	var div = $('<div class="post-vote-score">' + score + '</div>');
+	if (score > 0) {
+		div.prop('style', 'color:green');
+	} else if (score < 0) {
+		div.prop('style', 'color:red');
+	}
+	return div;
+}
+
+function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedComment, commentBody, commentOwner) {
+	if (isDeletedComment) {
+		CommentBody = '[DELETED]';
+	}
+	var h1 = $('<h1/>');
+	// TODO: post vost?
+	var div1 = $('<div class="post-vote"/>');
+	div1.append(displayCommentUpvote(forumId, postId, commentId, isUpvoted));
+	div1.append(displayCommentScore(upvoteCount, downvoteCount));
+	div1.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
+	h1.append(div1);
+	h1.append($(new showdown.Converter().makeHtml(commentBody)));
+	// TODO: post info?
+	var div2 = $('<div class="post-info"/>');
+	div2.append(displayUser(commentOwner));
+	if (commentOwner === currentUser) {
+		// TODO: edit???
+		div2.append($('<a href="#" onClick="createComment(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
+		div2.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 	}
 	h1.append(div2);
 	return h1;
