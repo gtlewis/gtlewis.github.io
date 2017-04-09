@@ -566,7 +566,7 @@ function displayPageOfPostComments(forumId, postId) {
 																	// TODO: loading comments!
 																	$('#loading-comments').remove();
 																	// TODO: put this in proper comment place!
-																	$('#content-main-titles').append(displayComment(forumId, postId, sortedListofIndexes[commentId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, commentBody, commentOwner));
+																	$('#content-main-titles').append(displayComment(forumId, postId, sortedListofIndexes[commentId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedComment, commentBody, commentOwner));
 																} else {
 																	console.error(error);
 																}
