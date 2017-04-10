@@ -775,7 +775,7 @@ function editPost(forumId, postId) {
 	}
 }
 
-function createComment(forumId, postId) {
+function createComment_(forumId, postId) {
 	// TODO: proper create comment
 	contract.createComment(forumId, postId, 'An example comment [here](http://www.bbc.co.uk)', void_callback);
 }
