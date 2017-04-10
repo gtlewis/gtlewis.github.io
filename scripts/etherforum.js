@@ -906,7 +906,7 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	div2.append(displayUser(commentOwner));
 	if (!isDeletedComment && commentOwner === currentUser) {
 		// TODO: edit???
-		div2.append($('<a href="#" onClick="createComment(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
+		div2.append($('<a href="#" onClick="createComment_(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
 		div2.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 	}
 	h1.append(div2);
