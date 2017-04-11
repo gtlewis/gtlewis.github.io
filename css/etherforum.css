@@ -76,7 +76,7 @@ p {
 
 .inner:after,
 #header-buttons:after,
-#content-footer-buttons:after {
+.content-footer-buttons:after {
 	content: " ";
 	display: table;
 	clear: both;
@@ -306,7 +306,7 @@ p {
 	color: #20b2aa;
 }
 
-#content-footer {
+.content-footer {
 	background: #f7f7f7;
 	border: solid 1px #eee;
 	border-radius: 3px;
@@ -316,17 +316,17 @@ p {
 	padding: 8px 3px;
 }
 
-#content-footer a {
+.content-footer a {
 	color: inherit;
 	text-decoration: none;
 }
 
-#content-footer a:hover,
-#content-footer a:active {
+.content-footer a:hover,
+.content-footer a:active {
 	color: #20b2aa;
 }
 
-#content-footer-buttons {
+.content-footer-buttons {
 	display: block;
 	margin: 0 0 0 0;
 	padding-top: 1px;
@@ -339,6 +339,24 @@ p {
 	padding-right: 15px;
 	text-align: left;
 	white-space: nowrap;
+}
+
+.comment-body {
+	font-size: 1.125rem;
+	margin-left: 30px;
+	margin-right: 0px;
+	margin-top: 1em;
+	margin-bottom: 2.2rem;
+	word-wrap: break-word;
+}
+
+.comment-body a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.comment-body a:hover {
+	color: #20b2aa;
 }
 
 #content-error {
