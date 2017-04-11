@@ -468,28 +468,6 @@ function showPostPage() {
 																							$('#edit_post_button').prop('style', 'visibility:visible');
 																							$('#delete_post_button').prop('style', 'visibility:visible');
 																						}
-																						// TODO: do this here for now, where it should be?
-																						contract.getCommentCountOfPost(forumIdParameter, postIdParameter, function (error, commentCount) {
-																							if (!error) {
-																								contract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
-																									if (!error) {
-																										var upvotes = commentScores[0];
-																										var downvotes = commentScores[1];
-																										for(var i=0; i<commentCount; i++) {
-																											sortedListofIndexes[i] = i;
-																											}
-																										sortedListofIndexes.sort(function(a, b) {
-																											return (upvotes[b] - downvotes[b]) - (upvotes[a] - downvotes[a]);
-																										});
-																										displayPageOfPostComments(forumIdParameter, postIdParameter);
-																									} else {
-																										console.error(error);
-																									}
-																								});
-																							} else {
-																								console.error(error);
-																							}
-																						});
 																					} else {
 																						console.error(error);
 																					}
@@ -497,6 +475,33 @@ function showPostPage() {
 																			} else {
 																				$('#content-main-text').html('[DELETED BY OWNER]');
 																			}
+																			contract.getCommentCountOfPost(forumIdParameter, postIdParameter, function (error, commentCount) {
+																				if (!error) {
+																					$('#comments').empty();
+																					if (commentCount == 0) {
+																						$('#comments').append('<div class="comment-body" id="loading-comments">No comments yet</div>');
+																					} else {
+																						$('#comments').append('<div class="comment-body" id="loading-comments">Loading comments...</div>');
+																					}
+																					contract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
+																						if (!error) {
+																							var upvotes = commentScores[0];
+																							var downvotes = commentScores[1];
+																							for(var i=0; i<commentCount; i++) {
+																								sortedListofIndexes[i] = i;
+																							}
+																							sortedListofIndexes.sort(function(a, b) {
+																								return (upvotes[b] - downvotes[b]) - (upvotes[a] - downvotes[a]);
+																							});
+																							displayPageOfPostComments(forumIdParameter, postIdParameter);
+																						} else {
+																							console.error(error);
+																						}
+																					});
+																				} else {
+																					console.error(error);
+																				}
+																			});
 																		} else {
 																			console.error(error);
 																		}
@@ -529,6 +534,7 @@ function showPostPage() {
 					$('#header-main-text').html('Forum not found');
 					$('#content-main-titles').html('<h1>Post not found</h1>');
 					$('#content-main-text').html('Post not found');
+					$('#comments').html('<div class="comment-body">No comments found</div>');
 				}
 			} else {
 				console.error(error);
@@ -542,10 +548,8 @@ function displayPageOfPostComments(forumId, postId) {
 	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
 	if (to >= sortedListofIndexes.length) {
 		to = sortedListofIndexes.length;
-		// TODO: add a button!
 		$('#view_more_comments_button').prop('style', 'visibility:hidden');
 	} else {
-		// TODO: add a button!
 		$('#view_more_comments_button').prop('style', 'visibility:visible');
 	}
 	for(var i=from; i<to; i++) {
@@ -565,10 +569,8 @@ function displayPageOfPostComments(forumId, postId) {
 														if (!error) {
 															contract.getOwnerOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentOwner) {
 																if (!error) {
-																	// TODO: loading comments!
 																	$('#loading-comments').remove();
-																	// TODO: put this in proper comment place!
-																	$('#content-main-titles').append(displayComment(forumId, postId, sortedListofIndexes[commentId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedComment, commentBody, commentOwner));
+																	$('#comments').append(displayComment(forumId, postId, sortedListofIndexes[commentId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedComment, commentBody, commentOwner));
 																} else {
 																	console.error(error);
 																}

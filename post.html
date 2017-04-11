@@ -38,7 +38,9 @@
 							<div class="content-footer-button"><a id="delete_post_button" href="#" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;" style="visibility:hidden">Delete</a></div>
 						</div>
 					</footer>
-					<div class="comment-body">Loading comments...</div>
+					<div id="comments">
+						<div class="comment-body">Loading comments...</div>
+					</div>
 					<footer class="content-footer">
 						<div class="content-footer-buttons">
 							<div class="content-footer-button" style="float:right"><a id="view_more_comments_button" href="#" onclick="displayPageOfPostComments(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;" style="visibility:hidden">View more comments</a></div>
