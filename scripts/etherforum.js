@@ -479,9 +479,9 @@ function showPostPage() {
 																				if (!error) {
 																					$('#comments').empty();
 																					if (commentCount == 0) {
-																						$('#comments').append('<div class="comment-body" id="loading-comments">No comments yet</div>');
+																						$('#comments').append('<div class="comment-status" id="loading-comments">No comments yet</div>');
 																					} else {
-																						$('#comments').append('<div class="comment-body" id="loading-comments">Loading comments...</div>');
+																						$('#comments').append('<div class="comment-status" id="loading-comments">Loading comments...</div>');
 																					}
 																					contract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
 																						if (!error) {
@@ -534,7 +534,7 @@ function showPostPage() {
 					$('#header-main-text').html('Forum not found');
 					$('#content-main-titles').html('<h1>Post not found</h1>');
 					$('#content-main-text').html('Post not found');
-					$('#comments').html('<div class="comment-body">No comments found</div>');
+					$('#comments').html('<div class="comment-status">No comments found</div>');
 				}
 			} else {
 				console.error(error);
