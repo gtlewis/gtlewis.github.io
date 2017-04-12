@@ -881,8 +881,7 @@ function displayCommentDownvote(forumId, postId, commentId, isDownvoted) {
 
 function displayCommentScore(upvoteCount, downvoteCount) {
 	var score = upvoteCount - downvoteCount;
-	// TODO: post vote score??? - make generic or keep this function twice??
-	var div = $('<div class="post-vote-score">' + score + '</div>');
+	var div = $('<div class="comment-vote-score">' + score + '</div>');
 	if (score > 0) {
 		div.prop('style', 'color:green');
 	} else if (score < 0) {
@@ -895,24 +894,22 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	if (isDeletedComment) {
 		commentBody = '[DELETED]';
 	}
-	var h1 = $('<h1/>');
-	// TODO: post vost?
-	var div1 = $('<div class="post-vote"/>');
-	div1.append(displayCommentUpvote(forumId, postId, commentId, isUpvoted));
-	div1.append(displayCommentScore(upvoteCount, downvoteCount));
-	div1.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
-	h1.append(div1);
-	h1.append($(new showdown.Converter().makeHtml(commentBody)));
-	// TODO: post info?
-	var div2 = $('<div class="post-info"/>');
-	div2.append(displayUser(commentOwner));
+	var div1 = $('<div class="comment-body"/>');
+	var div2 = $('<div class="comment-vote"/>');
+	div2.append(displayCommentUpvote(forumId, postId, commentId, isUpvoted));
+	div2.append(displayCommentScore(upvoteCount, downvoteCount));
+	div2.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
+	div1.append(div2);
+	div1.append($(new showdown.Converter().makeHtml(commentBody)));
+	var div3 = $('<div class="comment-info"/>');
+	div3.append(displayUser(commentOwner));
 	if (!isDeletedComment && commentOwner === currentUser) {
 		// TODO: edit???
-		div2.append($('<a href="#" onClick="createComment_(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
-		div2.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div3.append($('<a href="#" onClick="createComment_(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
+		div3.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 	}
-	h1.append(div2);
-	return h1;
+	div1.append(div3);
+	return div1;
 }
 
 function void_callback(error, result) {
