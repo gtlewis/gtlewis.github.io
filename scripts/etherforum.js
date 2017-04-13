@@ -781,7 +781,14 @@ function submitComment(forumId, postId) {
 	$('#create-comment-error').prop('style', 'visibility:hidden');
 	var commentBody = $('#create-comment-text').val();
 	if  (commentBody.length <= 65536) {
-		contract.createComment(forumId, postId, commentBody, void_callback);
+		contract.createComment(forumId, postId, commentBody, function (error, result) {
+			if (!error) {
+				$('#create-comment').prop('style', 'display:none');
+				$('#create-comment-text').val('');
+			} else {
+				console.error(error);
+			}
+		});
 	} else {
 		var errorText = 'Comment too long';
 		$('#create-comment-error').text(errorText);
