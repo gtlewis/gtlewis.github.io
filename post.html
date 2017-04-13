@@ -38,6 +38,14 @@
 							<div class="content-footer-button"><a id="delete_post_button" href="#" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;" style="visibility:hidden">Delete</a></div>
 						</div>
 					</footer>
+					<div id="create-comment" class="comment-body" style="display:none">
+						<textarea id="create-comment-text" rows="3" placeholder="Edit comment"></textarea>
+						<div class="comment-info">
+							<a href="#">Submit</a>
+							<a href="#">Cancel</a>
+							<div class="comment-error">Error</div>
+						</div>
+					</div>
 					<div id="comments">
 						<div class="comment-status">Loading comments...</div>
 					</div>

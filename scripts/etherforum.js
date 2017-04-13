@@ -778,8 +778,9 @@ function editPost(forumId, postId) {
 }
 
 function createComment_(forumId, postId) {
+	$('#create-comment').prop('style', 'display:block');
 	// TODO: proper create comment
-	contract.createComment(forumId, postId, 'An example comment [here](http://www.bbc.co.uk)', void_callback);
+	//contract.createComment(forumId, postId, 'An example comment [here](http://www.bbc.co.uk)', void_callback);
 }
 
 function deletePost(forumId, postId) {
