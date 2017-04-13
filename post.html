@@ -33,7 +33,7 @@
 					<div id="content-main-text">Loading post...</div>
 					<footer class="content-footer">
 						<div class="content-footer-buttons">
-							<div class="content-footer-button"><a id="create_comment_button" href="#" onclick="createComment_(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;" style="visibility:hidden">Comment</a></div>
+							<div class="content-footer-button"><a id="create_comment_button" href="#" onclick="$('#create-comment').prop('style', 'display:block');return false;" style="visibility:hidden">Comment</a></div>
 							<div class="content-footer-button"><a id="edit_post_button" href="#" onclick="window.location.href='/editpost.html?forum_id=' + getUrlParameter(&#39;forum_id&#39;) + '&post_id=' + getUrlParameter(&#39;post_id&#39;)" style="visibility:hidden">Edit</a></div>
 							<div class="content-footer-button"><a id="delete_post_button" href="#" onclick="deletePost(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;" style="visibility:hidden">Delete</a></div>
 						</div>
@@ -41,9 +41,9 @@
 					<div id="create-comment" class="comment-body" style="display:none">
 						<textarea id="create-comment-text" class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>
 						<div class="edit-comment-info">
-							<a href="#">Submit</a>
-							<a href="#">Cancel</a>
-							<div class="edit-comment-error">Error</div>
+							<a id="submit_comment_button" href="#" onclick="submitComment(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;">Submit</a>
+							<a id="cancel_button" href="#" onclick="$('create-comment-text').val('');$('#create-comment-error').prop('style', 'visibility:hidden');$('#create-comment').prop('style', 'display:none');return false;">Cancel</a>
+							<div id="create-comment-error" class="edit-comment-error">Error</div>
 						</div>
 					</div>
 					<div id="comments">

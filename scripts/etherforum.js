@@ -777,10 +777,16 @@ function editPost(forumId, postId) {
 	}
 }
 
-function createComment_(forumId, postId) {
-	$('#create-comment').prop('style', 'display:block');
-	// TODO: proper create comment
-	//contract.createComment(forumId, postId, 'An example comment [here](http://www.bbc.co.uk)', void_callback);
+function submitComment(forumId, postId) {
+	$('#create-comment-error').prop('style', 'visibility:hidden');
+	var commentBody = $('#create-comment-text').val();
+	if  (commentBody.length <= 65536) {
+		contract.createComment(forumId, postId, commentBody, void_callback);
+	} else {
+		var errorText = 'Comment too long';
+		$('#create-comment-error').text(errorText);
+		$('#create-comment-error').prop('style', 'visibility:visible');
+	}
 }
 
 function deletePost(forumId, postId) {
