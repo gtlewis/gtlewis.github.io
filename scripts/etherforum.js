@@ -926,8 +926,8 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 		// TODO: edit???
 		div4.append($('<a href="#" onClick="createComment_(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
 		div4.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		div2.append($('<textarea class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>'));
 		var div5 = $('<div class="comment-body"/>');
+		div5.append($('<textarea class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>'));
 		var div6 = $('<div class="edit-comment-info"/>');
 		div6.append($('<a href="#" onclick="TODO;return false;">Submit</a>'));
 		div6.append($('<a href="#" onclick="TODO;return false;">Cancel</a>'));
