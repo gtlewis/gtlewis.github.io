@@ -41,7 +41,7 @@
 					<div id="create-comment" class="comment-body" style="display:none">
 						<textarea id="create-comment-text" class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>
 						<div class="edit-comment-info">
-							<a id="submit_comment_button" href="#" onclick="submitComment(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;">Submit</a>
+							<a id="submit_comment_button" href="#" onclick="createComment_(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;">Submit</a>
 							<a id="cancel_button" href="#" onclick="$('#create-comment-text').val('');$('#create-comment-error').prop('style', 'visibility:hidden');$('#create-comment').prop('style', 'display:none');return false;">Cancel</a>
 							<div id="create-comment-error" class="edit-comment-error">Error</div>
 						</div>

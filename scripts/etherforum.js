@@ -777,7 +777,7 @@ function editPost(forumId, postId) {
 	}
 }
 
-function submitComment(forumId, postId) {
+function createComment_(forumId, postId) {
 	$('#create-comment-error').prop('style', 'visibility:hidden');
 	var commentBody = $('#create-comment-text').val();
 	if  (commentBody.length > 0 && commentBody.length <= 65536) {
@@ -797,6 +797,29 @@ function submitComment(forumId, postId) {
 		}
 		$('#create-comment-error').text(errorText);
 		$('#create-comment-error').prop('style', 'visibility:visible');
+	}
+}
+
+function editComment(forumId, postId, commentId) {
+	$('#edit-comment-error-' + commentId).prop('style', 'visibility:hidden');
+	var commentBody = $('#edit-comment-text-' + commentId).val();
+	if  (commentBody.length > 0 && commentBody.length <= 65536) {
+		contract.editComment(forumId, postId, commentId, commentBody, function (error, result) {
+			if (!error) {
+				$('#edit-comment-body-' + commentId).prop('style', 'display:none');
+				$('#comment-body-' + commentId).prop('style', 'display:block');
+			} else {
+				console.error(error);
+			}
+		});
+	} else {
+		if (commentBody.length > 65536) {
+			var errorText = 'Comment too long';
+		} else {
+			var errorText = 'Comment is empty';
+		}
+		$('#edit-comment-error-' + commentId).text(errorText);
+		$('#edit-comment-error-' + commentId).prop('style', 'visibility:visible');
 	}
 }
 
@@ -926,12 +949,12 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 		div4.append($('<a href="#" onClick="$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
 		div4.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 		var div5 = $('<div id="edit-comment-body-' + commentId + '" class="comment-body" style="display:none"/>');
-		div5.append($('<textarea id="edit-comment-text-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>'));
+		div5.append($('<textarea id="edit-comment-text-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
 		var div6 = $('<div class="edit-comment-info"/>');
-		div6.append($('<a href="#" onclick="TODO;return false;">Submit</a>'));
-		div6.append($('<a href="#" onclick="$(&#39#edit-comment-text-' + commentId + '&#39).val(&#39&#39);$(&#39#edit-comment-error-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);return false;">Cancel</a>'));
+		div6.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
+		div6.append($('<a href="#" onclick="$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-text-' + commentId + '&#39).val(' + commentBody + ');$(&#39#edit-comment-error-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
 		div6.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		div7 = $('<div class="edit-comment-error-' + commentId + '">Error</div>');
+		div7 = $('<div id="edit-comment-error-' + commentId + '" class="edit-comment-error">Error</div>');
 		div6.append(div7);
 		div5.append(div6);
 		div1.append(div5);
