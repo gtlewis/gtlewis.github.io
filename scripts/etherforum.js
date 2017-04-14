@@ -952,7 +952,7 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 		div5.append($('<textarea id="edit-comment-text-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
 		var div6 = $('<div class="edit-comment-info"/>');
 		div6.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
-		div6.append($('<a href="#" onclick="$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-text-' + commentId + '&#39).val(' + commentBody + ');$(&#39#edit-comment-error-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
+		div6.append($('<a href="#" onclick="$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-error-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
 		div6.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 		div7 = $('<div id="edit-comment-error-' + commentId + '" class="edit-comment-error">Error</div>');
 		div6.append(div7);
