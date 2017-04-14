@@ -790,7 +790,7 @@ function submitComment(forumId, postId) {
 			}
 		});
 	} else {
-		if (postBody.length > 65536) {
+		if (commentBody.length > 65536) {
 			var errorText = 'Comment too long';
 		} else {
 			var errorText = 'Comment is empty';
