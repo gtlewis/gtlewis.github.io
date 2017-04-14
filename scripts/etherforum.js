@@ -912,29 +912,33 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	if (isDeletedComment) {
 		commentBody = '[DELETED]';
 	}
-	var div1 = $('<div class="comment-body"/>');
-	var div2 = $('<div class="comment-vote"/>');
-	div2.append(displayCommentUpvote(forumId, postId, commentId, isUpvoted));
-	div2.append(displayCommentScore(upvoteCount, downvoteCount));
-	div2.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
-	div1.append(div2);
-	div1.append($(new showdown.Converter().makeHtml(commentBody)));
-	var div3 = $('<div class="comment-info"/>');
-	div3.append(displayUser(commentOwner));
+	var div1 = $('<div/>');
+	var div2 = $('<div class="comment-body"/>');
+	var div3 = $('<div class="comment-vote"/>');
+	div3.append(displayCommentUpvote(forumId, postId, commentId, isUpvoted));
+	div3.append(displayCommentScore(upvoteCount, downvoteCount));
+	div3.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
+	div2.append(div3);
+	div2.append($(new showdown.Converter().makeHtml(commentBody)));
+	var div4 = $('<div class="comment-info"/>');
+	div4.append(displayUser(commentOwner));
 	if (!isDeletedComment && commentOwner === currentUser) {
 		// TODO: edit???
-		div3.append($('<a href="#" onClick="createComment_(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
-		div3.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		div1.append($('<textarea class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>'));
-		var div4 = $('<div class="edit-comment-info"/>');
-		div4.append($('<a href="#" onclick="TODO;return false;">Submit</a>'));
-		div4.append($('<a href="#" onclick="TODO;return false;">Cancel</a>'));
-		div4.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		div5 = $('<div class="edit-comment-error">Error</div>');
-		div4.append(div5);
-		div1.append(div4);
+		div4.append($('<a href="#" onClick="createComment_(' + forumId + ', ' + postId + ');return false;">Edit</a>'));
+		div4.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div2.append($('<textarea class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>'));
+		var div5 = $('<div class="comment-body"/>');
+		var div6 = $('<div class="edit-comment-info"/>');
+		div6.append($('<a href="#" onclick="TODO;return false;">Submit</a>'));
+		div6.append($('<a href="#" onclick="TODO;return false;">Cancel</a>'));
+		div6.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div7 = $('<div class="edit-comment-error">Error</div>');
+		div6.append(div7);
+		div5.append(div6);
+		div1.append(div5);
 	}
-	div1.append(div3);
+	div2.append(div4);
+	div1.append(div2);
 	return div1;
 }
 
