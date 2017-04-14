@@ -780,7 +780,7 @@ function editPost(forumId, postId) {
 function submitComment(forumId, postId) {
 	$('#create-comment-error').prop('style', 'visibility:hidden');
 	var commentBody = $('#create-comment-text').val();
-	if  (commentBody.length <= 65536) {
+	if  (commentBody.length > 0 && commentBody.length <= 65536) {
 		contract.createComment(forumId, postId, commentBody, function (error, result) {
 			if (!error) {
 				$('#create-comment').prop('style', 'display:none');
@@ -790,7 +790,11 @@ function submitComment(forumId, postId) {
 			}
 		});
 	} else {
-		var errorText = 'Comment too long';
+		if (postBody.length > 65536) {
+			var errorText = 'Comment too long';
+		} else {
+			var errorText = 'Comment is empty';
+		}
 		$('#create-comment-error').text(errorText);
 		$('#create-comment-error').prop('style', 'visibility:visible');
 	}
