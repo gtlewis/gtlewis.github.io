@@ -339,30 +339,62 @@ function showUserPage() {
 		document.title = '<Ether>Forum - ' + userParameter;
 		contract.getScoreForUser(userParameter, function (error, score) {
 			if (!error) {
-				$('#header-main-text').html('Posts by User');
+				if (!showUserComments) {
+					$('#header-main-text').html('Posts by User');
+					$('#show_posts_or_comments_button').text('Show Comments');
+				} else {
+					$('#header-main-text').html('Comments by User');
+					$('#show_posts_or_comments_button').text('Show Posts');
+				}
 				var user = displayUser(userParameter);
 				user.prop('href', 'https://etherchain.org/account/' + userParameter);
 				$('#header-main-text').append(user);
 				var score = displayScore(score);
 				score.prop('style', 'margin-top:5px; border-color:#888888');
 				$('#header-main-text').append(score);
-				contract.getPostsLengthForUser(userParameter, function (error, postCount) {
-					if (!error) {
-						$('#content-main-titles').empty();
-						if (postCount == 0) {
-							$('#content-main-titles').append('<h1 id="loading-posts">No posts found</h1>');
+				if (!showUserComments) {
+					contract.getPostsLengthForUser(userParameter, function (error, postCount) {
+						if (!error) {
+							$('#content-main-titles').empty();
+							$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
+							$('#view_more_posts_or_comments_button').text('View more posts');
+							if (postCount == 0) {
+								$('#content-main-titles').append('<h1 id="loading-posts">No posts found</h1>');
+							} else {
+								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
+							}
+							var index = 0;
+							for(var i=postCount-1; i>=0; i--) {
+								sortedListofIndexes[index++] = i;
+							}
+							displayPageOfUserPosts(userParameter);
 						} else {
-							$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
+							console.error(error);
 						}
-						var index = 0;
-						for(var i=postCount-1; i>=0; i--) {
-							sortedListofIndexes[index++] = i;
+					});
+				} else {
+					contract.getCommentsLengthForUser(userParameter, function (error, commentCount) {
+						if (!error) {
+							$('#content-main-titles').empty();
+							$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
+							$('#view_more_posts_or_comments_button').text('View more comments');
+							if (commentCount == 0) {
+								$('#content-main-titles').append('<h1 id="loading-posts">No comments found</h1>');
+							} else {
+								$('#content-main-titles').append('<h1 id="loading-posts">Loading comments...</h1>');
+							}
+							var index = 0;
+							for(var i=commentCount-1; i>=0; i--) {
+								sortedListofIndexes[index++] = i;
+							}
+							displayPageOfUserComments(userParameter);
+						} else {
+							console.error(error);
 						}
-						displayPageOfUserPosts(userParameter);
-					} else {
-						console.error(error);
-					}
-				});
+					});
+				}
+				$('#show_posts_or_comments_button').parent().prop('style', 'margin-left:15px');
+				$('#show_posts_or_comments_button').prop('style', 'display:block');
 			} else {
 				console.error(error);
 			}
@@ -435,6 +467,8 @@ function displayPageOfUserPosts(user) {
 		})(i);
 	}
 }
+
+function displayPageOfUserComments(user) {}
 
 function showPostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
@@ -838,7 +872,7 @@ function deletePost(forumId, postId) {
 function displayUser(user) {
 	var blockie = blockies.create({seed:user, size:8, scale:3});
 	blockie.setAttribute('class', 'user');
-	var link = $('<a href="/posts.html?user=' + user + '" title="' + user + '"/>');
+	var link = $('<a href="/user.html?user=' + user + '" title="' + user + '"/>');
 	link.append(blockie);
 	return link;
 }
