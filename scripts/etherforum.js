@@ -407,9 +407,9 @@ function displayPageOfUserPosts(user) {
 	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
 	if (to >= sortedListofIndexes.length) {
 		to = sortedListofIndexes.length;
-		$('#view_more_posts_button').prop('style', 'visibility:hidden');
+		$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
 	} else {
-		$('#view_more_posts_button').prop('style', 'visibility:visible');
+		$('#view_more_posts_or_comments_button').prop('style', 'visibility:visible');
 	}
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
