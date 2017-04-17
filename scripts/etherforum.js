@@ -503,8 +503,8 @@ function displayPageOfUserComments(user) {
 																							contract.getBodyOfComment(userComment[0], userComment[1], userComment[2], function (error, commentBody) {
 																								if (!error) {
 																									$('#loading-posts').remove();
-																									$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, 99, 99, isDeletedPost, postTitle, forumName, postOwner, true, true, false));
-																									$('#content-main-titles').append(displayComment(userComment[0], userComment[1], userComment[2], isUpvotedComment, isDownvotedComment, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
+																									$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, 99, 999, isDeletedPost, postTitle, forumName, postOwner, true, true, false));
+																									$('#content-main-titles').append(displayComment(userComment[0], userComment[1], userComment[2], isCommentUpvoted, isCommentDownvoted, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
 																								} else {
 																									console.error(error);
 																								}
