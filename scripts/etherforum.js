@@ -890,11 +890,11 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	h1.append(div1);
 	h1.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
 	var div2 = $('<div class="post-info"/>');
-	if (isDisplayForum) {
-		div2.append(displayForum(forumId, forumName));
-	}
 	if (isDisplayUser) {
 		div2.append(displayUser(postOwner));
+	}
+	if (isDisplayForum) {
+		div2.append(displayForum(forumId, forumName));
 	}
 	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
 		div2.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
