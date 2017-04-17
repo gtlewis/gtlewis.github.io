@@ -398,7 +398,7 @@ function displayPageOfUserPosts(user) {
 																	contract.getNameOfForum(userPost[0], function (error, forumName) {
 																		if (!error) {
 																			$('#loading-posts').remove();
-																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, false, true));
+																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, true, true));
 																		} else {
 																			console.error(error);
 																		}
