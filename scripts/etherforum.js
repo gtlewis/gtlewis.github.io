@@ -3,6 +3,7 @@ var contractAddress = '0x1CdcB764Ab41b3CeA545d6aE9C0A394f94be5363';
 var contract;
 var currentUser;
 var showAllForums = false;
+var showUserComments = false;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
 var LIST_PAGE_SIZE = 2;
@@ -28,8 +29,8 @@ window.addEventListener('load', function() {
 				} else if (current_page === 'forum') {
 					showForumPage();
 					var sidebarPost = 1;
-				} else if (current_page === 'posts') {
-					showPostsPage();
+				} else if (current_page === 'user') {
+					showUserPage();
 					var sidebarPost = 2;
 				} else if (current_page === 'post') {
 					showPostPage();
@@ -332,7 +333,7 @@ function displayPageOfForumPosts(forumId) {
 	}
 }
 
-function showPostsPage() {
+function showUserPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = '<Ether>Forum - ' + userParameter;
@@ -737,6 +738,13 @@ function subscribe(forumId) {
 
 function unsubscribe(forumId) {
 	contract.unsubscribeUser(forumId, void_callback);
+}
+
+function showUserPostsOrComments() {
+	showUserComments = !showUserComments;
+	sortedListofIndexes = [];
+	latestListItemDisplayed = 0;
+	showUserPage();
 }
 
 function createPost(forumId) {
