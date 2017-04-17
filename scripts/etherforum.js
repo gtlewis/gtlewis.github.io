@@ -413,8 +413,8 @@ function displayPageOfUserPosts(user) {
 	}
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
-		(function(postId) {
-			contract.getPostByUser(user, sortedListofIndexes[postId], function (error, userPost) {
+		(function(index) {
+			contract.getPostByUser(user, sortedListofIndexes[index], function (error, userPost) {
 				if (!error) {
 					contract.isPostUpvotedByUser(userPost[0], userPost[1], function (error, isUpvoted) {
 						if (!error) {
@@ -468,7 +468,90 @@ function displayPageOfUserPosts(user) {
 	}
 }
 
-function displayPageOfUserComments(user) {}
+function displayPageOfUserComments(user) {
+	var from = latestListItemDisplayed;
+	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
+	if (to >= sortedListofIndexes.length) {
+		to = sortedListofIndexes.length;
+		$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
+	} else {
+		$('#view_more_posts_or_comments_button').prop('style', 'visibility:visible');
+	}
+	for(var i=from; i<to; i++) {
+		latestListItemDisplayed++;
+		(function(index) {
+			contract.getCommentByUser(user, sortedListofIndexes[index], function (error, userComment) {
+				if (!error) {
+					contract.isDeletedPost(userPost[0], userPost[1], function (error, isDeletedPost) {
+						if (!error) {
+							contract.getTitleOfPost(userPost[0], userPost[1], function (error, postTitle) {
+								if (!error) {
+									contract.getOwnerOfPost(userPost[0], userPost[1], function (error, postOwner) {
+										if (!error) {
+											contract.getNameOfForum(userPost[0], function (error, forumName) {
+												if (!error) {
+													contract.isCommentUpvotedByUser(userPost[0], userPost[1], userPost[2], function (error, isCommentUpvoted) {
+														if (!error) {
+															contract.isCommentDownvotedByUser(userPost[0], userPost[1], userPost[2], function (error, isCommentDownvoted) {
+																if (!error) {
+																	contract.getUpvoteCountOfComment(userPost[0], userPost[1], userPost[2], function (error, upvoteCountOfComment) {
+																		if (!error) {
+																			contract.getDownvoteCountOfComment(userPost[0], userPost[1], userPost[2], function (error, downvoteCountOfComment) {
+																				if (!error) {
+																					contract.isDeletedComment(userPost[0], userPost[1], userPost[2], function (error, isDeletedComment) {
+																						if (!error) {
+																							contract.getBodyOfComment(userPost[0], userPost[1], userPost[2], function (error, commentBody) {
+																								if (!error) {
+																									$('#loading-posts').remove();
+																									$('#content-main-titles').append(displayPost(userPost[0], userPost[1], true, true, 99, 99, isDeletedPost, postTitle, forumName, postOwner, true, true, false));
+																									$('#content-main-titles').append(displayComment(userPost[0], userPost[1], userPost[2], isUpvotedComment, isDownvotedComment, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
+																								} else {
+																									console.error(error);
+																								}
+																							});
+																						} else {
+																							console.error(error);
+																						}
+																					});
+																				} else {
+																					console.error(error);
+																				}
+																			});
+																		} else {
+																			console.error(error);
+																		}
+																	});
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
+				} else {
+					console.error(error);
+				}
+			});
+		})(i);
+	}
+}
 
 function showPostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
