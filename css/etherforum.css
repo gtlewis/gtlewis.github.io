@@ -25,44 +25,16 @@ textarea {
 	line-height: 1.65;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
 	clear: both;
 	font-family: "Open Sans", sans-serif;
 	line-height: 1.4;
-	margin: 2rem 0 1.125rem;
-}
-
-h1 {
-	font-size: 2.25em;
-}
-
-h2 {
-	font-size: 1.875em;
-}
-
-h3 {
+	margin: 0;
 	font-size: 1.5em;
 }
 
-h4 {
-	font-size: 1.25em;
-}
-
-h5 {
-	font-size: 1.125em;
-}
-
-h6 {
-	font-size: 1em;
-}
-
 p {
-	margin: 1em 0 1.1em 0;
+	margin: 0;
 }
 
 #body {
@@ -291,7 +263,7 @@ p {
 #content-main-text {
 	clear: both;
 	display: block;
-	font-size: 1.125rem;
+	font-size: 1rem;
 	word-wrap: break-word;
 	width: 100%;
 }
@@ -481,6 +453,7 @@ p {
 	margin-top: 1em;
 	margin-bottom: 90px;
 	word-wrap: break-word;
+	clear: both;
 }
 
 .comment-body a {
