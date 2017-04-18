@@ -1026,19 +1026,21 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 		div1.append(displayPostDownvote(forumId, postId, isDownvoted));
 		h1.append(div1);
 	}
-	h1.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
-	var div2 = $('<div class="post-info"/>');
+	var div2 = $('<div style="overflow:hidden"/>');
+	div2.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
+	h1.append(div2);
+	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
-		div2.append(displayUser(postOwner));
+		div3.append(displayUser(postOwner));
 	}
 	if (isDisplayForum) {
-		div2.append(displayForum(forumId, forumName));
+		div3.append(displayForum(forumId, forumName));
 	}
 	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
-		div2.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
-		div2.append($('<a href="#" onclick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
+		div3.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
+		div3.append($('<a href="#" onclick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
 	}
-	h1.append(div2);
+	h1.append(div3);
 	return h1;
 }
 
@@ -1080,24 +1082,26 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	div3.append(displayCommentScore(upvoteCount, downvoteCount));
 	div3.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
 	div2.append(div3);
-	div2.append($(new showdown.Converter().makeHtml(commentBody)));
-	var div4 = $('<div class="comment-info"/>');
-	div4.append(displayUser(commentOwner));
-	if (!isDeletedComment && commentOwner === currentUser) {
-		div4.append($('<a href="#" onClick="$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
-		div4.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		var div5 = $('<div id="edit-comment-body-' + commentId + '" class="comment-body" style="display:none"/>');
-		div5.append($('<textarea id="edit-comment-text-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
-		var div6 = $('<div class="edit-comment-info"/>');
-		div6.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
-		div6.append($('<a href="#" onclick="$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-error-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
-		div6.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		div7 = $('<div id="edit-comment-error-' + commentId + '" class="edit-comment-error">Error</div>');
-		div6.append(div7);
-		div5.append(div6);
-		div1.append(div5);
-	}
+	var div4 = $('<div style="overflow:hidden"/>');
+	div4.append($(new showdown.Converter().makeHtml(commentBody)));
 	div2.append(div4);
+	var div5 = $('<div class="comment-info"/>');
+	div5.append(displayUser(commentOwner));
+	if (!isDeletedComment && commentOwner === currentUser) {
+		div5.append($('<a href="#" onClick="$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
+		div5.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		var div6 = $('<div id="edit-comment-body-' + commentId + '" class="comment-body" style="display:none"/>');
+		div6.append($('<textarea id="edit-comment-text-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
+		var div7 = $('<div class="edit-comment-info"/>');
+		div7.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
+		div7.append($('<a href="#" onclick="$(&#39#edit-comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-error-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-body-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
+		div7.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div8 = $('<div id="edit-comment-error-' + commentId + '" class="edit-comment-error">Error</div>');
+		div7.append(div8);
+		div6.append(div7);
+		div1.append(div6);
+	}
+	div2.append(div5);
 	div1.append(div2);
 	return div1;
 }
