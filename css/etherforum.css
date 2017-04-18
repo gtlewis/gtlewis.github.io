@@ -342,7 +342,7 @@ p {
 }
 
 #content-sidebar-title {
-	font-size: 12px;
+	font-size: 0.85em;
 	font-weight: 600;
 	margin: 0 0 20px 0;
 	word-wrap: break-word;
@@ -438,7 +438,7 @@ p {
 }
 
 .comment-status {
-	font-size: 1.125rem;
+	font-size: 1rem;
 	margin-left: 30px;
 	margin-right: 0px;
 	margin-top: 1em;
@@ -447,7 +447,7 @@ p {
 }
 
 .comment-body {
-	font-size: 1.125rem;
+	font-size: 1rem;
 	margin-left: 30px;
 	margin-right: 0px;
 	margin-top: 1em;
@@ -469,7 +469,7 @@ p {
 	clear: both;
 	display: block;
 	margin-top: 1em;
-	font-size: 1.125rem;
+	font-size: 1rem;
 	word-wrap: break-word;
 	width: 100%;
 }
