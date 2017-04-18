@@ -56,7 +56,7 @@ window.addEventListener('load', function() {
 															if (!error) {
 																contract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
 																	if (!error) {
-																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, false, true));
+																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, false, true));
 																	} else {
 																		console.error(error);
 																	}
@@ -300,7 +300,7 @@ function displayPageOfForumPosts(forumId) {
 															contract.getOwnerOfPost(forumId, sortedListofIndexes[postId], function (error, postOwner) {
 																if (!error) {
 																	$('#loading-posts').remove();
-																	$('#content-main-titles').append(displayPost(forumId, sortedListofIndexes[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, false, true, true));
+																	$('#content-main-titles').append(displayPost(forumId, sortedListofIndexes[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, true, true));
 																} else {
 																	console.error(error);
 																}
@@ -431,7 +431,7 @@ function displayPageOfUserPosts(user) {
 																	contract.getNameOfForum(userPost[0], function (error, forumName) {
 																		if (!error) {
 																			$('#loading-posts').remove();
-																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, true, true));
+																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, true, true, true));
 																		} else {
 																			console.error(error);
 																		}
@@ -503,7 +503,7 @@ function displayPageOfUserComments(user) {
 																							contract.getBodyOfComment(userComment[0], userComment[1], userComment[2], function (error, commentBody) {
 																								if (!error) {
 																									$('#loading-posts').remove();
-																									$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, 99, 999, isDeletedPost, postTitle, forumName, postOwner, true, true, false));
+																									$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, 99, 999, isDeletedPost, postTitle, forumName, postOwner, false, true, true, false));
 																									$('#content-main-titles').append(displayComment(userComment[0], userComment[1], userComment[2], isCommentUpvoted, isCommentDownvoted, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
 																								} else {
 																									console.error(error);
@@ -575,7 +575,7 @@ function showPostPage() {
 																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
 																		if (!error) {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
-																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, false, true, false));
+																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, true, false));
 																			if (!isDeletedPost) {
 																				document.title = '<Ether>Forum - ' + postTitle;
 																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
@@ -765,7 +765,7 @@ function showEditPostPage() {
 																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
 																		if (!error) {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
-																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, false, false, false));
+																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, false, false));
 																			if (!isDeletedPost) {
 																				document.title = '<Ether>Forum - ' + postTitle;
 																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
@@ -1003,16 +1003,18 @@ function displayPostScore(upvoteCount, downvoteCount) {
 	return div;
 }
 
-function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, isDisplayForum, isDisplayUser, isDisplayEditDelete) {
+function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, isDisplayVoting, isDisplayForum, isDisplayUser, isDisplayEditDelete) {
 	if (isDeletedPost) {
 		postTitle = '[DELETED]';
 	}
 	var h1 = $('<h1/>');
-	var div1 = $('<div class="post-vote"/>');
-	div1.append(displayPostUpvote(forumId, postId, isUpvoted));
-	div1.append(displayPostScore(upvoteCount, downvoteCount));
-	div1.append(displayPostDownvote(forumId, postId, isDownvoted));
-	h1.append(div1);
+	if (isDisplayVoting) {
+		var div1 = $('<div class="post-vote"/>');
+		div1.append(displayPostUpvote(forumId, postId, isUpvoted));
+		div1.append(displayPostScore(upvoteCount, downvoteCount));
+		div1.append(displayPostDownvote(forumId, postId, isDownvoted));
+		h1.append(div1);
+	}
 	h1.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
 	var div2 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
