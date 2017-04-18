@@ -4,6 +4,7 @@ var contract;
 var currentUser;
 var showAllForums = false;
 var showUserComments = false;
+var preventToggle = true;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
 var LIST_PAGE_SIZE = 2;
@@ -164,6 +165,7 @@ function displayPageOfForums() {
 									var forum = $('<h1/>');
 									forum.append(displayForum(sortedListofIndexes[forumId], forumName));
 									$('#content-main-titles').append(forum);
+									preventToggle = false;
 								} else {
 									console.error(error);
 								}
@@ -193,6 +195,7 @@ function displayPageOfForums() {
 						var forum = $('<h1/>');
 						forum.append(displayForum(sortedListofIndexes[forumId], forumName));
 						$('#content-main-titles').append(forum);
+						preventToggle = false;
 					} else {
 						console.error(error);
 					}
@@ -432,6 +435,7 @@ function displayPageOfUserPosts(user) {
 																		if (!error) {
 																			$('#loading-posts').remove();
 																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, true, true, true));
+																			preventToggle = false;
 																		} else {
 																			console.error(error);
 																		}
@@ -505,6 +509,7 @@ function displayPageOfUserComments(user) {
 																									$('#loading-posts').remove();
 																									$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, 99, 999, isDeletedPost, postTitle, forumName, postOwner, false, true, true, false));
 																									$('#content-main-titles').append(displayComment(userComment[0], userComment[1], userComment[2], isCommentUpvoted, isCommentDownvoted, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
+																									preventToggle = false;
 																								} else {
 																									console.error(error);
 																								}
@@ -821,10 +826,13 @@ function showEditPostPage() {
 }
 
 function showForums() {
-	showAllForums = !showAllForums;
-	sortedListofIndexes = [];
-	latestListItemDisplayed = 0;
-	showForumsPage();
+	if (!preventToggle) {
+		preventToggle = true;
+		showAllForums = !showAllForums;
+		sortedListofIndexes = [];
+		latestListItemDisplayed = 0;
+		showForumsPage();
+	}
 }
 
 function createForum() {
@@ -858,10 +866,13 @@ function unsubscribe(forumId) {
 }
 
 function showUserPostsOrComments() {
-	showUserComments = !showUserComments;
-	sortedListofIndexes = [];
-	latestListItemDisplayed = 0;
-	showUserPage();
+	if (!preventToggle) {
+		preventToggle = true;
+		showUserComments = !showUserComments;
+		sortedListofIndexes = [];
+		latestListItemDisplayed = 0;
+		showUserPage();
+	}
 }
 
 function createPost(forumId) {
