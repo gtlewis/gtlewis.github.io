@@ -153,6 +153,7 @@ function showForumsPage() {
 }
 
 function displayPageOfForums() {
+	preventToggle = true;
 	if (!showAllForums) {
 		for(var i=0; i<sortedListofIndexes.length; i++) {
 			(function(forumId) {
@@ -406,6 +407,7 @@ function showUserPage() {
 }
 
 function displayPageOfUserPosts(user) {
+	preventToggle = true;
 	var from = latestListItemDisplayed;
 	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
 	if (to >= sortedListofIndexes.length) {
@@ -473,6 +475,7 @@ function displayPageOfUserPosts(user) {
 }
 
 function displayPageOfUserComments(user) {
+	preventToggle = true;
 	var from = latestListItemDisplayed;
 	var to = latestListItemDisplayed + LIST_PAGE_SIZE;
 	if (to >= sortedListofIndexes.length) {
