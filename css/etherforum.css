@@ -248,6 +248,10 @@ p {
 	color: #20b2aa;
 }
 
+.content-main-description {
+	margin-bottom: 10px;
+}
+
 #content-main-text:first-child {
 	margin-top: 0;
 }

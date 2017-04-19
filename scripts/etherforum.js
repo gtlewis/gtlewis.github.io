@@ -7,7 +7,7 @@ var showUserComments = false;
 var preventToggle = true;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
-var LIST_PAGE_SIZE = 2;
+var LIST_PAGE_SIZE = 10;
 var POST_AGE_WEIGHT = 256;
 
 window.addEventListener('load', function() {
@@ -166,6 +166,8 @@ function displayPageOfForums() {
 									var forum = $('<h1/>');
 									forum.append(displayForum(sortedListofIndexes[forumId], forumName));
 									$('#content-main-titles').append(forum);
+									var description = $('<div class="content-main-description">Here is an example description</div>');
+									$('#content-main-titles').append(description);
 									preventToggle = false;
 								} else {
 									console.error(error);
@@ -354,7 +356,7 @@ function showUserPage() {
 				user.prop('href', 'https://etherchain.org/account/' + userParameter);
 				$('#header-main-text').append(user);
 				var score = displayScore(score);
-				score.prop('style', 'margin-top:5px; border-color:#888888');
+				score.prop('style', 'margin-top:5px; border-color:#88ffff');
 				$('#header-main-text').append(score);
 				if (!showUserComments) {
 					contract.getPostsLengthForUser(userParameter, function (error, postCount) {
