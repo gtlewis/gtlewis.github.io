@@ -24,6 +24,8 @@ window.addEventListener('load', function() {
 		contract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
 				$('#header-score-text').replaceWith(displayScore(score));
+// TODO: show balance
+web3.eth.getBalance(currentUser, function(error, balance){console.log(web3.fromWei(balance).toString());});
 				if (current_page === 'forums') {
 					showForumsPage();
 					var sidebarPost = 0;
@@ -166,6 +168,7 @@ function displayPageOfForums() {
 									var forum = $('<h1/>');
 									forum.append(displayForum(sortedListofIndexes[forumId], forumName));
 									$('#content-main-titles').append(forum);
+									// TODO: description in contract
 									var description = $('<div class="content-main-description">Here is an example description</div>');
 									$('#content-main-titles').append(description);
 									preventToggle = false;
@@ -198,6 +201,7 @@ function displayPageOfForums() {
 						var forum = $('<h1/>');
 						forum.append(displayForum(sortedListofIndexes[forumId], forumName));
 						$('#content-main-titles').append(forum);
+						// TODO: description in contract
 						var description = $('<div class="content-main-description">Here is an example description</div>');
 						$('#content-main-titles').append(description);
 						preventToggle = false;
@@ -1034,7 +1038,13 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 		h1.append(div1);
 	}
 	var div2 = $('<div style="overflow:hidden"/>');
-	div2.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
+	var postTitleLink = $('<a id="post-title-' + postId + '" href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>');
+	div2.append(postTitleLink);
+	// TODO: if downvote conditions met (todo for commetns as well!!!)
+	if (true) {
+		postTitleLink.prop('style', 'visibility:hidden');
+		div2.append($('<a id="post-downvoted-' + postId + '" href="#" onclick="$(&#39#post-downvoted-' + postId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#post-title-' + postId + '&#39).prop(&#39style&#39, &#39visibility:visible&#39);return false;">[DOWNVOTED]</a>'));
+	}
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
