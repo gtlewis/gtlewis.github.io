@@ -198,6 +198,8 @@ function displayPageOfForums() {
 						var forum = $('<h1/>');
 						forum.append(displayForum(sortedListofIndexes[forumId], forumName));
 						$('#content-main-titles').append(forum);
+						var description = $('<div class="content-main-description">Here is an example description</div>');
+						$('#content-main-titles').append(description);
 						preventToggle = false;
 					} else {
 						console.error(error);

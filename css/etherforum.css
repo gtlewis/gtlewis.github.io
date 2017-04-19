@@ -234,7 +234,7 @@ p {
 	margin-top: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 	word-wrap: break-word;
 	width: 100%;
 }
@@ -283,6 +283,7 @@ p {
 }
 
 .content-footer {
+	display: grid;
 	background: #f7f7f7;
 	border: solid 1px #eee;
 	border-radius: 3px;
