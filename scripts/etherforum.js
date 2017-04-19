@@ -1041,9 +1041,9 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	var postTitleLink = $('<a id="post-title-' + postId + '" href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>');
 	div2.append(postTitleLink);
 	// TODO: if downvote conditions met (todo for commetns as well!!!)
-	if (true) {
-		postTitleLink.prop('style', 'visibility:hidden');
-		div2.append($('<a id="post-downvoted-' + postId + '" href="#" onclick="$(&#39#post-downvoted-' + postId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#post-title-' + postId + '&#39).prop(&#39style&#39, &#39visibility:visible&#39);return false;">[DOWNVOTED]</a>'));
+	if (true && forumId > 0) {
+		postTitleLink.prop('style', 'display:none');
+		div2.append($('<a id="post-downvoted-' + postId + '" href="#" onclick="$(&#39#post-downvoted-' + postId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#post-title-' + postId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">[DOWNVOTED]</a>'));
 	}
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
