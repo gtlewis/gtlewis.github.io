@@ -26,9 +26,9 @@ window.addEventListener('load', function() {
 		contract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
 				$('#header-score-text').replaceWith(displayScore(score));
-				web3.eth.getBalance(currentUser, function(error, balance) {
+				web3.eth.getBalance(currentUser, function(error, balance)) {
 					if (!error) {
-						$('#header-user-balance').text(balance));
+						$('#header-user-balance').text(Math.round(balance*100)/100));
 					} else {
 						console.error(error);
 					}
