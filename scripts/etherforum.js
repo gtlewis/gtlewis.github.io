@@ -948,13 +948,13 @@ function createComment_(forumId, postId) {
 }
 
 function editComment(forumId, postId, commentId) {
-	$('#edit-comment-error-' + commentId).prop('style', 'visibility:hidden');
-	var commentBody = $('#edit-comment-text-' + commentId).val();
+	$('#edit-comment-error-' + forumId + '-' + postId + '-' + commentId).prop('style', 'visibility:hidden');
+	var commentBody = $('#edit-comment-text-' + forumId + '-' + postId + '-' + commentId).val();
 	if  (commentBody.length > 0 && commentBody.length <= 65536) {
 		contract.editComment(forumId, postId, commentId, commentBody, function (error, result) {
 			if (!error) {
-				$('#edit-comment-body-' + commentId).prop('style', 'display:none');
-				$('#comment-body-' + commentId).prop('style', 'display:block');
+				$('#edit-comment-body-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:none');
+				$('#comment-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:block');
 			} else {
 				console.error(error);
 			}
@@ -965,8 +965,8 @@ function editComment(forumId, postId, commentId) {
 		} else {
 			var errorText = 'Comment is empty';
 		}
-		$('#edit-comment-error-' + commentId).text(errorText);
-		$('#edit-comment-error-' + commentId).prop('style', 'visibility:visible');
+		$('#edit-comment-error-' + forumId + '-' + postId + '-' + commentId).text(errorText);
+		$('#edit-comment-error-' + forumId + '-' + postId + '-' + commentId).prop('style', 'visibility:visible');
 	}
 }
 
