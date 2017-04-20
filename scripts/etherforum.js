@@ -1038,12 +1038,12 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 		h1.append(div1);
 	}
 	var div2 = $('<div style="overflow:hidden"/>');
-	var postTitleLink = $('<a id="post-title-' + postId + '" href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>');
-	div2.append(postTitleLink);
 	// TODO: if downvote conditions met (todo for commetns as well!!!)
 	if (isHideDownvoted && true) {
-		postTitleLink.prop('style', 'display:none');
-		div2.append($('<a id="post-downvoted-' + postId + '" href="#" onclick="$(&#39#post-downvoted-' + postId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#post-title-' + postId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">[DOWNVOTED]</a>'));
+		div2.append($('<a id="post-title-' + forumId + '-' + postId + '" href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '" style="display:none">' + postTitle + '</a>'));
+		div2.append($('<a id="post-downvoted-' + forumId + '-' + postId + '" href="#" onclick="$(&#39#post-downvoted-' + forumId + '-' + postId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#post-title-' + forumId + '-' + postId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">[DOWNVOTED]</a>'));
+	} else {
+		div2.append($('<a href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '">' + postTitle + '</a>'));
 	}
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
@@ -1100,7 +1100,14 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	div3.append(displayCommentDownvote(forumId, postId, commentId, isDownvoted));
 	div2.append(div3);
 	var div4 = $('<div style="overflow:hidden"/>');
-	div4.append($(new showdown.Converter().makeHtml(commentBody)));
+	var commentBodyHtml = $(new showdown.Converter().makeHtml(commentBody));
+	// TODO: if downvote conditions met
+	if (true) {
+		div4.append($('<div id="comment-body-' + forumId + '-' + postId + '-' + commentId + '" style="overflow:hidden;display:none">' + commentBodyHtml + '</div>'));
+		div2.append($('<a id="comment-downvoted-' + forumId + '-' + postId + '-' + commentId + '" href="#" onclick="$(&#39#comment-downvoted-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#comment-body-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">[DOWNVOTED]</a>'));
+	} else {
+		div4.append(commentBodyHtml);
+	}
 	div2.append(div4);
 	var div5 = $('<div class="comment-info"/>');
 	div5.append(displayUser(commentOwner));
