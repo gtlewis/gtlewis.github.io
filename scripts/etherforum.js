@@ -28,7 +28,7 @@ window.addEventListener('load', function() {
 				$('#header-score-text').replaceWith(displayScore(score));
 				web3.eth.getBalance(currentUser, function(error, balance) {
 					if (!error) {
-						$('#header-user-balance').text(Math.round(web3.fromWei(balance)*100)/100);
+						$('#header-user-balance').text(Math.round(web3.fromWei(balance)*100)/100 + ' ETH');
 					} else {
 						console.error(error);
 					}
