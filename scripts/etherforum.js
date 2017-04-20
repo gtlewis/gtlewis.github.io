@@ -26,8 +26,13 @@ window.addEventListener('load', function() {
 		contract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
 				$('#header-score-text').replaceWith(displayScore(score));
-// TODO: show balance
-web3.eth.getBalance(currentUser, function(error, balance){console.log(web3.fromWei(balance).toString());});
+				web3.eth.getBalance(currentUser, function(error, balance) {
+					if (!error) {
+						$('#header-user-balance').text(balance));
+					} else {
+						console.error(error);
+					}
+				});
 				if (current_page === 'forums') {
 					showForumsPage();
 					var sidebarPost = 0;

@@ -116,6 +116,11 @@ p {
 	white-space: nowrap;
 }
 
+#header-user-balance {
+	margin-left: 5px;
+	float: left;
+}
+
 #header-main {
 	background: #20b2aa;
 	color: #fff;
