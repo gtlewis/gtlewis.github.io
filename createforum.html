@@ -21,19 +21,19 @@
 				</div>
 				<div id="header-main">
 					<div class="inner">
-						<h1 id="header-main-text"><a href="/index.html">Loading forum...</a></h1>
+						<h1 id="header-main-text"><a href="/index.html">Create new forum</a></h1>
 					</div>
 				</div>
 			</header>
 			<div id="content">
 				<div id="content-main">
 					<div class="content-main-title" id="content-main-titles">
-						<input id="title_input" type="text" placeholder="Edit title" style="visibility:hidden"/>
+						<input id="title_input" type="text" placeholder="Forum name" style="visibility:hidden"/>
 					</div>
-					<textarea id="content-main-text" rows="6" placeholder="Edit post" style="visibility:hidden"></textarea>
+					<textarea id="content-main-text" rows="3" placeholder="Forum description" style="visibility:hidden"></textarea>
 					<footer class="content-footer">
 						<div class="content-footer-buttons">
-							<div class="content-footer-button"><a id="submit_post_button" href="#" onclick="createPost(getUrlParameter('forum_id'));return false;" style="visibility:hidden">Submit</a></div>
+							<div class="content-footer-button"><a id="submit_post_button" href="#" onclick="createForum();return false;" style="visibility:hidden">Submit</a></div>
 							<div class="content-footer-button"><a id="cancel_button" href="#" onclick="window.history.go(-1);return false;" style="visibility:hidden">Cancel</a></div>
 						</div>
 					</footer>
@@ -45,7 +45,7 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">var current_page = 'createpost'</script>
+		<script type="text/javascript">var current_page = 'createforum'</script>
 		<script src="/scripts/web3.min.js" type="text/javascript"></script>
 		<script src="/scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
 		<script src="/scripts/blockies.min.js" type="text/javascript"></script>

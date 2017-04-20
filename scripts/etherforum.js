@@ -34,18 +34,21 @@ web3.eth.getBalance(currentUser, function(error, balance){console.log(web3.fromW
 				} else if (current_page === 'forum') {
 					showForumPage();
 					var sidebarPost = 1;
+				} else if (current_page === 'createforum') {
+					showCreateForumPage();
+					var sidebarPost = 2;
 				} else if (current_page === 'user') {
 					showUserPage();
-					var sidebarPost = 2;
+					var sidebarPost = 3;
 				} else if (current_page === 'post') {
 					showPostPage();
-					var sidebarPost = 3;
+					var sidebarPost = 4;
 				} else if (current_page === 'createpost') {
 					showCreatePostPage();
-					var sidebarPost = 4;
+					var sidebarPost = 5;
 				} else if (current_page === 'editpost') {
 					showEditPostPage();
-					var sidebarPost = 5;
+					var sidebarPost = 6;
 				}
 				contract.isPostUpvotedByUser(0, sidebarPost, function (error, isUpvoted) {
 					if (!error) {
@@ -344,6 +347,15 @@ function displayPageOfForumPosts(forumId) {
 				}
 			});
 		})(i);
+	}
+}
+
+function showCreateForumPage() {
+	if (currentUser != undefined) {
+		$('#title_input').prop('style', 'visibility:visible');
+		$('#content-main-text').prop('style', 'visibility:visible');
+		$('#submit_post_button').prop('style', 'visibility:visible');
+		$('#cancel_button').prop('style', 'visibility:visible');
 	}
 }
 
@@ -759,7 +771,7 @@ function showCreatePostPage() {
 				if (forumName != undefined && forumName.length > 0) {
 					document.title = '<Ether>Forum - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
-					$('#post_title_input').prop('style', 'visibility:visible');
+					$('#title_input').prop('style', 'visibility:visible');
 					$('#content-main-text').prop('style', 'visibility:visible');
 					$('#submit_post_button').prop('style', 'visibility:visible');
 					$('#cancel_button').prop('style', 'visibility:visible');
@@ -902,12 +914,12 @@ function showUserPostsOrComments() {
 
 function createPost(forumId) {
 	$('#content-error').prop('style', 'visibility:hidden');
-	var postTitle = $('#post_title_input').val();
+	var postTitle = $('#title_input').val();
 	var postBody = $('#content-main-text').val();
 	if  (postTitle.length > 0 && postTitle.length <= 256 && postBody.length <= 65536) {
 		contract.createPost(forumId, postTitle, postBody, function (error, result) {
 			if (!error) {
-				$('#post_title_input').val('');
+				$('#title_input').val('');
 				$('#content-main-text').val('');
 			} else {
 				console.error(error);
