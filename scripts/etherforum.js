@@ -150,8 +150,9 @@ function showForumsPage() {
 				}
 				$('#show_forums_button').parent().prop('style', 'margin-left:15px');
 				$('#show_forums_button').prop('style', 'display:block');
-				$('#content-main-text').prop('style', 'visibility:visible');
+				$('#create_forum_button').parent().prop('style', 'margin-left:15px');
 				$('#create_forum_button').prop('style', 'visibility:visible');
+				$('#content-main-text').prop('style', 'visibility:visible');
 			} else {
 				console.error(error);
 			}
