@@ -875,18 +875,23 @@ function showForums() {
 
 function createForum() {
 	$('#content-error').prop('style', 'visibility:hidden');
-	var name = $('#content-main-text').val();
-	if  (name.length > 0 && name.length <= 32) {
-		contract.createForum(name, function (error, result) {
+	var forumName = $('#title_input').val();
+	var forumDescription = $('#content-main-text').val();
+	if  (forumName.length > 0 && forumName.length <= 32 && forumDescription.length <= 256) {
+		// TODO: add description...
+		contract.createForum(forumName, function (error, result) {
 			if (!error) {
+				$('#title_input').val('');
 				$('#content-main-text').val('');
 			} else {
 				console.error(error);
 			}
 		});
 	} else {
-		if (name.length > 32) {
+		if (forumName.length > 32) {
 			var errorText = 'Forum name too long';
+		} else if (forumDescription.length > 256) {
+			var errorText = 'Forum description too long';
 		} else {
 			var errorText = 'Forum name is empty';
 		}
