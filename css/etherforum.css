@@ -111,14 +111,14 @@ p {
 	line-height: 1;
 	margin-right: 3px;
 	position: relative;
-	float: left;
+	float: right;
 	text-align: right;
 	white-space: nowrap;
 }
 
 #header-user-balance {
 	margin-left: 5px;
-	float: left;
+	float: right;
 }
 
 #header-main {
