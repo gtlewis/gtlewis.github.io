@@ -9,6 +9,8 @@ var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
 var LIST_PAGE_SIZE = 10;
 var POST_AGE_WEIGHT = 256;
+var DOWNVOTE_MINIMUM = 10;
+var DOWNVOTE_THRESHOLD = 0.7;
 
 window.addEventListener('load', function() {
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
@@ -1038,8 +1040,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 		h1.append(div1);
 	}
 	var div2 = $('<div style="overflow:hidden"/>');
-	// TODO: if downvote conditions met (todo for commetns as well!!!)
-	if (isHideDownvoted && true) {
+	if (isHideDownvoted && isAboveDownvoteThreshold(upvoteCount, downvoteCount)) {
 		div2.append($('<a id="post-title-' + forumId + '-' + postId + '" href="/post.html?forum_id=' + forumId + '&post_id=' + postId + '" style="display:none">' + postTitle + '</a>'));
 		div2.append($('<a id="post-downvoted-' + forumId + '-' + postId + '" href="#" onclick="$(&#39#post-downvoted-' + forumId + '-' + postId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#post-title-' + forumId + '-' + postId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">[DOWNVOTED]</a>'));
 	} else {
@@ -1101,8 +1102,7 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	div2.append(div3);
 	var div4 = $('<div style="overflow:hidden"/>');
 	var commentBodyHtml = $(new showdown.Converter().makeHtml(commentBody));
-	// TODO: if downvote conditions met
-	if (true) {
+	if (isAboveDownvoteThreshold(upvoteCount, downvoteCount)) {
 		var div5 = $('<div id="comment-body-' + forumId + '-' + postId + '-' + commentId + '" style="overflow:hidden;display:none"/>');
 		div5.append(commentBodyHtml);
 		div4.append(div5);
@@ -1130,6 +1130,14 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	div2.append(div6);
 	div1.append(div2);
 	return div1;
+}
+
+function isAboveDownvoteThreshold(upvoteCount, downvoteCount) {
+	var total = upvoteCount + downvoteCount;
+	if (total > DOWNVOTE_MINIMUM && (downvoteCount / total) > DOWNVOTE_THRESHOLD) {
+		return true;
+	}
+	return false;
 }
 
 function void_callback(error, result) {
