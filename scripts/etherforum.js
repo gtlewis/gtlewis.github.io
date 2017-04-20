@@ -499,30 +499,42 @@ function displayPageOfUserComments(user) {
 		(function(index) {
 			contract.getCommentByUser(user, sortedListofIndexes[index], function (error, userComment) {
 				if (!error) {
-					contract.isDeletedPost(userComment[0], userComment[1], function (error, isDeletedPost) {
+					contract.getUpvoteCountOfPost(userComment[0], userComment[1], function (error, upvoteCountOfPost) {
 						if (!error) {
-							contract.getTitleOfPost(userComment[0], userComment[1], function (error, postTitle) {
+							contract.getDownvoteCountOfPost(userComment[0], userComment[1], function (error, downvoteCountOfPost) {
 								if (!error) {
-									contract.getOwnerOfPost(userComment[0], userComment[1], function (error, postOwner) {
+									contract.isDeletedPost(userComment[0], userComment[1], function (error, isDeletedPost) {
 										if (!error) {
-											contract.getNameOfForum(userComment[0], function (error, forumName) {
+											contract.getTitleOfPost(userComment[0], userComment[1], function (error, postTitle) {
 												if (!error) {
-													contract.isCommentUpvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentUpvoted) {
+													contract.getOwnerOfPost(userComment[0], userComment[1], function (error, postOwner) {
 														if (!error) {
-															contract.isCommentDownvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentDownvoted) {
+															contract.getNameOfForum(userComment[0], function (error, forumName) {
 																if (!error) {
-																	contract.getUpvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, upvoteCountOfComment) {
+																	contract.isCommentUpvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentUpvoted) {
 																		if (!error) {
-																			contract.getDownvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, downvoteCountOfComment) {
+																			contract.isCommentDownvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentDownvoted) {
 																				if (!error) {
-																					contract.isDeletedComment(userComment[0], userComment[1], userComment[2], function (error, isDeletedComment) {
+																					contract.getUpvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, upvoteCountOfComment) {
 																						if (!error) {
-																							contract.getBodyOfComment(userComment[0], userComment[1], userComment[2], function (error, commentBody) {
+																							contract.getDownvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, downvoteCountOfComment) {
 																								if (!error) {
-																									$('#loading-posts').remove();
-																									$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, 99, 999, isDeletedPost, postTitle, forumName, postOwner, false, true, true, false, true));
-																									$('#content-main-titles').append(displayComment(userComment[0], userComment[1], userComment[2], isCommentUpvoted, isCommentDownvoted, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
-																									preventToggle = false;
+																									contract.isDeletedComment(userComment[0], userComment[1], userComment[2], function (error, isDeletedComment) {
+																										if (!error) {
+																											contract.getBodyOfComment(userComment[0], userComment[1], userComment[2], function (error, commentBody) {
+																												if (!error) {
+																													$('#loading-posts').remove();
+																													$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, upvoteCountOfPost, downvoteCountOfPost, isDeletedPost, postTitle, forumName, postOwner, false, true, true, false, true));
+																													$('#content-main-titles').append(displayComment(userComment[0], userComment[1], userComment[2], isCommentUpvoted, isCommentDownvoted, upvoteCountOfComment, downvoteCountOfComment, isDeletedComment, commentBody, user));
+																													preventToggle = false;
+																												} else {
+																													console.error(error);
+																												}
+																											});
+																										} else {
+																											console.error(error);
+																										}
+																									});
 																								} else {
 																									console.error(error);
 																								}
