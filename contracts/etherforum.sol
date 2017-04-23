@@ -137,6 +137,9 @@ contract EtherForum {
         
         // The forum's name
         string name;
+
+        // The forum's description
+        string description;
         
         // The forum's list of posts
         mapping(uint32 => Post) posts;
@@ -147,16 +150,23 @@ contract EtherForum {
     }
     
     // Forum.create()
-    function createForum(string name) {
+    function createForum(string name, string description) {
         
         bytes memory nameBytes = bytes(name);
         if (nameBytes.length < 1 || nameBytes.length > 32) {
             // Throw if forum name too short or too long - not permitted
             throw;
         }
+
+        bytes memory descriptionBytes = bytes(name);
+        if (descriptionBytes.length > 256) {
+            // Throw if forum description too long - not permitted
+            throw;
+        }
         
         Forum forum = forums[forumCount];
         forum.name = name;
+        forum.description = description;
         forumCount++;
         
         // Subscribe user to forum
@@ -168,6 +178,13 @@ contract EtherForum {
         
         Forum forum = forums[forumId];
         return forum.name;
+    }
+    
+    // Forum.getDescription()
+    function getDescriptionOfForum(uint32 forumId) constant returns (string) {
+        
+        Forum forum = forums[forumId];
+        return forum.description;
     }
     
     // Forum.getPostCount()
@@ -240,13 +257,13 @@ contract EtherForum {
         }
         
         bytes memory postTitleBytes = bytes(postTitle);
-        if (postTitleBytes.length < 1 || postTitleBytes.length > 255) {
+        if (postTitleBytes.length < 1 || postTitleBytes.length > 256) {
             // Throw if post title too short or too long - not permitted
             throw;
         }
         
         bytes memory postBodyBytes = bytes(postBody);
-        if (postBodyBytes.length > 65535) {
+        if (postBodyBytes.length > 65536) {
             // Throw if post body too long - not permitted
             throw;
         }
@@ -293,7 +310,7 @@ contract EtherForum {
         }
         
         bytes memory postBodyBytes = bytes(postBody);
-        if (postBodyBytes.length > 65535) {
+        if (postBodyBytes.length > 65536) {
             // Throw if post body too long - not permitted
             throw;
         }
@@ -584,8 +601,8 @@ contract EtherForum {
         }
         
         bytes memory commentBodyBytes = bytes(commentBody);
-        if (commentBodyBytes.length > 65535) {
-            // Throw if comment body too long - not permitted
+        if (commentBodyBytes.length < 1 || commentBodyBytes.length > 65536) {
+            // Throw if comment body too short or too long - not permitted
             throw;
         }
         
@@ -635,7 +652,7 @@ contract EtherForum {
         }
         
         bytes memory commentBodyBytes = bytes(commentBody);
-        if (commentBodyBytes.length > 65535) {
+        if (commentBodyBytes.length > 65536) {
             // Throw if comment body too long - not permitted
             throw;
         }
