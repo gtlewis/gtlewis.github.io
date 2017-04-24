@@ -117,7 +117,7 @@ p {
 }
 
 #header-user-balance {
-	margin-left: 8px;
+	margin-left: 7px;
 	float: right;
 }
 
@@ -230,7 +230,7 @@ p {
 	box-shadow: 0 1px 2px rgba(204, 204, 204, 0.12);
 	min-height: 1em;
 	float: left;
-	width: 67%;
+	width: 72%;
 }
 
 .content-main-title {
@@ -344,7 +344,7 @@ p {
 	border: solid 1px #f7f7f7;
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(204, 204, 204, 0.12);
-	width: 30%;
+	width: 25%;
 }
 
 #content-sidebar:before {
