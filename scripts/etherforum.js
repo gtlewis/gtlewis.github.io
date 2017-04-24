@@ -128,7 +128,7 @@ function showForumsPage() {
 					$('#content-main-titles').append('<h1 id="loading-forums">No forums found</h1>');
 				} else {
 					if (!showAllForums) {
-						$('#content-main-titles').append('<h1 id="loading-forums">Not subscribed to any forums. <a href="#" onclick="showForums();return false;" style="color:#20b2aa">Show all forums</a></h1>');
+						$('#content-main-titles').append('<h1 id="loading-forums">Not subscribed to any forums - <a href="#" onclick="showForums();return false;" style="color:#20b2aa">Show all forums</a></h1>');
 					} else {
 						$('#content-main-titles').append('<h1 id="loading-forums">Loading forums...</h1>');
 					}
