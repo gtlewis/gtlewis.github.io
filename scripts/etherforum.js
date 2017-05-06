@@ -405,7 +405,7 @@ function showUserPage() {
 							$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
 							$('#view_more_posts_or_comments_button').text('View more posts');
 							if (postCount == 0) {
-								$('#content-main-titles').append('<h1 id="loading-posts">No posts found</h1>');
+								$('#content-main-titles').append('<h1 id="loading-posts">No posts found - <a href="#" onclick="showUserPostsOrComments();return false;" style="color:#20b2aa">Show Comments</a></h1>');
 							} else {
 								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 							}
@@ -425,7 +425,7 @@ function showUserPage() {
 							$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
 							$('#view_more_posts_or_comments_button').text('View more comments');
 							if (commentCount == 0) {
-								$('#content-main-titles').append('<h1 id="loading-posts">No comments found</h1>');
+								$('#content-main-titles').append('<h1 id="loading-posts">No comments found - <a href="#" onclick="showUserPostsOrComments();return false;" style="color:#20b2aa">Show Posts</a></h1>');
 							} else {
 								$('#content-main-titles').append('<h1 id="loading-posts">Loading comments...</h1>');
 							}
