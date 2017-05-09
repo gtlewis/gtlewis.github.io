@@ -404,7 +404,7 @@ function showUserPage() {
 		contract.getScoreForUser(userParameter, function (error, score) {
 			if (!error) {
 				if (!showUserComments) {
-					$('#header-main-text').html('Posts by User');
+					$('#header-main-text').html('Posts by User ');
 					$('#show_posts_or_comments_button').text('Show Comments');
 				} else {
 					$('#header-main-text').html('Comments by User');
@@ -413,11 +413,11 @@ function showUserPage() {
 				var user = displayUser(userParameter);
 				user.prop('href', 'https://etherchain.org/account/' + userParameter);
 				$('#header-main-text').append(user);
+				var balance = $('<div id="header-main-balance">' + Math.round(web3.fromWei(123456789012345678)*100)/100 + ' ETH</div>');
+				$('#header-main-text').append(balance);
 				var score = displayScore(score);
 				score.prop('style', 'margin-top:5px; border-color:#88ffff');
 				$('#header-main-text').append(score);
-				var balance = 12.34; // TODO
-				$('#header-main-text').append(Math.round(web3.fromWei(balance)*100)/100 + ' ETH');
 				if (!showUserComments) {
 					contract.getPostsLengthForUser(userParameter, function (error, postCount) {
 						if (!error) {
