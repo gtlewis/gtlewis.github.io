@@ -403,66 +403,72 @@ function showUserPage() {
 		document.title = '<Ether>Forum - ' + userParameter;
 		contract.getScoreForUser(userParameter, function (error, score) {
 			if (!error) {
-				if (!showUserComments) {
-					$('#header-main-text').html('Posts by User ');
-					$('#show_posts_or_comments_button').text('Show Comments');
-				} else {
-					$('#header-main-text').html('Comments by User');
-					$('#show_posts_or_comments_button').text('Show Posts');
-				}
-				var user = displayUser(userParameter);
-				user.prop('href', 'https://etherchain.org/account/' + userParameter);
-				$('#header-main-text').append(user);
-				var balance = $('<div id="header-main-balance">' + Math.round(web3.fromWei(123456789012345678)*100)/100 + ' ETH</div>');
-				$('#header-main-text').append(balance);
-				var score = displayScore(score);
-				score.prop('style', 'margin-top:5px; border-color:#88ffff');
-				$('#header-main-text').append(score);
-				if (!showUserComments) {
-					contract.getPostsLengthForUser(userParameter, function (error, postCount) {
-						if (!error) {
-							$('#content-main-titles').empty();
-							$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
-							$('#view_more_posts_or_comments_button').text('View more posts');
-							if (postCount == 0) {
-								$('#content-main-titles').append('<h1 id="loading-posts">No posts found - <a href="#" onclick="showUserPostsOrComments();return false;" style="color:#20b2aa">Show Comments</a></h1>');
-							} else {
-								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
-							}
-							var index = 0;
-							for(var i=postCount-1; i>=0; i--) {
-								sortedListofIndexes[index++] = i;
-							}
-							displayPageOfUserPosts(userParameter);
+				web3.eth.getBalance(userParameter, function(error, userBalance) {
+					if (!error) {
+						if (!showUserComments) {
+							$('#header-main-text').html('Posts by User ');
+							$('#show_posts_or_comments_button').text('Show Comments');
 						} else {
-							console.error(error);
+							$('#header-main-text').html('Comments by User');
+							$('#show_posts_or_comments_button').text('Show Posts');
 						}
-					});
-				} else {
-					contract.getCommentsLengthForUser(userParameter, function (error, commentCount) {
-						if (!error) {
-							$('#content-main-titles').empty();
-							$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
-							$('#view_more_posts_or_comments_button').text('View more comments');
-							if (commentCount == 0) {
-								$('#content-main-titles').append('<h1 id="loading-posts">No comments found - <a href="#" onclick="showUserPostsOrComments();return false;" style="color:#20b2aa">Show Posts</a></h1>');
-							} else {
-								$('#content-main-titles').append('<h1 id="loading-posts">Loading comments...</h1>');
-							}
-							var index = 0;
-							for(var i=commentCount-1; i>=0; i--) {
-								sortedListofIndexes[index++] = i;
-							}
-							displayPageOfUserComments(userParameter);
+						var user = displayUser(userParameter);
+						user.prop('href', 'https://etherchain.org/account/' + userParameter);
+						$('#header-main-text').append(user);
+						var balance = $('<div id="header-main-balance">' + Math.round(web3.fromWei(userBalance)*100)/100 + ' ETH</div>');
+						$('#header-main-text').append(balance);
+						var score = displayScore(score);
+						score.prop('style', 'margin-top:5px; border-color:#88ffff');
+						$('#header-main-text').append(score);
+						if (!showUserComments) {
+							contract.getPostsLengthForUser(userParameter, function (error, postCount) {
+								if (!error) {
+									$('#content-main-titles').empty();
+									$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
+									$('#view_more_posts_or_comments_button').text('View more posts');
+									if (postCount == 0) {
+										$('#content-main-titles').append('<h1 id="loading-posts">No posts found - <a href="#" onclick="showUserPostsOrComments();return false;" style="color:#20b2aa">Show Comments</a></h1>');
+									} else {
+										$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
+									}
+									var index = 0;
+									for(var i=postCount-1; i>=0; i--) {
+										sortedListofIndexes[index++] = i;
+									}
+									displayPageOfUserPosts(userParameter);
+								} else {
+									console.error(error);
+								}
+							});
 						} else {
-							console.error(error);
+							contract.getCommentsLengthForUser(userParameter, function (error, commentCount) {
+								if (!error) {
+									$('#content-main-titles').empty();
+									$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
+									$('#view_more_posts_or_comments_button').text('View more comments');
+									if (commentCount == 0) {
+										$('#content-main-titles').append('<h1 id="loading-posts">No comments found - <a href="#" onclick="showUserPostsOrComments();return false;" style="color:#20b2aa">Show Posts</a></h1>');
+									} else {
+										$('#content-main-titles').append('<h1 id="loading-posts">Loading comments...</h1>');
+									}
+									var index = 0;
+									for(var i=commentCount-1; i>=0; i--) {
+										sortedListofIndexes[index++] = i;
+									}
+									displayPageOfUserComments(userParameter);
+								} else {
+									console.error(error);
+								}
+							});
 						}
-					});
-				}
-				$('#show_posts_or_comments_button').parent().prop('style', 'margin-left:15px');
-				$('#show_posts_or_comments_button').prop('style', 'display:block');
-				$('#donate_button').parent().prop('style', 'margin-left:15px');
-				$('#donate_button').prop('style', 'display:block');
+						$('#show_posts_or_comments_button').parent().prop('style', 'margin-left:15px');
+						$('#show_posts_or_comments_button').prop('style', 'display:block');
+						$('#donate_button').parent().prop('style', 'margin-left:15px');
+						$('#donate_button').prop('style', 'display:block');
+					} else {
+						console.error(error);
+					}
+				});
 			} else {
 				console.error(error);
 			}
