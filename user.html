@@ -26,6 +26,7 @@
 						<div id="header-main-buttons">
 							<div id="header-buttons">
 								<div class="header-button"><a id="show_posts_or_comments_button" href="#" onclick="showUserPostsOrComments();return false;" style="display:none">Show Comments</a></div>
+								<div class="header-button"><a id="donate_button" href="#" onclick="web3.eth.sendTransaction({to:getUrlParameter('user')}, void_callback);return false;" style="display:none">Donate</a></div>
 							</div>
 						</div>
 					</div>
@@ -54,6 +55,7 @@
 		<script src="/scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
 		<script src="/scripts/blockies.min.js" type="text/javascript"></script>
 		<script src="/scripts/showdown.min.js" type="text/javascript"></script>
+		<script src="/scripts/ensutils.js" type="text/javascript"></script>
 		<script src="/scripts/etherforum.js" type="text/javascript"></script>
 	</body>
 </html>

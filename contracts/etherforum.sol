@@ -33,10 +33,13 @@ contract EtherForum {
         // The user's list of subscriptions
         mapping(uint32 => bool) subscriptions;
         
-        // The user's list of posts (reference)
+        // The user's count of active subscriptions
+        uint32 activeSubscriptionCount;
+        
+        // The user's list of posts (references)
         UserPost[] posts;
         
-        // The user's list of comments (reference)
+        // The user's list of comments (references)
         UserComment[] comments;
         
         // The user's score
@@ -71,6 +74,7 @@ contract EtherForum {
         }
         
         user.subscriptions[forumId] = true;
+        user.activeSubscriptionCount++;
     }
     
     // User.unsubscribe()
@@ -88,6 +92,7 @@ contract EtherForum {
         }
         
         user.subscriptions[forumId] = false;
+        user.activeSubscriptionCount--;
     }
     
     // User.isSubscribed()
@@ -95,6 +100,13 @@ contract EtherForum {
         
         User user = users[msg.sender];
         return user.subscriptions[forumId];
+    }
+    
+    // User.getActiveSubscriptionCount()
+    function getActiveSubscriptionCountForUser() constant returns (uint32) {
+        
+        User user = users[msg.sender];
+        return user.activeSubscriptionCount;
     }
     
     // User.getPost()
