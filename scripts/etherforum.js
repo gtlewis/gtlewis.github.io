@@ -401,7 +401,7 @@ function showUserPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = '<Ether>Forum - ' + userParameter;
-		contract.getScoreForUser(userParameter, function (error, score) {
+		contract.getScoreForUser(userParameter, function (error, userScore) {
 			if (!error) {
 				web3.eth.getBalance(userParameter, function(error, userBalance) {
 					if (!error) {
@@ -417,7 +417,7 @@ function showUserPage() {
 						$('#header-main-text').append(user);
 						var balance = $('<div id="header-main-balance">' + Math.round(web3.fromWei(userBalance)*100)/100 + ' ETH</div>');
 						$('#header-main-text').append(balance);
-						var score = displayScore(score);
+						var score = displayScore(userScore);
 						score.prop('style', 'margin-top:5px; border-color:#88ffff');
 						$('#header-main-text').append(score);
 						if (!showUserComments) {
