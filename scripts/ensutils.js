@@ -749,7 +749,7 @@ var auctionRegistrarContract = web3.eth.contract([
     "type": "event"
   }
 ]);
-var ethRegistrar = auctionRegistrarContract.at(ens.owner(namehash('eth')));
+var ethRegistrar = auctionRegistrarContract.at(ens.owner(namehash('eth'), void_callback));
 
 var deedContract = web3.eth.contract([
   {
@@ -987,7 +987,7 @@ var fifsRegistrarContract = web3.eth.contract([
     "type": "constructor"
   }
 ]);
-var testRegistrar = fifsRegistrarContract.at(ens.owner(namehash('test')));
+var testRegistrar = fifsRegistrarContract.at(ens.owner(namehash('test'), void_callback));
 
 var resolverContract = web3.eth.contract([
   {
@@ -1195,7 +1195,7 @@ var reverseRegistrarContract = web3.eth.contract([
     "type": "constructor"
   }
 ]);
-var reverseRegistrar = reverseRegistrarContract.at(ens.owner(namehash('addr.reverse')));
+var reverseRegistrar = reverseRegistrarContract.at(ens.owner(namehash('addr.reverse'), void_callback));
 
 function getAddr(name) {
   var node = namehash(name)
