@@ -1065,8 +1065,24 @@ var resolverContract = web3.eth.contract([
     "outputs": [],
     "payable": false,
     "type": "function"
-  },
-  {
+  },  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "node",
+        "type": "bytes32"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ],
+    "name": "setName",
+    "outputs": [],
+    "payable": false,
+    "type": "function"
+  }
+,  {
     "constant": true,
     "inputs": [
       {
