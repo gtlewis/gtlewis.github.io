@@ -422,6 +422,8 @@ function showUserPage() {
 							$('#header-main-text').html('Comments by User');
 							$('#show_posts_or_comments_button').text('Show Posts');
 						}
+						$('#header-main-text').append(ensName);
+						displayENSName(ensName, user);
 						var user = displayUser(userParameter);
 						user.prop('href', 'https://etherchain.org/account/' + userParameter);
 						$('#header-main-text').append(user);
