@@ -31,7 +31,7 @@ window.addEventListener('load', function() {
 	}
 
 	if (currentUser != undefined) {
-		displayENSName($('#header-user-ensname'), currentUser);
+		displayENSName($('#header-user-ensname'), currentUser, '/user.html?user=' + currentUser);
 		$('#header-user-text').text('');
 		$('#header-user-text').append(displayUser(currentUser));
 		blottitContract.getScoreForUser(currentUser, function(error, score) {
@@ -422,17 +422,18 @@ function showUserPage() {
 							$('#header-main-text').html('Comments by User');
 							$('#show_posts_or_comments_button').text('Show Posts');
 						}
-						var ensName = $('<div id="header-main-ensname"/>');
-						$('#header-main-text').append(ensName);
-						displayENSName(ensName, userParameter);
-						var user = displayUser(userParameter);
-						user.prop('href', 'https://etherchain.org/account/' + userParameter);
-						$('#header-main-text').append(user);
 						var balance = $('<div id="header-main-balance">' + Math.round(web3.fromWei(userBalance)*100)/100 + ' ETH</div>');
 						$('#header-main-text').append(balance);
 						var score = displayScore(userScore);
 						score.prop('style', 'margin-top:5px; border-color:#88ffff');
 						$('#header-main-text').append(score);
+						var user = displayUser(userParameter);
+						user.prop('style', 'float:right');
+						user.prop('href', 'https://etherchain.org/account/' + userParameter);
+						$('#header-main-text').append(user);
+						var ensName = $('<div id="header-main-ensname"/>');
+						$('#header-main-text').append(ensName);
+						displayENSName(ensName, userParameter, 'https://etherchain.org/account/' + userParameter);
 						if (!showUserComments) {
 							blottitContract.getPostsLengthForUser(userParameter, function (error, postCount) {
 								if (!error) {
@@ -1237,7 +1238,7 @@ function isAboveDownvoteThreshold(upvoteCount, downvoteCount) {
 	return false;
 }
 
-function displayENSName(div, user) {
+function displayENSName(div, user, href) {
 	var reverseName = user.substring(2) + '.addr.reverse';
 	ensContract.resolver(namehash(reverseName), function(error, ensResolverContractAddress) {
 		if (!error) {
@@ -1250,7 +1251,7 @@ function displayENSName(div, user) {
 							ensResolverContract.addr(namehash(name), function(error, addr) {
 								if (!error) {
 									if (addr === user) {
-										var link = $('<a href="/user.html?user=' + user + '">' + name + '</a>');
+										var link = $('<a href=' + href + '>' + name + '</a>');
 										div.append(link);
 									}
 								}

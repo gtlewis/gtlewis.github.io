@@ -162,10 +162,11 @@ p {
 
 #header-main-ensname {
 	color: rgba(255, 255, 255, 0.63);
-	margin-left: 9px;
+	margin-left: 5px;
+	margin-right: 5px;
 	float: right;
 	font-size: 1.2rem;
-	line-height: 1.7;
+	line-height: 1.8;
 }
 
 #header-main-balance {
