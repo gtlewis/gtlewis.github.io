@@ -104,6 +104,7 @@ p {
 }
 
 #header-user-ensname {
+	margin-right: 9px;
 	float: right;
 	line-height: 1.7;
 }

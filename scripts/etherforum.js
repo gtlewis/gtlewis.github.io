@@ -1248,7 +1248,8 @@ function displayENSName(div, user) {
 							ensResolverContract.addr(namehash(name), function(error, addr) {
 								if (!error) {
 									if (addr === user) {
-										div.text(name);
+										var link = $('<a href="/user.html?user=' + user + '">' + name + '</a>');
+										div.append(link);
 									}
 								}
 							});
