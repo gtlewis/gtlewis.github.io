@@ -1240,7 +1240,7 @@ function reverseENSLookup(user) {
 	var reverseName = user.substring(2) + '.addr.reverse';
 	ensContract.resolver(namehash(reverseName), function(error, ensResolverContractAddress) {
 		if (!error) {
-			var ensResolverContract = ensResolverContractAbi.at(ensResolverContractAddress);
+			var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
 			ensResolverContract.name(namehash(reverseName), function(error, name) {
 				if (!error) {
 					console.info(name); // TODO
