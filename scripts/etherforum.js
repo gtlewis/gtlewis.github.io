@@ -33,7 +33,7 @@ window.addEventListener('load', function() {
 
 	if (currentUser != undefined) {
 		$('#header-user-text').text('');
-		reverseENSLookup(currentUser); // TODO
+		$('#header-user-text').text(reverseENSLookup(currentUser)); // TODO
 		$('#header-user-text').append(displayUser(currentUser));
 		blottitContract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
@@ -1243,7 +1243,20 @@ function reverseENSLookup(user) {
 			var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
 			ensResolverContract.name(namehash(reverseName), function(error, name) {
 				if (!error) {
-					console.info(name); // TODO
+					ensContract.resolver(namehash(name), function(error, ensResolverContractAddress) {
+						if (!error) {
+							var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
+							ensResolverContract.addr(namehash(name), function(error, addr) {
+								if (!error) {
+									console.info(addr); // TODO
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
 				} else {
 					console.error(error);
 				}
