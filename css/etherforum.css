@@ -103,6 +103,11 @@ p {
 	float:right;
 }
 
+#header-user-ensname {
+	float: right;
+	line-height: 1.7;
+}
+
 #header-user-text {
 	color: red;
 	font-family: "Source Sans Pro", sans-serif;

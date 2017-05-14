@@ -32,8 +32,8 @@ window.addEventListener('load', function() {
 	}
 
 	if (currentUser != undefined) {
+		displayENSName($('#header-user-ensname'), currentUser);
 		$('#header-user-text').text('');
-		$('#header-user-text').text(reverseENSLookup(currentUser)); // TODO
 		$('#header-user-text').append(displayUser(currentUser));
 		blottitContract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
@@ -1235,20 +1235,24 @@ function isAboveDownvoteThreshold(upvoteCount, downvoteCount) {
 	return false;
 }
 
-function reverseENSLookup(user) {
-	var result;
+// TODO - need to swallow errors!!! and more checks! test for claimed name but no resolver!
+function displayENSName(div, user) {
 	var reverseName = user.substring(2) + '.addr.reverse';
 	ensContract.resolver(namehash(reverseName), function(error, ensResolverContractAddress) {
 		if (!error) {
 			var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
+			// if fail
 			ensResolverContract.name(namehash(reverseName), function(error, name) {
 				if (!error) {
 					ensContract.resolver(namehash(name), function(error, ensResolverContractAddress) {
 						if (!error) {
 							var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
+							// if fail
 							ensResolverContract.addr(namehash(name), function(error, addr) {
 								if (!error) {
-									console.info(addr); // TODO
+									if (addr === user) {
+										div.text(name);
+									}
 								} else {
 									console.error(error);
 								}
@@ -1265,7 +1269,6 @@ function reverseENSLookup(user) {
 			console.error(error);
 		}
 	});
-	return result;
 }
 
 function namehash(name) {
