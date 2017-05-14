@@ -424,7 +424,7 @@ function showUserPage() {
 						}
 						var ensName = $('<div id="todo"/>');
 						$('#header-main-text').append(ensName);
-						displayENSName(ensName, user);
+						displayENSName(ensName, userParameter);
 						var user = displayUser(userParameter);
 						user.prop('href', 'https://etherchain.org/account/' + userParameter);
 						$('#header-main-text').append(user);
