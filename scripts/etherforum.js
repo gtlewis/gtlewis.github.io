@@ -1,13 +1,378 @@
-var contractAbi = [{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getTitleOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getOwnerOfComment","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"deleteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeUpvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getPostsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBodyOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getNameOfForum","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"postBody","type":"string"}],"name":"editPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getPostScoresForForum","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"},{"name":"","type":"uint256[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getCommentScoresForPost","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isCommentDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getScoreForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getDownvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"},{"name":"commentBody","type":"string"}],"name":"editComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getOwnerOfPost","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentBody","type":"string"}],"name":"createComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getBodyOfComment","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postTitle","type":"string"},{"name":"postBody","type":"string"}],"name":"createPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"removeDownvoteFromComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getCommentsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getForumCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getUpvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBlockNumberOfPost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getPostCountOfForum","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getUpvoteCountOfComment","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"deletePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getScoreForForum","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"removeUpvoteFromComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getPostByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getCommentCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isCommentUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"downvoteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"upvoteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getActiveSubscriptionCountForUser","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isDeletedPost","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeDownvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"upvotePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getCommentByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getDownvoteCountOfComment","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"},{"name":"description","type":"string"}],"name":"createForum","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isDeletedComment","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getForumScores","outputs":[{"name":"","type":"int32[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"downvotePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getDescriptionOfForum","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"}]
+var blottitContractAbi = [{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getTitleOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getOwnerOfComment","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"deleteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeUpvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getPostsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBodyOfPost","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getNameOfForum","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"postBody","type":"string"}],"name":"editPost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getPostScoresForForum","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"},{"name":"","type":"uint256[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getCommentScoresForPost","outputs":[{"name":"","type":"uint32[]"},{"name":"","type":"uint32[]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isCommentDownvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getScoreForUser","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getDownvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"isSubscribedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"},{"name":"commentBody","type":"string"}],"name":"editComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getOwnerOfPost","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentBody","type":"string"}],"name":"createComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getBodyOfComment","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"subscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postTitle","type":"string"},{"name":"postBody","type":"string"}],"name":"createPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"removeDownvoteFromComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"getCommentsLengthForUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getForumCount","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getUpvoteCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getBlockNumberOfPost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getPostCountOfForum","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getUpvoteCountOfComment","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"deletePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getScoreForForum","outputs":[{"name":"","type":"int32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"removeUpvoteFromComment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getPostByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"getCommentCountOfPost","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isCommentUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"downvoteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"upvoteComment","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"}],"name":"unsubscribeUser","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getActiveSubscriptionCountForUser","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isDeletedPost","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"removeDownvoteFromPost","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"upvotePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"isPostUpvotedByUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"},{"name":"index","type":"uint256"}],"name":"getCommentByUser","outputs":[{"name":"","type":"uint32"},{"name":"","type":"uint32"},{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"getDownvoteCountOfComment","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"string"},{"name":"description","type":"string"}],"name":"createForum","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"},{"name":"commentId","type":"uint32"}],"name":"isDeletedComment","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"from","type":"uint32"},{"name":"to","type":"uint32"}],"name":"getForumScores","outputs":[{"name":"","type":"int32[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"forumId","type":"uint32"},{"name":"postId","type":"uint32"}],"name":"downvotePost","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"forumId","type":"uint32"}],"name":"getDescriptionOfForum","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"}]
 ;
-var contractAddress = '0xA87c3c780a7bC6b403Cb4284fCA76a7e95c91A53';
-var contract;
+var blottitContractAddress = '0xA87c3c780a7bC6b403Cb4284fCA76a7e95c91A53';
+var blottitContract;
+
+var ensContractAbi = [
+{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+}
+],
+"name":"resolver",
+"outputs":[
+{
+"name":"",
+"type":"address"
+}
+],
+"payable":false,
+"type":"function"
+},
+{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+}
+],
+"name":"owner",
+"outputs":[
+{
+"name":"",
+"type":"address"
+}
+],
+"payable":false,
+"type":"function"
+},
+{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"label",
+"type":"bytes32"
+},
+{
+"name":"owner",
+"type":"address"
+}
+],
+"name":"setSubnodeOwner",
+"outputs":[],
+"payable":false,
+"type":"function"
+},
+{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"ttl",
+"type":"uint64"
+}
+],
+"name":"setTTL",
+"outputs":[],
+"payable":false,
+"type":"function"
+},
+{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+}
+],
+"name":"ttl",
+"outputs":[
+{
+"name":"",
+"type":"uint64"
+}
+],
+"payable":false,
+"type":"function"
+},
+{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"resolver",
+"type":"address"
+}
+],
+"name":"setResolver",
+"outputs":[],
+"payable":false,
+"type":"function"
+},
+{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"owner",
+"type":"address"
+}
+],
+"name":"setOwner",
+"outputs":[],
+"payable":false,
+"type":"function"
+},
+{
+"anonymous":false,
+"inputs":[
+{
+"indexed":true,
+"name":"node",
+"type":"bytes32"
+},
+{
+"indexed":false,
+"name":"owner",
+"type":"address"
+}
+],
+"name":"Transfer",
+"type":"event"
+},
+{
+"anonymous":false,
+"inputs":[
+{
+"indexed":true,
+"name":"node",
+"type":"bytes32"
+},
+{
+"indexed":true,
+"name":"label",
+"type":"bytes32"
+},
+{
+"indexed":false,
+"name":"owner",
+"type":"address"
+}
+],
+"name":"NewOwner",
+"type":"event"
+},
+{
+"anonymous":false,
+"inputs":[
+{
+"indexed":true,
+"name":"node",
+"type":"bytes32"
+},
+{
+"indexed":false,
+"name":"resolver",
+"type":"address"
+}
+],
+"name":"NewResolver",
+"type":"event"
+},
+{
+"anonymous":false,
+"inputs":[
+{
+"indexed":true,
+"name":"node",
+"type":"bytes32"
+},
+{
+"indexed":false,
+"name":"ttl",
+"type":"uint64"
+}
+],
+"name":"NewTTL",
+"type":"event"
+}
+];
+var ensContractAddress = '0xe7410170f87102df0055eb195163a03b7f2bff4a';
+var ensContract;
+
+var ensResolverContractAbi = [
+{
+"constant":true,
+"inputs":[
+{
+"name":"interfaceID",
+"type":"bytes4"
+}
+],
+"name":"supportsInterface",
+"outputs":[
+{
+"name":"",
+"type":"bool"
+}
+],
+"payable":false,
+"type":"function"
+},
+{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+}
+],
+"name":"addr",
+"outputs":[
+{
+"name":"ret",
+"type":"address"
+}
+],"payable":false,
+"type":"function"
+},
+{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+}
+],
+"name":"name",
+"outputs":[
+{
+"name":"ret",
+"type":"string"
+}
+],"payable":false,
+"type":"function"
+},
+{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"kind",
+"type":"bytes32"
+}
+],
+"name":"has",
+"outputs":[
+{
+"name":"",
+"type":"bool"
+}
+],
+"payable":false,
+"type":"function"
+},
+{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"addr",
+"type":"address"
+}
+],
+"name":"setAddr",
+"outputs":[],
+"payable":false,
+"type":"function"
+},{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"name",
+"type":"string"
+}
+],
+"name":"setName",
+"outputs":[],
+"payable":false,
+"type":"function"
+}
+,{
+"constant":true,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+}
+],
+"name":"content",
+"outputs":[
+{
+"name":"ret",
+"type":"bytes32"
+}
+],
+"payable":false,
+"type":"function"
+},
+{
+"constant":false,
+"inputs":[
+{
+"name":"node",
+"type":"bytes32"
+},
+{
+"name":"hash",
+"type":"bytes32"
+}
+],
+"name":"setContent",
+"outputs":[],
+"payable":false,
+"type":"function"
+},
+{
+"inputs":[
+{
+"name":"ensAddr",
+"type":"address"
+}
+],
+"type":"constructor"
+},
+{
+"payable":false,
+"type":"fallback"
+}
+];
+
 var currentUser;
+
 var showAllForums = false;
 var showUserComments = false;
 var preventToggle = true;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
+
 var LIST_PAGE_SIZE = 10;
 var POST_AGE_WEIGHT = 256;
 var DOWNVOTE_MINIMUM = 10;
@@ -16,15 +381,17 @@ var DOWNVOTE_THRESHOLD = 0.7;
 window.addEventListener('load', function() {
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
 		web3 = new Web3(web3.currentProvider);
-		contract = web3.eth.contract(contractAbi).at(contractAddress);
+		blottitContract = web3.eth.contract(blottitContractAbi).at(blottitContractAddress);
+		ensContract = web3.eth.contract(ensContractAbi).at(ensContractAddress);
 		currentUser = web3.eth.accounts[0];
 		web3.eth.defaultAccount = currentUser;
 	}
 
 	if (currentUser != undefined) {
 		$('#header-user-text').text('');
+		reverseENSLookup(currentUser); // TODO
 		$('#header-user-text').append(displayUser(currentUser));
-		contract.getScoreForUser(currentUser, function(error, score) {
+		blottitContract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
 				$('#header-score-text').replaceWith(displayScore(score));
 				web3.eth.getBalance(currentUser, function(error, balance) {
@@ -56,19 +423,19 @@ window.addEventListener('load', function() {
 					showEditPostPage();
 					var sidebarPost = 6;
 				}
-				contract.isPostUpvotedByUser(0, sidebarPost, function (error, isUpvoted) {
+				blottitContract.isPostUpvotedByUser(0, sidebarPost, function (error, isUpvoted) {
 					if (!error) {
-						contract.isPostDownvotedByUser(0, sidebarPost, function (error, isDownvoted) {
+						blottitContract.isPostDownvotedByUser(0, sidebarPost, function (error, isDownvoted) {
 							if (!error) {
-								contract.getUpvoteCountOfPost(0, sidebarPost, function (error, upvoteCount) {
+								blottitContract.getUpvoteCountOfPost(0, sidebarPost, function (error, upvoteCount) {
 									if (!error) {
-										contract.getDownvoteCountOfPost(0, sidebarPost, function (error, downvoteCount) {
+										blottitContract.getDownvoteCountOfPost(0, sidebarPost, function (error, downvoteCount) {
 											if (!error) {
-												contract.isDeletedPost(0, sidebarPost, function (error, isDeletedPost) {
+												blottitContract.isDeletedPost(0, sidebarPost, function (error, isDeletedPost) {
 													if (!error) {
-														contract.getTitleOfPost(0, sidebarPost, function (error, postTitle) {
+														blottitContract.getTitleOfPost(0, sidebarPost, function (error, postTitle) {
 															if (!error) {
-																contract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
+																blottitContract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
 																	if (!error) {
 																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, false, true, false));
 																	} else {
@@ -99,7 +466,7 @@ window.addEventListener('load', function() {
 						console.error(error);
 					}
 				});
-				contract.getBodyOfPost(0, sidebarPost, function (error, postBody) {
+				blottitContract.getBodyOfPost(0, sidebarPost, function (error, postBody) {
 					if (!error) {
 						$('#content-sidebar-text').html(new showdown.Converter().makeHtml(postBody));
 					} else {
@@ -121,9 +488,9 @@ window.addEventListener('load', function() {
 
 function showForumsPage() {
 	if (currentUser != undefined) {
-		contract.getForumCount(function(error, forumCount) {
+		blottitContract.getForumCount(function(error, forumCount) {
 			if (!error) {
-				contract.getActiveSubscriptionCountForUser(function(error, activeSubscriptionCount) {
+				blottitContract.getActiveSubscriptionCountForUser(function(error, activeSubscriptionCount) {
 					if (!error) {
 						$('#content-main-titles').empty();
 						$('#view_more_forums_button').prop('style', 'visibility:hidden');
@@ -146,7 +513,7 @@ function showForumsPage() {
 							}
 						}
 						if (forumsToDisplay) {
-							contract.getForumScores(0, forumCount, function(error, forumScores) {
+							blottitContract.getForumScores(0, forumCount, function(error, forumScores) {
 								if (!error) {
 									for(var i=0; i<forumCount; i++) {
 										sortedListofIndexes[i] = i;
@@ -192,12 +559,12 @@ function displayPageOfForums() {
 	if (!showAllForums) {
 		for(var i=0; i<sortedListofIndexes.length; i++) {
 			(function(forumId) {
-				contract.isSubscribedByUser(sortedListofIndexes[forumId], function(error, isSubscribed) {
+				blottitContract.isSubscribedByUser(sortedListofIndexes[forumId], function(error, isSubscribed) {
 					if (!error) {
 						if (isSubscribed) {
-							contract.getNameOfForum(sortedListofIndexes[forumId], function(error, forumName) {
+							blottitContract.getNameOfForum(sortedListofIndexes[forumId], function(error, forumName) {
 								if (!error) {
-									contract.getDescriptionOfForum(sortedListofIndexes[forumId], function(error, forumDescription) {
+									blottitContract.getDescriptionOfForum(sortedListofIndexes[forumId], function(error, forumDescription) {
 										if (!error) {
 											$('#loading-forums').remove();
 											var forum = $('<h1/>');
@@ -233,9 +600,9 @@ function displayPageOfForums() {
 		for(var i=from; i<to; i++) {
 			latestListItemDisplayed++;
 			(function(forumId) {
-				contract.getNameOfForum(sortedListofIndexes[forumId], function(error, forumName) {
+				blottitContract.getNameOfForum(sortedListofIndexes[forumId], function(error, forumName) {
 					if (!error) {
-						contract.getDescriptionOfForum(sortedListofIndexes[forumId], function(error, forumDescription) {
+						blottitContract.getDescriptionOfForum(sortedListofIndexes[forumId], function(error, forumDescription) {
 							if (!error) {
 								$('#loading-forums').remove();
 								var forum = $('<h1/>');
@@ -260,12 +627,12 @@ function displayPageOfForums() {
 function showForumPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
-		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+		blottitContract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
 					document.title = '<Ether>Forum - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
-					contract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
+					blottitContract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
 							$('#content-main-titles').empty();
 							if (postCount == 0) {
@@ -273,7 +640,7 @@ function showForumPage() {
 							} else {
 								$('#content-main-titles').append('<h1 id="loading-posts">Loading posts...</h1>');
 							}
-							contract.getPostScoresForForum(forumIdParameter, 0, postCount, function(error, postScores) {
+							blottitContract.getPostScoresForForum(forumIdParameter, 0, postCount, function(error, postScores) {
 								if (!error) {
 									web3.eth.getBlockNumber(function(error, currentBlockNumber) {
 										if (!error) {
@@ -297,7 +664,7 @@ function showForumPage() {
 									console.error(error);
 								}
 							});
-							contract.isSubscribedByUser(forumIdParameter, function (error, isSubscribed) {
+							blottitContract.isSubscribedByUser(forumIdParameter, function (error, isSubscribed) {
 								if (!error) {
 									if (!isSubscribed) {
 										$('#subscribe_button').parent().prop('style', 'margin-left:15px');
@@ -340,19 +707,19 @@ function displayPageOfForumPosts(forumId) {
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
 		(function(postId) {
-			contract.isPostUpvotedByUser(forumId, sortedListofIndexes[postId], function (error, isUpvoted) {
+			blottitContract.isPostUpvotedByUser(forumId, sortedListofIndexes[postId], function (error, isUpvoted) {
 				if (!error) {
-					contract.isPostDownvotedByUser(forumId, sortedListofIndexes[postId], function (error, isDownvoted) {
+					blottitContract.isPostDownvotedByUser(forumId, sortedListofIndexes[postId], function (error, isDownvoted) {
 						if (!error) {
-							contract.getUpvoteCountOfPost(forumId, sortedListofIndexes[postId], function (error, upvoteCount) {
+							blottitContract.getUpvoteCountOfPost(forumId, sortedListofIndexes[postId], function (error, upvoteCount) {
 								if (!error) {
-									contract.getDownvoteCountOfPost(forumId, sortedListofIndexes[postId], function (error, downvoteCount) {
+									blottitContract.getDownvoteCountOfPost(forumId, sortedListofIndexes[postId], function (error, downvoteCount) {
 										if (!error) {
-											contract.isDeletedPost(forumId, sortedListofIndexes[postId], function (error, isDeletedPost) {
+											blottitContract.isDeletedPost(forumId, sortedListofIndexes[postId], function (error, isDeletedPost) {
 												if (!error) {
-													contract.getTitleOfPost(forumId, sortedListofIndexes[postId], function (error, postTitle) {
+													blottitContract.getTitleOfPost(forumId, sortedListofIndexes[postId], function (error, postTitle) {
 														if (!error) {
-															contract.getOwnerOfPost(forumId, sortedListofIndexes[postId], function (error, postOwner) {
+															blottitContract.getOwnerOfPost(forumId, sortedListofIndexes[postId], function (error, postOwner) {
 																if (!error) {
 																	$('#loading-posts').remove();
 																	$('#content-main-titles').append(displayPost(forumId, sortedListofIndexes[postId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, true, true, true));
@@ -401,7 +768,7 @@ function showUserPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
 		document.title = '<Ether>Forum - ' + userParameter;
-		contract.getScoreForUser(userParameter, function (error, userScore) {
+		blottitContract.getScoreForUser(userParameter, function (error, userScore) {
 			if (!error) {
 				web3.eth.getBalance(userParameter, function(error, userBalance) {
 					if (!error) {
@@ -421,7 +788,7 @@ function showUserPage() {
 						score.prop('style', 'margin-top:5px; border-color:#88ffff');
 						$('#header-main-text').append(score);
 						if (!showUserComments) {
-							contract.getPostsLengthForUser(userParameter, function (error, postCount) {
+							blottitContract.getPostsLengthForUser(userParameter, function (error, postCount) {
 								if (!error) {
 									$('#content-main-titles').empty();
 									$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
@@ -441,7 +808,7 @@ function showUserPage() {
 								}
 							});
 						} else {
-							contract.getCommentsLengthForUser(userParameter, function (error, commentCount) {
+							blottitContract.getCommentsLengthForUser(userParameter, function (error, commentCount) {
 								if (!error) {
 									$('#content-main-titles').empty();
 									$('#view_more_posts_or_comments_button').prop('style', 'visibility:hidden');
@@ -493,21 +860,21 @@ function displayPageOfUserPosts(user) {
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
 		(function(index) {
-			contract.getPostByUser(user, sortedListofIndexes[index], function (error, userPost) {
+			blottitContract.getPostByUser(user, sortedListofIndexes[index], function (error, userPost) {
 				if (!error) {
-					contract.isPostUpvotedByUser(userPost[0], userPost[1], function (error, isUpvoted) {
+					blottitContract.isPostUpvotedByUser(userPost[0], userPost[1], function (error, isUpvoted) {
 						if (!error) {
-							contract.isPostDownvotedByUser(userPost[0], userPost[1], function (error, isDownvoted) {
+							blottitContract.isPostDownvotedByUser(userPost[0], userPost[1], function (error, isDownvoted) {
 								if (!error) {
-									contract.getUpvoteCountOfPost(userPost[0], userPost[1], function (error, upvoteCount) {
+									blottitContract.getUpvoteCountOfPost(userPost[0], userPost[1], function (error, upvoteCount) {
 										if (!error) {
-											contract.getDownvoteCountOfPost(userPost[0], userPost[1], function (error, downvoteCount) {
+											blottitContract.getDownvoteCountOfPost(userPost[0], userPost[1], function (error, downvoteCount) {
 												if (!error) {
-													contract.isDeletedPost(userPost[0], userPost[1], function (error, isDeletedPost) {
+													blottitContract.isDeletedPost(userPost[0], userPost[1], function (error, isDeletedPost) {
 														if (!error) {
-															contract.getTitleOfPost(userPost[0], userPost[1], function (error, postTitle) {
+															blottitContract.getTitleOfPost(userPost[0], userPost[1], function (error, postTitle) {
 																if (!error) {
-																	contract.getNameOfForum(userPost[0], function (error, forumName) {
+																	blottitContract.getNameOfForum(userPost[0], function (error, forumName) {
 																		if (!error) {
 																			$('#loading-posts').remove();
 																			$('#content-main-titles').append(displayPost(userPost[0], userPost[1], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, user, true, true, true, true, true));
@@ -565,31 +932,31 @@ function displayPageOfUserComments(user) {
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
 		(function(index) {
-			contract.getCommentByUser(user, sortedListofIndexes[index], function (error, userComment) {
+			blottitContract.getCommentByUser(user, sortedListofIndexes[index], function (error, userComment) {
 				if (!error) {
-					contract.getUpvoteCountOfPost(userComment[0], userComment[1], function (error, upvoteCountOfPost) {
+					blottitContract.getUpvoteCountOfPost(userComment[0], userComment[1], function (error, upvoteCountOfPost) {
 						if (!error) {
-							contract.getDownvoteCountOfPost(userComment[0], userComment[1], function (error, downvoteCountOfPost) {
+							blottitContract.getDownvoteCountOfPost(userComment[0], userComment[1], function (error, downvoteCountOfPost) {
 								if (!error) {
-									contract.isDeletedPost(userComment[0], userComment[1], function (error, isDeletedPost) {
+									blottitContract.isDeletedPost(userComment[0], userComment[1], function (error, isDeletedPost) {
 										if (!error) {
-											contract.getTitleOfPost(userComment[0], userComment[1], function (error, postTitle) {
+											blottitContract.getTitleOfPost(userComment[0], userComment[1], function (error, postTitle) {
 												if (!error) {
-													contract.getOwnerOfPost(userComment[0], userComment[1], function (error, postOwner) {
+													blottitContract.getOwnerOfPost(userComment[0], userComment[1], function (error, postOwner) {
 														if (!error) {
-															contract.getNameOfForum(userComment[0], function (error, forumName) {
+															blottitContract.getNameOfForum(userComment[0], function (error, forumName) {
 																if (!error) {
-																	contract.isCommentUpvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentUpvoted) {
+																	blottitContract.isCommentUpvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentUpvoted) {
 																		if (!error) {
-																			contract.isCommentDownvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentDownvoted) {
+																			blottitContract.isCommentDownvotedByUser(userComment[0], userComment[1], userComment[2], function (error, isCommentDownvoted) {
 																				if (!error) {
-																					contract.getUpvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, upvoteCountOfComment) {
+																					blottitContract.getUpvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, upvoteCountOfComment) {
 																						if (!error) {
-																							contract.getDownvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, downvoteCountOfComment) {
+																							blottitContract.getDownvoteCountOfComment(userComment[0], userComment[1], userComment[2], function (error, downvoteCountOfComment) {
 																								if (!error) {
-																									contract.isDeletedComment(userComment[0], userComment[1], userComment[2], function (error, isDeletedComment) {
+																									blottitContract.isDeletedComment(userComment[0], userComment[1], userComment[2], function (error, isDeletedComment) {
 																										if (!error) {
-																											contract.getBodyOfComment(userComment[0], userComment[1], userComment[2], function (error, commentBody) {
+																											blottitContract.getBodyOfComment(userComment[0], userComment[1], userComment[2], function (error, commentBody) {
 																												if (!error) {
 																													$('#loading-posts').remove();
 																													$('#content-main-titles').append(displayPost(userComment[0], userComment[1], true, true, upvoteCountOfPost, downvoteCountOfPost, isDeletedPost, postTitle, forumName, postOwner, false, true, true, false, true));
@@ -655,28 +1022,28 @@ function showPostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	var postIdParameter = getUrlParameter('post_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
-		contract.getTitleOfPost(forumIdParameter, postIdParameter, function (error, postTitle) {
+		blottitContract.getTitleOfPost(forumIdParameter, postIdParameter, function (error, postTitle) {
 			if (!error) {
 				if (postTitle != undefined && postTitle.length > 0) {
-					contract.isPostUpvotedByUser(forumIdParameter, postIdParameter, function (error, isUpvoted) {
+					blottitContract.isPostUpvotedByUser(forumIdParameter, postIdParameter, function (error, isUpvoted) {
 						if (!error) {
-							contract.isPostDownvotedByUser(forumIdParameter, postIdParameter, function (error, isDownvoted) {
+							blottitContract.isPostDownvotedByUser(forumIdParameter, postIdParameter, function (error, isDownvoted) {
 								if (!error) {
-									contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter, function (error, upvoteCount) {
+									blottitContract.getUpvoteCountOfPost(forumIdParameter, postIdParameter, function (error, upvoteCount) {
 										if (!error) {
-											contract.getDownvoteCountOfPost(forumIdParameter, postIdParameter, function (error, downvoteCount) {
+											blottitContract.getDownvoteCountOfPost(forumIdParameter, postIdParameter, function (error, downvoteCount) {
 												if (!error) {
-													contract.isDeletedPost(forumIdParameter, postIdParameter, function (error, isDeletedPost) {
+													blottitContract.isDeletedPost(forumIdParameter, postIdParameter, function (error, isDeletedPost) {
 														if (!error) {
-															contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+															blottitContract.getNameOfForum(forumIdParameter, function (error, forumName) {
 																if (!error) {
-																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
+																	blottitContract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
 																		if (!error) {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, true, false, false));
 																			if (!isDeletedPost) {
 																				document.title = '<Ether>Forum - ' + postTitle;
-																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
+																				blottitContract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
 																					if (!error) {
 																						$('#content-main-text').html(new showdown.Converter().makeHtml(postBody));
 																						$('#create_comment_button').prop('style', 'visibility:visible');
@@ -691,7 +1058,7 @@ function showPostPage() {
 																			} else {
 																				$('#content-main-text').html('[DELETED BY OWNER]');
 																			}
-																			contract.getCommentCountOfPost(forumIdParameter, postIdParameter, function (error, commentCount) {
+																			blottitContract.getCommentCountOfPost(forumIdParameter, postIdParameter, function (error, commentCount) {
 																				if (!error) {
 																					$('#comments').empty();
 																					if (commentCount == 0) {
@@ -699,7 +1066,7 @@ function showPostPage() {
 																					} else {
 																						$('#comments').append('<div class="comment-status" id="loading-comments">Loading comments...</div>');
 																					}
-																					contract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
+																					blottitContract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
 																						if (!error) {
 																							var upvotes = commentScores[0];
 																							var downvotes = commentScores[1];
@@ -771,19 +1138,19 @@ function displayPageOfPostComments(forumId, postId) {
 	for(var i=from; i<to; i++) {
 		latestListItemDisplayed++;
 		(function(commentId) {
-			contract.isCommentUpvotedByUser(forumId, postId, sortedListofIndexes[commentId], function (error, isUpvoted) {
+			blottitContract.isCommentUpvotedByUser(forumId, postId, sortedListofIndexes[commentId], function (error, isUpvoted) {
 				if (!error) {
-					contract.isCommentDownvotedByUser(forumId, postId, sortedListofIndexes[commentId], function (error, isDownvoted) {
+					blottitContract.isCommentDownvotedByUser(forumId, postId, sortedListofIndexes[commentId], function (error, isDownvoted) {
 						if (!error) {
-							contract.getUpvoteCountOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, upvoteCount) {
+							blottitContract.getUpvoteCountOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, upvoteCount) {
 								if (!error) {
-									contract.getDownvoteCountOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, downvoteCount) {
+									blottitContract.getDownvoteCountOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, downvoteCount) {
 										if (!error) {
-											contract.isDeletedComment(forumId, postId, sortedListofIndexes[commentId], function (error, isDeletedComment) {
+											blottitContract.isDeletedComment(forumId, postId, sortedListofIndexes[commentId], function (error, isDeletedComment) {
 												if (!error) {
-													contract.getBodyOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentBody) {
+													blottitContract.getBodyOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentBody) {
 														if (!error) {
-															contract.getOwnerOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentOwner) {
+															blottitContract.getOwnerOfComment(forumId, postId, sortedListofIndexes[commentId], function (error, commentOwner) {
 																if (!error) {
 																	$('#loading-comments').remove();
 																	$('#comments').append(displayComment(forumId, postId, sortedListofIndexes[commentId], isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedComment, commentBody, commentOwner));
@@ -822,7 +1189,7 @@ function displayPageOfPostComments(forumId, postId) {
 function showCreatePostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && currentUser != undefined) {
-		contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+		blottitContract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
 					document.title = '<Ether>Forum - ' + forumName;
@@ -845,28 +1212,28 @@ function showEditPostPage() {
 	var forumIdParameter = getUrlParameter('forum_id');
 	var postIdParameter = getUrlParameter('post_id');
 	if (forumIdParameter != undefined && forumIdParameter.length > 0 && postIdParameter != undefined && postIdParameter.length > 0 && currentUser != undefined) {
-		contract.getTitleOfPost(forumIdParameter, postIdParameter, function (error, postTitle) {
+		blottitContract.getTitleOfPost(forumIdParameter, postIdParameter, function (error, postTitle) {
 			if (!error) {
 				if (postTitle != undefined && postTitle.length > 0) {
-					contract.isPostUpvotedByUser(forumIdParameter, postIdParameter, function (error, isUpvoted) {
+					blottitContract.isPostUpvotedByUser(forumIdParameter, postIdParameter, function (error, isUpvoted) {
 						if (!error) {
-							contract.isPostDownvotedByUser(forumIdParameter, postIdParameter, function (error, isDownvoted) {
+							blottitContract.isPostDownvotedByUser(forumIdParameter, postIdParameter, function (error, isDownvoted) {
 								if (!error) {
-									contract.getUpvoteCountOfPost(forumIdParameter, postIdParameter, function (error, upvoteCount) {
+									blottitContract.getUpvoteCountOfPost(forumIdParameter, postIdParameter, function (error, upvoteCount) {
 										if (!error) {
-											contract.getDownvoteCountOfPost(forumIdParameter, postIdParameter, function (error, downvoteCount) {
+											blottitContract.getDownvoteCountOfPost(forumIdParameter, postIdParameter, function (error, downvoteCount) {
 												if (!error) {
-													contract.isDeletedPost(forumIdParameter, postIdParameter, function (error, isDeletedPost) {
+													blottitContract.isDeletedPost(forumIdParameter, postIdParameter, function (error, isDeletedPost) {
 														if (!error) {
-															contract.getNameOfForum(forumIdParameter, function (error, forumName) {
+															blottitContract.getNameOfForum(forumIdParameter, function (error, forumName) {
 																if (!error) {
-																	contract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
+																	blottitContract.getOwnerOfPost(forumIdParameter, postIdParameter, function (error, postOwner) {
 																		if (!error) {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, false, false, false));
 																			if (!isDeletedPost) {
 																				document.title = '<Ether>Forum - ' + postTitle;
-																				contract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
+																				blottitContract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
 																					if (!error) {
 																						$('#content-main-text').val(postBody);
 																						if (postOwner === currentUser) {
@@ -933,7 +1300,7 @@ function createForum() {
 	var forumName = $('#title_input').val();
 	var forumDescription = $('#content-main-text').val();
 	if  (forumName.length > 0 && forumName.length <= 32 && forumDescription.length <= 256) {
-		contract.createForum(forumName, forumDescription, function (error, result) {
+		blottitContract.createForum(forumName, forumDescription, function (error, result) {
 			if (!error) {
 				$('#title_input').val('');
 				$('#content-main-text').val('');
@@ -955,11 +1322,11 @@ function createForum() {
 }
 
 function subscribe(forumId) {
-	contract.subscribeUser(forumId, void_callback);
+	blottitContract.subscribeUser(forumId, void_callback);
 }
 
 function unsubscribe(forumId) {
-	contract.unsubscribeUser(forumId, void_callback);
+	blottitContract.unsubscribeUser(forumId, void_callback);
 }
 
 function showUserPostsOrComments() {
@@ -977,7 +1344,7 @@ function createPost(forumId) {
 	var postTitle = $('#title_input').val();
 	var postBody = $('#content-main-text').val();
 	if  (postTitle.length > 0 && postTitle.length <= 256 && postBody.length <= 65536) {
-		contract.createPost(forumId, postTitle, postBody, function (error, result) {
+		blottitContract.createPost(forumId, postTitle, postBody, function (error, result) {
 			if (!error) {
 				$('#title_input').val('');
 				$('#content-main-text').val('');
@@ -1002,7 +1369,7 @@ function editPost(forumId, postId) {
 	$('#content-error').prop('style', 'visibility:hidden');
 	var postBody = $('#content-main-text').val();
 	if  (postBody.length <= 65536) {
-		contract.editPost(forumId, postId, postBody, void_callback);
+		blottitContract.editPost(forumId, postId, postBody, void_callback);
 	} else {
 		var errorText = 'Post too long';
 		$('#content-error').text(errorText);
@@ -1014,7 +1381,7 @@ function createComment_(forumId, postId) {
 	$('#create-comment-error').prop('style', 'visibility:hidden');
 	var commentBody = $('#create-comment-text').val();
 	if  (commentBody.length > 0 && commentBody.length <= 65536) {
-		contract.createComment(forumId, postId, commentBody, function (error, result) {
+		blottitContract.createComment(forumId, postId, commentBody, function (error, result) {
 			if (!error) {
 				$('#create-comment').prop('style', 'display:none');
 				$('#create-comment-text').val('');
@@ -1037,7 +1404,7 @@ function editComment(forumId, postId, commentId) {
 	$('#edit-comment-error-' + forumId + '-' + postId + '-' + commentId).prop('style', 'visibility:hidden');
 	var commentBody = $('#edit-comment-text-' + forumId + '-' + postId + '-' + commentId).val();
 	if  (commentBody.length > 0 && commentBody.length <= 65536) {
-		contract.editComment(forumId, postId, commentId, commentBody, function (error, result) {
+		blottitContract.editComment(forumId, postId, commentId, commentBody, function (error, result) {
 			if (!error) {
 				$('#edit-comment-body-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:none');
 				$('#comment-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:block');
@@ -1057,7 +1424,7 @@ function editComment(forumId, postId, commentId) {
 }
 
 function deletePost(forumId, postId) {
-	contract.deletePost(forumId, postId, void_callback);
+	blottitContract.deletePost(forumId, postId, void_callback);
 }
 
 function displayUser(user) {
@@ -1086,17 +1453,17 @@ function displayForum(forumId, forumName) {
 
 function displayPostUpvote(forumId, postId, isUpvoted) {
 	if (!isUpvoted) {
-		return $('<a href="#" onclick="contract.upvotePost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/upvote.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.upvotePost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/upvote.png"/></a>');
 	} else {
-		return $('<a href="#" onclick="contract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/upvoted.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.removeUpvoteFromPost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/upvoted.png"/></a>');
 	}
 }
 
 function displayPostDownvote(forumId, postId, isDownvoted) {
 	if (!isDownvoted) {
-		return $('<a href="#" onclick="contract.downvotePost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/downvote.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.downvotePost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/downvote.png"/></a>');
 	} else {
-		return $('<a href="#" onclick="contract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/downvoted.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.removeDownvoteFromPost(' + forumId + ', ' + postId + ', void_callback);return false;"><img src="/images/downvoted.png"/></a>');
 	}
 }
 
@@ -1140,7 +1507,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	}
 	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
 		div3.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
-		div3.append($('<a href="#" onclick="contract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
+		div3.append($('<a href="#" onclick="blottitContract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
 	}
 	h1.append(div3);
 	return h1;
@@ -1148,17 +1515,17 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 
 function displayCommentUpvote(forumId, postId, commentId, isUpvoted) {
 	if (!isUpvoted) {
-		return $('<a href="#" onclick="contract.upvoteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/upvote.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.upvoteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/upvote.png"/></a>');
 	} else {
-		return $('<a href="#" onclick="contract.removeUpvoteFromComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/upvoted.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.removeUpvoteFromComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/upvoted.png"/></a>');
 	}
 }
 
 function displayCommentDownvote(forumId, postId, commentId, isDownvoted) {
 	if (!isDownvoted) {
-		return $('<a href="#" onclick="contract.downvoteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/downvote.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.downvoteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/downvote.png"/></a>');
 	} else {
-		return $('<a href="#" onclick="contract.removeDownvoteFromComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/downvoted.png"/></a>');
+		return $('<a href="#" onclick="blottitContract.removeDownvoteFromComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;"><img src="/images/downvoted.png"/></a>');
 	}
 }
 
@@ -1199,13 +1566,13 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	div6.append(displayUser(commentOwner));
 	if (!isDeletedComment && commentOwner === currentUser) {
 		div6.append($('<a href="#" onClick="$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
-		div6.append($('<a href="#" onClick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div6.append($('<a href="#" onClick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 		var div7 = $('<div id="edit-comment-' + forumId + '-' + postId + '-' + commentId + '" class="comment-body" style="display:none"/>');
 		div7.append($('<textarea id="edit-comment-text-' + forumId + '-' + postId + '-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
 		var div8 = $('<div class="edit-comment-info"/>');
 		div8.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
 		div8.append($('<a href="#" onclick="$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-error-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
-		div8.append($('<a href="#" onclick="contract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div8.append($('<a href="#" onclick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
 		div9 = $('<div id="edit-comment-error-' + forumId + '-' + postId + '-' + commentId + '" class="edit-comment-error">Error</div>');
 		div8.append(div9);
 		div7.append(div8);
@@ -1224,6 +1591,26 @@ function isAboveDownvoteThreshold(upvoteCount, downvoteCount) {
 	return false;
 }
 
+function reverseENSLookup(user) {
+	var result;
+	var reverseName = user.substring(2) + '.addr.reverse';
+	ensContract.resolver(namehash(reverseName), function(error, ensResolverContractAddress) {
+		if (!error) {
+			var ensResolverContract = ensResolverContractAbi.at(ensResolverContractAddress);
+			ensResolverContract.name(namehash(reverseName'), function(error, name) {
+				if (!error) {
+					console.info(name); // TODO
+				} else {
+					console.error(error);
+				}
+			});
+		} else {
+			console.error(error);
+		}
+	});
+	return result;
+}
+
 function void_callback(error, result) {
 	if (error) {
 		console.error(error);
@@ -1231,14 +1618,14 @@ function void_callback(error, result) {
 }
 
 function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
+	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+		sURLVariables = sPageURL.split('&'),
+		sParameterName,
+		i;
+	for (i = 0; i < sURLVariables.length; i++) {
+		sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] === sParam) {
+			return sParameterName[1] === undefined ? true : sParameterName[1];
+		}
+	}
 }
