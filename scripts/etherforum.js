@@ -422,7 +422,7 @@ function showUserPage() {
 							$('#header-main-text').html('Comments by User');
 							$('#show_posts_or_comments_button').text('Show Posts');
 						}
-						var ensName = $('<div id="todo"/>');
+						var ensName = $('<div id="header-main-ensname"/>');
 						$('#header-main-text').append(ensName);
 						displayENSName(ensName, userParameter);
 						var user = displayUser(userParameter);
