@@ -63,13 +63,13 @@ contract Blottit {
     function subscribeUser(uint32 forumId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         User user = users[msg.sender];
         if (user.subscriptions[forumId]) {
-            // Throw if user already subscribed - saves gas
+            // Throw if user already subscribed
             throw;
         }
         
@@ -81,13 +81,13 @@ contract Blottit {
     function unsubscribeUser(uint32 forumId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         User user = users[msg.sender];
         if (!user.subscriptions[forumId]) {
-            // Throw if user not subscribed - saves gas
+            // Throw if user not subscribed
             throw;
         }
         
@@ -166,13 +166,13 @@ contract Blottit {
         
         bytes memory nameBytes = bytes(name);
         if (nameBytes.length < 1 || nameBytes.length > 32) {
-            // Throw if forum name too short or too long - not permitted
+            // Throw if forum name too short or too long
             throw;
         }
 
         bytes memory descriptionBytes = bytes(name);
         if (descriptionBytes.length > 256) {
-            // Throw if forum description too long - not permitted
+            // Throw if forum description too long
             throw;
         }
         
@@ -264,19 +264,19 @@ contract Blottit {
     function createPost(uint32 forumId, string postTitle, string postBody) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         bytes memory postTitleBytes = bytes(postTitle);
         if (postTitleBytes.length < 1 || postTitleBytes.length > 256) {
-            // Throw if post title too short or too long - not permitted
+            // Throw if post title too short or too long
             throw;
         }
         
         bytes memory postBodyBytes = bytes(postBody);
         if (postBodyBytes.length > 65536) {
-            // Throw if post body too long - not permitted
+            // Throw if post body too long
             throw;
         }
         
@@ -300,30 +300,30 @@ contract Blottit {
     function editPost(uint32 forumId, uint32 postId, string postBody) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (post.owner != msg.sender) {
-            // Throw if sender not post owner - not permitted
+            // Throw if sender not post owner
             throw;
         }
 
         if (post.deleted) {
-            // Throw if post deleted - not permitted
+            // Throw if post deleted
             throw;
         }
         
         bytes memory postBodyBytes = bytes(postBody);
         if (postBodyBytes.length > 65536) {
-            // Throw if post body too long - not permitted
+            // Throw if post body too long
             throw;
         }
         
@@ -334,24 +334,24 @@ contract Blottit {
     function deletePost(uint32 forumId, uint32 postId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (post.owner != msg.sender) {
-            // Throw if sender not post owner - not permitted
+            // Throw if sender not post owner
             throw;
         }
         
         if (post.deleted) {
-            // Throw if post already deleted - saves gas
+            // Throw if post already deleted
             throw;
         }
 
@@ -364,19 +364,19 @@ contract Blottit {
     function upvotePost(uint32 forumId, uint32 postId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (post.upvotes[msg.sender]) {
-            // Throw if post already upvoted by user - saves gas
+            // Throw if post already upvoted by user
             throw;
         }
         
@@ -397,19 +397,19 @@ contract Blottit {
     function removeUpvoteFromPost(uint32 forumId, uint32 postId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (!post.upvotes[msg.sender]) {
-            // Throw if post not upvoted by user - saves gas
+            // Throw if post not upvoted by user
             throw;
         }
         
@@ -425,19 +425,19 @@ contract Blottit {
     function downvotePost(uint32 forumId, uint32 postId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (post.downvotes[msg.sender]) {
-            // Throw if post already downvoted by user - saves gas
+            // Throw if post already downvoted by user
             throw;
         }
         
@@ -458,19 +458,19 @@ contract Blottit {
     function removeDownvoteFromPost(uint32 forumId, uint32 postId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (!post.downvotes[msg.sender]) {
-            // Throw if post not downvoted by user - saves gas
+            // Throw if post not downvoted by user
             throw;
         }
         
@@ -602,19 +602,19 @@ contract Blottit {
     function createComment(uint32 forumId, uint32 postId, string commentBody) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         bytes memory commentBodyBytes = bytes(commentBody);
         if (commentBodyBytes.length < 1 || commentBodyBytes.length > 65536) {
-            // Throw if comment body too short or too long - not permitted
+            // Throw if comment body too short or too long
             throw;
         }
         
@@ -636,36 +636,36 @@ contract Blottit {
     function editComment(uint32 forumId, uint32 postId, uint32 commentId, string commentBody) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (commentId >= post.commentCount) {
-            // Throw if comment not created - not permitted
+            // Throw if comment not created
             throw;
         }
         
         Comment comment = post.comments[commentId];
         if (comment.owner != msg.sender) {
-            // Throw if sender not comment owner - not permitted
+            // Throw if sender not comment owner
             throw;
         }
 
         if (comment.deleted) {
-            // Throw if comment deleted - not permitted
+            // Throw if comment deleted
             throw;
         }
         
         bytes memory commentBodyBytes = bytes(commentBody);
         if (commentBodyBytes.length > 65536) {
-            // Throw if comment body too long - not permitted
+            // Throw if comment body too long
             throw;
         }
         
@@ -676,30 +676,30 @@ contract Blottit {
     function deleteComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (commentId >= post.commentCount) {
-            // Throw if comment not created - not permitted
+            // Throw if comment not created
             throw;
         }
         
         Comment comment = post.comments[commentId];
         if (comment.owner != msg.sender) {
-            // Throw if sender not comment owner - not permitted
+            // Throw if sender not comment owner
             throw;
         }
         
         if (comment.deleted) {
-            // Throw if comment already deleted - saves gas
+            // Throw if comment already deleted
             throw;
         }
 
@@ -711,25 +711,25 @@ contract Blottit {
     function upvoteComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (commentId >= post.commentCount) {
-            // Throw if comment not created - not permitted
+            // Throw if comment not created
             throw;
         }
         
         Comment comment = post.comments[commentId];
         if (comment.upvotes[msg.sender]) {
-            // Throw if comment already upvoted by user - saves gas
+            // Throw if comment already upvoted by user
             throw;
         }
         
@@ -749,25 +749,25 @@ contract Blottit {
     function removeUpvoteFromComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (commentId >= post.commentCount) {
-            // Throw if comment not created - not permitted
+            // Throw if comment not created
             throw;
         }
         
         Comment comment = post.comments[commentId];
         if (!comment.upvotes[msg.sender]) {
-            // Throw if comment not upvoted by user - saves gas
+            // Throw if comment not upvoted by user
             throw;
         }
         
@@ -782,25 +782,25 @@ contract Blottit {
     function downvoteComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (commentId >= post.commentCount) {
-            // Throw if comment not created - not permitted
+            // Throw if comment not created
             throw;
         }
         
         Comment comment = post.comments[commentId];
         if (comment.downvotes[msg.sender]) {
-            // Throw if comment already downvoted by user - saves gas
+            // Throw if comment already downvoted by user
             throw;
         }
         
@@ -820,25 +820,25 @@ contract Blottit {
     function removeDownvoteFromComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
         if (forumId >= forumCount) {
-            // Throw if forum not created - not permitted
+            // Throw if forum not created
             throw;
         }
         
         Forum forum = forums[forumId];
         if (postId >= forum.postCount) {
-            // Throw if post not created - not permitted
+            // Throw if post not created
             throw;
         }
         
         Post post = forum.posts[postId];
         if (commentId >= post.commentCount) {
-            // Throw if comment not created - not permitted
+            // Throw if comment not created
             throw;
         }
         
         Comment comment = post.comments[commentId];
         if (!comment.downvotes[msg.sender]) {
-            // Throw if comment not downvoted by user - saves gas
+            // Throw if comment not downvoted by user
             throw;
         }
         
