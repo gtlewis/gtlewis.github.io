@@ -1,7 +1,7 @@
 pragma solidity ^0.4.8;
 
-// EtherForum
-contract EtherForum {
+// Blottit
+contract Blottit {
     
     // The list of forums
     mapping(uint32 => Forum) forums;
