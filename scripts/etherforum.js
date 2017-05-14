@@ -1235,38 +1235,27 @@ function isAboveDownvoteThreshold(upvoteCount, downvoteCount) {
 	return false;
 }
 
-// TODO - need to swallow errors? and more checks! test for claimed name but no resolver!
 function displayENSName(div, user) {
 	var reverseName = user.substring(2) + '.addr.reverse';
 	ensContract.resolver(namehash(reverseName), function(error, ensResolverContractAddress) {
 		if (!error) {
 			var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
-			// if fail
 			ensResolverContract.name(namehash(reverseName), function(error, name) {
 				if (!error) {
 					ensContract.resolver(namehash(name), function(error, ensResolverContractAddress) {
 						if (!error) {
 							var ensResolverContract = web3.eth.contract(ensResolverContractAbi).at(ensResolverContractAddress);
-							// if fail
 							ensResolverContract.addr(namehash(name), function(error, addr) {
 								if (!error) {
 									if (addr === user) {
 										div.text(name);
 									}
-								} else {
-									console.error(error);
 								}
 							});
-						} else {
-							console.error(error);
 						}
 					});
-				} else {
-					console.error(error);
 				}
 			});
-		} else {
-			console.error(error);
 		}
 	});
 }
