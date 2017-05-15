@@ -1079,7 +1079,7 @@ function displayUser(user, etherchain) {
 	if (!etherchain) {
 		var link = $('<a href="/user.html?user=' + user + '" title="' + user + '"/>');
 	} else {
-		var link = $('<a href="https://etherchain.org/account/' + userParameter + '"/>');
+		var link = $('<a href="https://etherchain.org/account/' + user + '"/>');
 	}
 	link.append(blockie);
 	return link;
