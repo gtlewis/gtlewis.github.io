@@ -31,9 +31,9 @@ window.addEventListener('load', function() {
 	}
 
 	if (currentUser != undefined) {
-		displayENSName($('#header-user-ensname'), currentUser, '/user.html?user=' + currentUser);
+		displayENSName($('#header-user-ensname'), currentUser, false);
 		$('#header-user-text').text('');
-		$('#header-user-text').append(displayUser(currentUser));
+		$('#header-user-text').append(displayUser(currentUser, false));
 		blottitContract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
 				$('#header-score-text').replaceWith(displayScore(score));
@@ -427,13 +427,12 @@ function showUserPage() {
 						var score = displayScore(userScore);
 						score.prop('style', 'margin-top:5px; border-color:#88ffff');
 						$('#header-main-text').append(score);
-						var user = displayUser(userParameter);
+						var user = displayUser(userParameter, true);
 						user.prop('style', 'float:right');
-						user.prop('href', 'https://etherchain.org/account/' + userParameter);
 						$('#header-main-text').append(user);
 						var ensName = $('<div id="header-main-ensname"/>');
 						$('#header-main-text').append(ensName);
-						displayENSName(ensName, userParameter, 'https://etherchain.org/account/' + userParameter);
+						displayENSName(ensName, userParameter, true);
 						if (!showUserComments) {
 							blottitContract.getPostsLengthForUser(userParameter, function (error, postCount) {
 								if (!error) {
@@ -1074,10 +1073,14 @@ function deletePost(forumId, postId) {
 	blottitContract.deletePost(forumId, postId, void_callback);
 }
 
-function displayUser(user) {
+function displayUser(user, etherchain) {
 	var blockie = blockies.create({seed:user, size:8, scale:3});
 	blockie.setAttribute('class', 'user');
-	var link = $('<a href="/user.html?user=' + user + '" title="' + user + '"/>');
+	if (!etherchain) {
+		var link = $('<a href="/user.html?user=' + user + '" title="' + user + '"/>');
+	} else {
+		var link = $('<a href="https://etherchain.org/account/' + userParameter + '"/>);
+	}
 	link.append(blockie);
 	return link;
 }
@@ -1147,7 +1150,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
-		div3.append(displayUser(postOwner));
+		div3.append(displayUser(postOwner, false));
 	}
 	if (isDisplayForum) {
 		div3.append(displayForum(forumId, forumName));
@@ -1210,7 +1213,7 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	}
 	div2.append(div4);
 	var div6 = $('<div class="comment-info"/>');
-	div6.append(displayUser(commentOwner));
+	div6.append(displayUser(commentOwner, false));
 	if (!isDeletedComment && commentOwner === currentUser) {
 		div6.append($('<a href="#" onClick="$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
 		div6.append($('<a href="#" onClick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
@@ -1238,7 +1241,7 @@ function isAboveDownvoteThreshold(upvoteCount, downvoteCount) {
 	return false;
 }
 
-function displayENSName(div, user, href) {
+function displayENSName(div, user, etherchain) {
 	var reverseName = user.substring(2) + '.addr.reverse';
 	ensContract.resolver(namehash(reverseName), function(error, ensResolverContractAddress) {
 		if (!error) {
@@ -1251,7 +1254,11 @@ function displayENSName(div, user, href) {
 							ensResolverContract.addr(namehash(name), function(error, addr) {
 								if (!error) {
 									if (addr === user) {
-										var link = $('<a href=' + href + '>' + name + '</a>');
+										if (!etherchain) {
+											var link = $('<a href="/user.html?user=' + user + '">' + name + '</a>');
+										} else {
+											var link = $('<a href="https://etherchain.org/account/' + name + '">' + name + '</a>');
+										}
 										div.append(link);
 									}
 								}
