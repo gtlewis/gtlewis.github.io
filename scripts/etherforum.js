@@ -80,7 +80,7 @@ window.addEventListener('load', function() {
 															if (!error) {
 																blottitContract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
 																	if (!error) {
-																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, false, true, false));
+																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, true, true, false));
 																	} else {
 																		console.error(error);
 																	}
@@ -1150,7 +1150,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
-		var div4 = $('<div style="float:left;line-height:0.9"/>');
+		var div4 = $('<div style="float:left;line-height:0.8"/>');
 		displayENSName(div4, postOwner, false);
 		div3.append(div4);
 		var user = displayUser(postOwner, false);
@@ -1158,7 +1158,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 		div3.append(user);
 	}
 	if (isDisplayForum) {
-		var div5 = $('<div style="float:left;line-height:0.9"/>');
+		var div5 = $('<div style="float:left;line-height:0.8"/>');
 		div5.append(displayForum(forumId, forumName));
 		div3.append(div5);
 	}
