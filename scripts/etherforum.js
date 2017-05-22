@@ -1152,8 +1152,8 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	if (isDisplayUser) {
 		var div4 = $('<div style="float:left;line-height:0.9"/>');
 		displayENSName(div4, postOwner, false);
-		div4.append(displayUser(postOwner, false));
 		div3.append(div4);
+		div3.append(displayUser(postOwner, false));
 	}
 	if (isDisplayForum) {
 		var div5 = $('<div style="float:left;line-height:0.9"/>');
