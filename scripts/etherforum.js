@@ -1150,15 +1150,21 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
-		displayENSName(div3, postOwner, false);
+		var div4 = $('<div style="float:left;line-height:0.9"/>');
+		displayENSName(div4, postOwner, false);
+		div3.append(div4);
 		div3.append(displayUser(postOwner, false));
 	}
 	if (isDisplayForum) {
-		div3.append(displayForum(forumId, forumName));
+		var div5 = $('<div style="float:right;line-height:0.9"/>');
+		div5.append(displayForum(forumId, forumName));
+		div3.append(div5);
 	}
 	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
-		div3.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
-		div3.append($('<a href="#" onclick="blottitContract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
+		var div6 = $('<div style="float:right;line-height:0.9"/>');
+		div6.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
+		div6.append($('<a href="#" onclick="blottitContract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
+		div3.append(div6);
 	}
 	h1.append(div3);
 	return h1;
