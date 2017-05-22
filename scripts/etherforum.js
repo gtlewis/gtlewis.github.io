@@ -1150,6 +1150,7 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
+		displayENSName(div3, postOwner, false);
 		div3.append(displayUser(postOwner, false));
 	}
 	if (isDisplayForum) {
