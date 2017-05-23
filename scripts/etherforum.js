@@ -1226,20 +1226,25 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	}
 	div2.append(div4);
 	var div6 = $('<div class="comment-info"/>');
-	div6.append(displayUser(commentOwner, false, true));
+	var div7 = $('<div style="float:left"/>');
+	displayENSName(div7, commentOwner, false);
+	div7.append(displayUser(commentOwner, false, true));
+	div6.append(div7);
 	if (!isDeletedComment && commentOwner === currentUser) {
-		div6.append($('<a href="#" onClick="$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
-		div6.append($('<a href="#" onClick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		var div7 = $('<div id="edit-comment-' + forumId + '-' + postId + '-' + commentId + '" class="comment-body" style="display:none"/>');
-		div7.append($('<textarea id="edit-comment-text-' + forumId + '-' + postId + '-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
-		var div8 = $('<div class="edit-comment-info"/>');
-		div8.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
-		div8.append($('<a href="#" onclick="$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-error-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
-		div8.append($('<a href="#" onclick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
-		div9 = $('<div id="edit-comment-error-' + forumId + '-' + postId + '-' + commentId + '" class="edit-comment-error">Error</div>');
-		div8.append(div9);
-		div7.append(div8);
-		div1.append(div7);
+		var div8 = $('<div style="float:left"/>');
+		div8.append($('<a href="#" onClick="$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
+		div8.append($('<a href="#" onClick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div6.append(div8);
+		var div9 = $('<div id="edit-comment-' + forumId + '-' + postId + '-' + commentId + '" class="comment-body" style="display:none"/>');
+		div9.append($('<textarea id="edit-comment-text-' + forumId + '-' + postId + '-' + commentId + '" class="edit-comment-text" rows="3" placeholder="Edit comment">' + commentBody + '</textarea>'));
+		var div10 = $('<div class="edit-comment-info"/>');
+		div10.append($('<a href="#" onclick="editComment(' + forumId + ', ' + postId + ', ' + commentId + ');return false;">Submit</a>'));
+		div10.append($('<a href="#" onclick="$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-error-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39visibility:hidden&#39);$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Cancel</a>'));
+		div10.append($('<a href="#" onclick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
+		div11 = $('<div id="edit-comment-error-' + forumId + '-' + postId + '-' + commentId + '" class="edit-comment-error">Error</div>');
+		div10.append(div11);
+		div9.append(div10);
+		div1.append(div9);
 	}
 	div2.append(div6);
 	div1.append(div2);
