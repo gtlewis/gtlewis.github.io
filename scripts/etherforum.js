@@ -33,7 +33,7 @@ window.addEventListener('load', function() {
 	if (currentUser != undefined) {
 		displayENSName($('#header-user-ensname'), currentUser, false);
 		$('#header-user-text').text('');
-		$('#header-user-text').append(displayUser(currentUser, false));
+		$('#header-user-text').append(displayUser(currentUser, false, false));
 		blottitContract.getScoreForUser(currentUser, function(error, score) {
 			if (!error) {
 				$('#header-score-text').replaceWith(displayScore(score));
@@ -427,7 +427,7 @@ function showUserPage() {
 						var score = displayScore(userScore);
 						score.prop('style', 'margin-top:5px; border-color:#88ffff');
 						$('#header-main-text').append(score);
-						var user = displayUser(userParameter, true);
+						var user = displayUser(userParameter, true, false);
 						user.prop('style', 'float:right');
 						$('#header-main-text').append(user);
 						var ensName = $('<div id="header-main-ensname"/>');
@@ -1073,9 +1073,13 @@ function deletePost(forumId, postId) {
 	blottitContract.deletePost(forumId, postId, void_callback);
 }
 
-function displayUser(user, etherchain) {
+function displayUser(user, etherchain, small) {
 	var blockie = blockies.create({seed:user, size:8, scale:3});
-	blockie.setAttribute('class', 'user');
+	if (!small) {
+		blockie.setAttribute('class', 'user');
+	} else {
+		blockie.setAttribute('class', 'user-small');
+	}
 	if (!etherchain) {
 		var link = $('<a href="/user.html?user=' + user + '" title="' + user + '"/>');
 	} else {
@@ -1150,20 +1154,20 @@ function displayPost(forumId, postId, isUpvoted, isDownvoted, upvoteCount, downv
 	h1.append(div2);
 	var div3 = $('<div class="post-info"/>');
 	if (isDisplayUser) {
-		var div4 = $('<div style="float:left;line-height:0.8"/>');
+		var div4 = $('<div style="float:left"/>');
 		displayENSName(div4, postOwner, false);
 		div3.append(div4);
-		var user = displayUser(postOwner, false);
+		var user = displayUser(postOwner, false, true);
 		user.prop('style', 'float:left');
 		div3.append(user);
 	}
 	if (isDisplayForum) {
-		var div5 = $('<div style="float:left;line-height:0.8"/>');
+		var div5 = $('<div style="float:left"/>');
 		div5.append(displayForum(forumId, forumName));
 		div3.append(div5);
 	}
 	if (isDisplayEditDelete && !isDeletedPost && postOwner === currentUser) {
-		var div6 = $('<div style="float:left;line-height:0.9"/>');
+		var div6 = $('<div style="float:left"/>');
 		div6.append($('<a href="/editpost.html?forum_id=' + forumId + '&post_id=' + postId + '">Edit</a>'));
 		div6.append($('<a href="#" onclick="blottitContract.deletePost(' + forumId + ', ' + postId + ', void_callback);return false;">Delete</a>'));
 		div3.append(div6);
@@ -1222,7 +1226,7 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	}
 	div2.append(div4);
 	var div6 = $('<div class="comment-info"/>');
-	div6.append(displayUser(commentOwner, false));
+	div6.append(displayUser(commentOwner, false, true));
 	if (!isDeletedComment && commentOwner === currentUser) {
 		div6.append($('<a href="#" onClick="$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
 		div6.append($('<a href="#" onClick="blottitContract.deleteComment(' + forumId + ', ' + postId + ', ' + commentId + ', void_callback);return false;">Delete</a>'));
