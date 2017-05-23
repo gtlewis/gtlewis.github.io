@@ -1013,9 +1013,9 @@ function createPost(forumId) {
 
 function donateButton() {
 	$('#donate_button').parent().html('<input id="header-button-input" type="text" placeholder="#ETH"/>');
-	$('$header-button-input').keypress(function (e) {
+	$('#header-button-input').keypress(function(e) {
 		if (e.which == 13) {
-			web3.eth.sendTransaction({to:getUrlParameter('user'), value: web3.toWei($('$header-button-input').val(), 'ether')}, void_callback)
+			web3.eth.sendTransaction({to:getUrlParameter('user'), value: web3.toWei($('#header-button-input').val(), 'ether')}, void_callback)
 			return false;
 		}
 	});
