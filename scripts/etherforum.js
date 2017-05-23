@@ -1012,6 +1012,7 @@ function createPost(forumId) {
 }
 
 function donateButton() {
+	$('#donate_button').parent().html('<input id="header-button-input" type="text" placeholder="#ETH"/>');
 //web3.eth.sendTransaction({to:getUrlParameter('user')}, void_callback)
 }
 
