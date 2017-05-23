@@ -1011,6 +1011,10 @@ function createPost(forumId) {
 	}
 }
 
+function donateButton() {
+//web3.eth.sendTransaction({to:getUrlParameter('user')}, void_callback)
+}
+
 function editPost(forumId, postId) {
 	$('#content-error').prop('style', 'visibility:hidden');
 	var postBody = $('#content-main-text').val();
