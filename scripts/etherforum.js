@@ -1095,7 +1095,7 @@ function editComment(forumId, postId, commentId) {
 	if  (commentBody.length > 0 && commentBody.length <= 65536) {
 		blottitContract.editComment(forumId, postId, commentId, commentBody, function (error, result) {
 			if (!error) {
-				$('#edit-comment-body-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:none');
+				$('#edit-comment-text-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:none');
 				$('#comment-' + forumId + '-' + postId + '-' + commentId).prop('style', 'display:block');
 			} else {
 				console.error(error);
