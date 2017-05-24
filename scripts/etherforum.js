@@ -16,7 +16,7 @@ var preventToggle = true;
 var sortedListofIndexes = [];
 var latestListItemDisplayed = 0;
 
-var LIST_PAGE_SIZE = 1;
+var LIST_PAGE_SIZE = 10;
 var POST_AGE_WEIGHT = 256;
 var DOWNVOTE_MINIMUM = 10;
 var DOWNVOTE_THRESHOLD = 0.7;
