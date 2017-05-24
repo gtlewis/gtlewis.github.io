@@ -877,7 +877,7 @@ function showEditPostPage() {
 																		if (!error) {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, false, false, false));
-																			if (!isDeletedPost) {
+																			if (!true) {
 																				document.title = '<Ether>Forum - ' + postTitle;
 																				blottitContract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
 																					if (!error) {
