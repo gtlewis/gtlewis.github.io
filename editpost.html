@@ -40,6 +40,23 @@
 						</div>
 					</footer>
 					<div id="content-error">Error</div>
+					<div id="create-comment" class="comment-body" style="display:none">
+						<textarea id="create-comment-text" class="edit-comment-text" rows="3" placeholder="Edit comment"></textarea>
+						<div class="edit-comment-info">
+							<a id="submit_comment_button" href="#" onclick="createComment_(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;">Submit</a>
+							<a id="cancel_button" href="#" onclick="$('#create-comment-text').val('');$('#create-comment-error').prop('style', 'visibility:hidden');$('#create-comment').prop('style', 'display:none');return false;">Cancel</a>
+							<div id="create-comment-error" class="edit-comment-error">Error</div>
+						</div>
+					</div>
+					<div id="comments">
+						<div class="comment-status">Loading comments...</div>
+					</div>
+					<footer class="content-footer">
+						<div class="content-footer-buttons">
+							<div class="content-footer-button" style="float:right"><a id="view_more_comments_button" href="#" onclick="displayPageOfPostComments(getUrlParameter('forum_id'), getUrlParameter('post_id'));return false;" style="visibility:hidden">View more comments</a></div>
+						</div>
+					</footer>
+					<div id="content-error">Error</div>
 				</div>
 				<div id="content-sidebar">
 					<div id="content-sidebar-title"></div>
