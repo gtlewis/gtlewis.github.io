@@ -892,6 +892,33 @@ function showEditPostPage() {
 																					}
 																				});
 																			}
+																			blottitContract.getCommentCountOfPost(forumIdParameter, postIdParameter, function (error, commentCount) {
+																				if (!error) {
+																					$('#comments').empty();
+																					if (commentCount == 0) {
+																						$('#comments').append('<div class="comment-status" id="loading-comments">No comments yet</div>');
+																					} else {
+																						$('#comments').append('<div class="comment-status" id="loading-comments">Loading comments...</div>');
+																					}
+																					blottitContract.getCommentScoresForPost(forumIdParameter, postIdParameter, 0, commentCount, function (error, commentScores) {
+																						if (!error) {
+																							var upvotes = commentScores[0];
+																							var downvotes = commentScores[1];
+																							for(var i=0; i<commentCount; i++) {
+																								sortedListofIndexes[i] = i;
+																							}
+																							sortedListofIndexes.sort(function(a, b) {
+																								return (upvotes[b] - downvotes[b]) - (upvotes[a] - downvotes[a]);
+																							});
+																							displayPageOfPostComments(forumIdParameter, postIdParameter);
+																						} else {
+																							console.error(error);
+																						}
+																					});
+																				} else {
+																					console.error(error);
+																				}
+																			});
 																		} else {
 																			console.error(error);
 																		}
@@ -923,6 +950,7 @@ function showEditPostPage() {
 				} else {
 					$('#header-main-text').html('Forum not found');
 					$('#content-main-titles').html('<h1>Post not found</h1>');
+					$('#comments').html('<div class="comment-status">No comments found</div>');
 				}
 			} else {
 				console.error(error);
