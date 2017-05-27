@@ -39,7 +39,7 @@ p {
 
 #body {
 	background: #2d3642;
-	background-image: url('/images/Ethereum-homestead-background-10.jpg');
+	background-image: url('/images/background.jpg');
 	background-repeat: repeat;
 	background-position: top left;
 	background-attachment: scroll;
@@ -85,9 +85,7 @@ p {
 }
 
 #header-top-text {
-	color: #20b2aa;
 	font-family: "Source Sans Pro", sans-serif;
-	font-size: 1.5em;
 	font-weight: 700;
 	line-height: 1;
 	margin: 0;

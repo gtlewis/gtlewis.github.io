@@ -171,10 +171,10 @@ function showForumsPage() {
 							});
 						}
 						if (!showAllForums) {
-							document.title = '<Ether>Forum - ' + currentUser;
+							document.title = 'Blottit - ' + currentUser;
 							$('#show_forums_button').text('Show All Forums');
 						} else {
-							document.title = '<Ether>Forum';
+							document.title = 'Blottit';
 							$('#show_forums_button').text('Show Subscribed');
 						}
 						$('#show_forums_button').parent().prop('style', 'margin-left:15px');
@@ -273,7 +273,7 @@ function showForumPage() {
 		blottitContract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
-					document.title = '<Ether>Forum - ' + forumName;
+					document.title = 'Blottit - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 					blottitContract.getPostCountOfForum(forumIdParameter, function (error, postCount) {
 						if (!error) {
@@ -410,7 +410,7 @@ function showCreateForumPage() {
 function showUserPage() {
 	var userParameter = getUrlParameter('user');
 	if (userParameter != undefined && userParameter.length > 0 && currentUser != undefined) {
-		document.title = '<Ether>Forum - ' + userParameter;
+		document.title = 'Blottit - ' + userParameter;
 		blottitContract.getScoreForUser(userParameter, function (error, userScore) {
 			if (!error) {
 				web3.eth.getBalance(userParameter, function(error, userBalance) {
@@ -688,7 +688,7 @@ function showPostPage() {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, true, false, false));
 																			if (!isDeletedPost) {
-																				document.title = '<Ether>Forum - ' + postTitle;
+																				document.title = 'Blottit - ' + postTitle;
 																				blottitContract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
 																					if (!error) {
 																						$('#content-main-text').html(new showdown.Converter().makeHtml(postBody));
@@ -838,7 +838,7 @@ function showCreatePostPage() {
 		blottitContract.getNameOfForum(forumIdParameter, function (error, forumName) {
 			if (!error) {
 				if (forumName != undefined && forumName.length > 0) {
-					document.title = '<Ether>Forum - ' + forumName;
+					document.title = 'Blottit - ' + forumName;
 					$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 					$('#title_input').prop('style', 'visibility:visible');
 					$('#content-main-text').prop('style', 'visibility:visible');
@@ -878,7 +878,7 @@ function showEditPostPage() {
 																			$('#header-main-text').html(displayForum(forumIdParameter, forumName));
 																			$('#content-main-titles').html(displayPost(forumIdParameter, postIdParameter, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, forumName, postOwner, true, false, false, false, false));
 																			if (!isDeletedPost) {
-																				document.title = '<Ether>Forum - ' + postTitle;
+																				document.title = 'Blottit - ' + postTitle;
 																				blottitContract.getBodyOfPost(forumIdParameter, postIdParameter, function (error, postBody) {
 																					if (!error) {
 																						$('#content-main-text').val(postBody);
