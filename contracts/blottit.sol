@@ -1,3 +1,27 @@
+/*
+MIT License
+
+Copyright (c) 2017 Blottit
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 pragma solidity ^0.4.8;
 
 // Blottit
@@ -62,16 +86,10 @@ contract Blottit {
     // User.subscribe()
     function subscribeUser(uint32 forumId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         User user = users[msg.sender];
-        if (user.subscriptions[forumId]) {
-            // Throw if user already subscribed
-            throw;
-        }
+        require(!user.subscriptions[forumId]);
         
         user.subscriptions[forumId] = true;
         user.activeSubscriptionCount++;
@@ -80,16 +98,10 @@ contract Blottit {
     // User.unsubscribe()
     function unsubscribeUser(uint32 forumId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         User user = users[msg.sender];
-        if (!user.subscriptions[forumId]) {
-            // Throw if user not subscribed
-            throw;
-        }
+        require(user.subscriptions[forumId]);
         
         user.subscriptions[forumId] = false;
         user.activeSubscriptionCount--;
@@ -165,16 +177,10 @@ contract Blottit {
     function createForum(string name, string description) {
         
         bytes memory nameBytes = bytes(name);
-        if (nameBytes.length < 1 || nameBytes.length > 32) {
-            // Throw if forum name too short or too long
-            throw;
-        }
+        require(nameBytes.length > 0 && nameBytes.length <= 32);
 
         bytes memory descriptionBytes = bytes(name);
-        if (descriptionBytes.length > 256) {
-            // Throw if forum description too long
-            throw;
-        }
+        require(descriptionBytes.length <= 256);
         
         Forum forum = forums[forumCount];
         forum.name = name;
@@ -244,6 +250,9 @@ contract Blottit {
         // The post's block number
         uint blockNumber;
         
+        // The post's edited flag
+        bool edited;
+        
         // The post's deleted flag
         bool deleted;
         
@@ -263,22 +272,13 @@ contract Blottit {
     // Post.create()
     function createPost(uint32 forumId, string postTitle, string postBody) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         bytes memory postTitleBytes = bytes(postTitle);
-        if (postTitleBytes.length < 1 || postTitleBytes.length > 256) {
-            // Throw if post title too short or too long
-            throw;
-        }
+        require(postTitleBytes.length > 0 && postTitleBytes.length <= 256);
         
         bytes memory postBodyBytes = bytes(postBody);
-        if (postBodyBytes.length > 65536) {
-            // Throw if post body too long
-            throw;
-        }
+        require(postBodyBytes.length <= 65536);
         
         Forum forum = forums[forumId];
         Post post = forum.posts[forum.postCount];
@@ -299,61 +299,33 @@ contract Blottit {
     // Post.edit()
     function editPost(uint32 forumId, uint32 postId, string postBody) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (post.owner != msg.sender) {
-            // Throw if sender not post owner
-            throw;
-        }
-
-        if (post.deleted) {
-            // Throw if post deleted
-            throw;
-        }
+        require(post.owner == msg.sender);
+        require(!post.deleted);
         
         bytes memory postBodyBytes = bytes(postBody);
-        if (postBodyBytes.length > 65536) {
-            // Throw if post body too long
-            throw;
-        }
+        require(postBodyBytes.length <= 65536);
         
         post.body = postBody;
+        post.edited = true;
     }
     
     // Post.delete()
     function deletePost(uint32 forumId, uint32 postId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (post.owner != msg.sender) {
-            // Throw if sender not post owner
-            throw;
-        }
-        
-        if (post.deleted) {
-            // Throw if post already deleted
-            throw;
-        }
+        require(post.owner == msg.sender);       
+        require(!post.deleted);
 
         post.title = "-";
         post.body = "-";
@@ -363,22 +335,13 @@ contract Blottit {
     // Post.upvote()
     function upvotePost(uint32 forumId, uint32 postId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (post.upvotes[msg.sender]) {
-            // Throw if post already upvoted by user
-            throw;
-        }
+        require(!post.upvotes[msg.sender]);
         
         // If post downvoted by user, remove downvote
         if (post.downvotes[msg.sender]) {
@@ -396,22 +359,13 @@ contract Blottit {
     // Post.removeUpvote()
     function removeUpvoteFromPost(uint32 forumId, uint32 postId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (!post.upvotes[msg.sender]) {
-            // Throw if post not upvoted by user
-            throw;
-        }
+        require(post.upvotes[msg.sender]);
         
         post.upvotes[msg.sender] = false;
         post.upvoteCount--;
@@ -424,22 +378,13 @@ contract Blottit {
     // Post.downvote()
     function downvotePost(uint32 forumId, uint32 postId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (post.downvotes[msg.sender]) {
-            // Throw if post already downvoted by user
-            throw;
-        }
+        require(!post.downvotes[msg.sender]);
         
         // If post upvoted by user, remove upvote
         if (post.upvotes[msg.sender]) {
@@ -457,22 +402,13 @@ contract Blottit {
     // Post.removeDownvote()
     function removeDownvoteFromPost(uint32 forumId, uint32 postId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (!post.downvotes[msg.sender]) {
-            // Throw if post not downvoted by user
-            throw;
-        }
+        require(post.downvotes[msg.sender]);
         
         post.downvotes[msg.sender] = false;
         post.downvoteCount--;
@@ -586,6 +522,9 @@ contract Blottit {
         // The comment's body
         string body;
         
+        // The comment's edited flag
+        bool edited;
+        
         // The comment's deleted flag
         bool deleted;
         
@@ -601,22 +540,13 @@ contract Blottit {
     // Comment.create()
     function createComment(uint32 forumId, uint32 postId, string commentBody) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         bytes memory commentBodyBytes = bytes(commentBody);
-        if (commentBodyBytes.length < 1 || commentBodyBytes.length > 65536) {
-            // Throw if comment body too short or too long
-            throw;
-        }
+        require(commentBodyBytes.length > 0 && commentBodyBytes.length <= 65536);
         
         Post post = forum.posts[postId];
         Comment comment = post.comments[post.commentCount];
@@ -635,73 +565,39 @@ contract Blottit {
     // Comment.edit()
     function editComment(uint32 forumId, uint32 postId, uint32 commentId, string commentBody) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (commentId >= post.commentCount) {
-            // Throw if comment not created
-            throw;
-        }
+        require(commentId < post.commentCount);
         
         Comment comment = post.comments[commentId];
-        if (comment.owner != msg.sender) {
-            // Throw if sender not comment owner
-            throw;
-        }
-
-        if (comment.deleted) {
-            // Throw if comment deleted
-            throw;
-        }
+        require(comment.owner == msg.sender);
+        require(!comment.deleted);
         
         bytes memory commentBodyBytes = bytes(commentBody);
-        if (commentBodyBytes.length > 65536) {
-            // Throw if comment body too long
-            throw;
-        }
+        require(commentBodyBytes.length > 0 && commentBodyBytes.length <= 65536);
         
         comment.body = commentBody;
+        comment.edited = true;
     }
     
     // Comment.delete()
     function deleteComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (commentId >= post.commentCount) {
-            // Throw if comment not created
-            throw;
-        }
+        require(commentId < post.commentCount);
         
         Comment comment = post.comments[commentId];
-        if (comment.owner != msg.sender) {
-            // Throw if sender not comment owner
-            throw;
-        }
-        
-        if (comment.deleted) {
-            // Throw if comment already deleted
-            throw;
-        }
+        require(comment.owner == msg.sender);
+        require(!comment.deleted);
 
         comment.body = "-";
         comment.deleted = true;
@@ -710,28 +606,16 @@ contract Blottit {
     // Comment.upvote()
     function upvoteComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (commentId >= post.commentCount) {
-            // Throw if comment not created
-            throw;
-        }
+        require(commentId < post.commentCount);
         
         Comment comment = post.comments[commentId];
-        if (comment.upvotes[msg.sender]) {
-            // Throw if comment already upvoted by user
-            throw;
-        }
+        require(!comment.upvotes[msg.sender]);
         
         // If comment downvoted by user, remove downvote
         if (comment.downvotes[msg.sender]) {
@@ -748,28 +632,16 @@ contract Blottit {
     // Comment.removeUpvote()
     function removeUpvoteFromComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (commentId >= post.commentCount) {
-            // Throw if comment not created
-            throw;
-        }
+        require(commentId < post.commentCount);
         
         Comment comment = post.comments[commentId];
-        if (!comment.upvotes[msg.sender]) {
-            // Throw if comment not upvoted by user
-            throw;
-        }
+        require(comment.upvotes[msg.sender]);
         
         comment.upvotes[msg.sender] = false;
         comment.upvoteCount--;
@@ -781,28 +653,16 @@ contract Blottit {
     // Comment.downvote()
     function downvoteComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (commentId >= post.commentCount) {
-            // Throw if comment not created
-            throw;
-        }
+        require(commentId < post.commentCount);
         
         Comment comment = post.comments[commentId];
-        if (comment.downvotes[msg.sender]) {
-            // Throw if comment already downvoted by user
-            throw;
-        }
+        require(!comment.downvotes[msg.sender]);
         
         // If comment upvoted by user, remove upvote
         if (comment.upvotes[msg.sender]) {
@@ -819,28 +679,16 @@ contract Blottit {
     // Comment.removeDownvote()
     function removeDownvoteFromComment(uint32 forumId, uint32 postId, uint32 commentId) {
         
-        if (forumId >= forumCount) {
-            // Throw if forum not created
-            throw;
-        }
+        require(forumId < forumCount);
         
         Forum forum = forums[forumId];
-        if (postId >= forum.postCount) {
-            // Throw if post not created
-            throw;
-        }
+        require(postId < forum.postCount);
         
         Post post = forum.posts[postId];
-        if (commentId >= post.commentCount) {
-            // Throw if comment not created
-            throw;
-        }
+        require(commentId < post.commentCount);
         
         Comment comment = post.comments[commentId];
-        if (!comment.downvotes[msg.sender]) {
-            // Throw if comment not downvoted by user
-            throw;
-        }
+        require(comment.downvotes[msg.sender]);
         
         comment.downvotes[msg.sender] = false;
         comment.downvoteCount--;
