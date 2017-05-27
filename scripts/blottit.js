@@ -125,7 +125,7 @@ window.addEventListener('load', function() {
 		$('#header-score-text').text('?');
 		$('#content-sidebar-title').prop('style', 'color:red');
 		$('#content-sidebar-title').html('<h1>Not Connected<h1>');
-		$('#content-sidebar-text').html('TODO: Not connected text, use <a href="todo">Metamask</a> or <a href="todo">Mist</a> (or <a href="todo">Parity</a>?)');
+		$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum Main network.');
 	}
 });
 
