@@ -30,7 +30,7 @@ h1 {
 	font-family: "Open Sans", sans-serif;
 	line-height: 1.4;
 	margin: 0;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 
 p {
@@ -479,7 +479,7 @@ p {
 }
 
 .post-info {
-	line-height: 0.6;
+	line-height: 0.5;
 	margin-bottom: 30px;
 	float: left;
 	width: 100%;
