@@ -547,8 +547,9 @@ p {
 }
 
 .comment-info {
-	line-height: 0.6;
+	line-height: 1.1;
 	margin-bottom: 30px;
+	margin-top: 5px;
 	float: left;
 	width: 100%;
 }

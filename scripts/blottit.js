@@ -1271,8 +1271,10 @@ function displayComment(forumId, postId, commentId, isUpvoted, isDownvoted, upvo
 	var div6 = $('<div class="comment-info"/>');
 	var div7 = $('<div style="float:left"/>');
 	displayENSName(div7, commentOwner, false);
-	div7.append(displayUser(commentOwner, false, true));
 	div6.append(div7);
+	var user = displayUser(commentOwner, false, true);
+	user.prop('style', 'float:left');
+	div6.append(user);
 	if (!isDeletedComment && commentOwner === currentUser) {
 		var div8 = $('<div style="float:left"/>');
 		div8.append($('<a href="#" onClick="$(&#39#comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:none&#39);$(&#39#edit-comment-' + forumId + '-' + postId + '-' + commentId + '&#39).prop(&#39style&#39, &#39display:block&#39);return false;">Edit</a>'));
