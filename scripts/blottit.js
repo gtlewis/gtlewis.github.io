@@ -30,7 +30,7 @@ window.addEventListener('load', function() {
 		if (currentUser != undefined) {
 			initialise();
 		} else {
-			setTimeout(initialise(), 250);
+			setTimeout(initialise, 250);
 		}
 	}
 }
