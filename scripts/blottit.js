@@ -30,12 +30,15 @@ window.addEventListener('load', function() {
 		if (currentUser != undefined) {
 			initialise();
 		} else {
-			setTimeout(initialise, 2500);
+			setTimeout(initialise, 250);
 		}
 	}
 });
 
 function initialise() {
+	if (currentUser == undefined) {
+		currentUser = web3.eth.accounts[0];
+	}
 	web3.eth.defaultAccount = currentUser;
 	if (currentUser != undefined) {
 		displayENSName($('#header-user-ensname'), currentUser, false);
