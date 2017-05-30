@@ -21,20 +21,22 @@ var POST_AGE_WEIGHT = 256;
 var DOWNVOTE_MINIMUM = 10;
 var DOWNVOTE_THRESHOLD = 0.7;
 
-$(document).ready(function(){
-alert('jq');
-});
-
 window.addEventListener('load', function() {
-alert('load');
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
 		web3 = new Web3(web3.currentProvider);
 		blottitContract = web3.eth.contract(blottitContractAbi).at(blottitContractAddress);
 		ensContract = web3.eth.contract(ensContractAbi).at(ensContractAddress);
 		currentUser = web3.eth.accounts[0];
-		web3.eth.defaultAccount = currentUser;
+		if (currentUser != undefined) {
+			initialise();
+		} else {
+			setTimeout(initialise(), 250);
+		}
 	}
+}
 
+function initialise() {
+	web3.eth.defaultAccount = currentUser;
 	if (currentUser != undefined) {
 		displayENSName($('#header-user-ensname'), currentUser, false);
 		$('#header-user-text').text('');
