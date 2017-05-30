@@ -123,9 +123,11 @@ window.addEventListener('load', function() {
 	} else {
 		$('#header-user-text').text('Not Connected');
 		$('#header-score-text').text('?');
+		$('#content-main-titles').prop('style', 'color:red');
+		$('#content-main-titles').html('<h1>Not Connected<h1>');
 		$('#content-sidebar-title').prop('style', 'color:red');
 		$('#content-sidebar-title').html('<h1>Not Connected<h1>');
-		$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum Main network.');
+		$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum Ropsten network.');
 	}
 });
 
