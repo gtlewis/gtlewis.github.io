@@ -23,10 +23,12 @@ var DOWNVOTE_THRESHOLD = 0.7;
 
 window.addEventListener('load', function() {
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
+alert('here1');
 		web3 = new Web3(web3.currentProvider);
 		blottitContract = web3.eth.contract(blottitContractAbi).at(blottitContractAddress);
 		ensContract = web3.eth.contract(ensContractAbi).at(ensContractAddress);
 		currentUser = web3.eth.accounts[0];
+alert('here2 ' + currentUser);
 		web3.eth.defaultAccount = currentUser;
 	}
 
