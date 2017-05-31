@@ -27,16 +27,16 @@ window.addEventListener('load', function() {
 		blottitContract = web3.eth.contract(blottitContractAbi).at(blottitContractAddress);
 		ensContract = web3.eth.contract(ensContractAbi).at(ensContractAddress);
 		currentUser = web3.eth.accounts[0];
-		if (currentUser != undefined) {
-			initialise();
-		} else {
-			setTimeout(initialise, 250);
-		}
+	}
+	if (currentUser != undefined) {
+		initialise();
+	} else {
+		setTimeout(initialise, 250);
 	}
 });
 
 function initialise() {
-	if (currentUser == undefined) {
+	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined' && currentUser == undefined) {
 		currentUser = web3.eth.accounts[0];
 	}
 	web3.eth.defaultAccount = currentUser;
