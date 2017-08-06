@@ -39,7 +39,7 @@ function initialise() {
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined' && currentUser == undefined) {
 		currentUser = web3.eth.accounts[0];
 	}
-	if (currentUser != undefined) {
+	if (currentUser != undefined && web3.version.network === 3) { // Restrict to Ropsten network only for now
 		web3.eth.defaultAccount = currentUser;
 		displayENSName($('#header-user-ensname'), currentUser, false);
 		$('#header-user-text').text('');
@@ -137,7 +137,7 @@ function initialise() {
 		$('#content-main-titles').html('<h1>Not Connected<h1>');
 		$('#content-sidebar-title').prop('style', 'color:red');
 		$('#content-sidebar-title').html('<h1>Not Connected<h1>');
-		$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum Ropsten network.');
+		$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum <b>Ropsten</b> network.');
 	}
 }
 
