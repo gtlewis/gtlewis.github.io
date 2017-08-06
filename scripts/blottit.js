@@ -39,7 +39,7 @@ function initialise() {
 	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined' && currentUser == undefined) {
 		currentUser = web3.eth.accounts[0];
 	}
-	if (currentUser != undefined && web3.version.network === 3) { // Restrict to Ropsten network only for now
+	if (currentUser != undefined && web3.version.network == 3) { // Restrict to Ropsten network only for now
 		web3.eth.defaultAccount = currentUser;
 		displayENSName($('#header-user-ensname'), currentUser, false);
 		$('#header-user-text').text('');
