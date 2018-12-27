@@ -27,118 +27,128 @@ window.addEventListener('load', function() {
 		web3 = new Web3(web3.currentProvider);
 		blottitContract = web3.eth.contract(blottitContractAbi).at(blottitContractAddress);
 		ensContract = web3.eth.contract(ensContractAbi).at(ensContractAddress);
-		currentUser = web3.eth.accounts[0];
-	}
-	if (currentUser != undefined) {
-		initialise();
-	} else {
-		setTimeout(initialise, 250);
+		web3.eth.getAccounts(function (error, accounts) {
+			if (!error) {
+				currentUser = accounts[0];
+				if (currentUser != undefined) {
+					initialise();
+				} else {
+					setTimeout(initialise, 250);
+				}
+			}
+		});
 	}
 });
 
 function initialise() {
 	if (typeof web3 !== 'undefined' && currentUser == undefined) {
-		currentUser = web3.eth.accounts[0];
-	}
-	if (currentUser != undefined && web3.version.network == 3) { // Restrict to Ropsten network only for now
-		web3.eth.defaultAccount = currentUser;
-		displayENSName($('#header-user-ensname'), currentUser, false);
-		$('#header-user-text').text('');
-		$('#header-user-text').append(displayUser(currentUser, false, false));
-		blottitContract.getScoreForUser(currentUser, function(error, score) {
+		web3.eth.getAccounts(function (error, accounts) {
 			if (!error) {
-				$('#header-score-text').replaceWith(displayScore(score));
-				web3.eth.getBalance(currentUser, function(error, balance) {
-					if (!error) {
-						$('#header-user-balance').text(Math.round(web3.fromWei(balance)*100)/100 + ' ETH');
-					} else {
-						console.error(error);
-					}
-				});
-				if (current_page === 'forums') {
-					showForumsPage();
-					var sidebarPost = 0;
-				} else if (current_page === 'forum') {
-					showForumPage();
-					var sidebarPost = 1;
-				} else if (current_page === 'createforum') {
-					showCreateForumPage();
-					var sidebarPost = 2;
-				} else if (current_page === 'user') {
-					showUserPage();
-					var sidebarPost = 3;
-				} else if (current_page === 'post') {
-					showPostPage();
-					var sidebarPost = 4;
-				} else if (current_page === 'createpost') {
-					showCreatePostPage();
-					var sidebarPost = 5;
-				} else if (current_page === 'editpost') {
-					showEditPostPage();
-					var sidebarPost = 6;
-				}
-				blottitContract.isPostUpvotedByUser(0, sidebarPost, function (error, isUpvoted) {
-					if (!error) {
-						blottitContract.isPostDownvotedByUser(0, sidebarPost, function (error, isDownvoted) {
-							if (!error) {
-								blottitContract.getUpvoteCountOfPost(0, sidebarPost, function (error, upvoteCount) {
-									if (!error) {
-										blottitContract.getDownvoteCountOfPost(0, sidebarPost, function (error, downvoteCount) {
-											if (!error) {
-												blottitContract.isDeletedPost(0, sidebarPost, function (error, isDeletedPost) {
-													if (!error) {
-														blottitContract.getTitleOfPost(0, sidebarPost, function (error, postTitle) {
-															if (!error) {
-																blottitContract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
-																	if (!error) {
-																		$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, true, true, false));
-																	} else {
-																		console.error(error);
-																	}
-																});
-															} else {
-																console.error(error);
-															}
-														});
-													} else {
-														console.error(error);
-													}
-												});
-											} else {
-												console.error(error);
-											}
-										});
-									} else {
-										console.error(error);
-									}
-								});
-							} else {
-								console.error(error);
-							}
-						});
-					} else {
-						console.error(error);
-					}
-				});
-				blottitContract.getBodyOfPost(0, sidebarPost, function (error, postBody) {
-					if (!error) {
-						$('#content-sidebar-text').html(new showdown.Converter().makeHtml(postBody));
-					} else {
-						console.error(error);
-					}
-				});
-			} else {
-				console.error(error);
+				currentUser = accounts[0];
+				setTimeout(initialise, 250);
 			}
 		});
 	} else {
-		$('#header-user-text').text('Not Connected');
-		$('#header-score-text').text('?');
-		$('#content-main-titles').prop('style', 'color:red');
-		$('#content-main-titles').html('<h1>Not Connected<h1>');
-		$('#content-sidebar-title').prop('style', 'color:red');
-		$('#content-sidebar-title').html('<h1>Not Connected<h1>');
-		$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum <b>Ropsten</b> network.');
+		if (currentUser != undefined && web3.version.network == 3) { // Restrict to Ropsten network only for now
+			web3.eth.defaultAccount = currentUser;
+			displayENSName($('#header-user-ensname'), currentUser, false);
+			$('#header-user-text').text('');
+			$('#header-user-text').append(displayUser(currentUser, false, false));
+			blottitContract.getScoreForUser(currentUser, function(error, score) {
+				if (!error) {
+					$('#header-score-text').replaceWith(displayScore(score));
+					web3.eth.getBalance(currentUser, function(error, balance) {
+						if (!error) {
+							$('#header-user-balance').text(Math.round(web3.fromWei(balance)*100)/100 + ' ETH');
+						} else {
+							console.error(error);
+						}
+					});
+					if (current_page === 'forums') {
+						showForumsPage();
+						var sidebarPost = 0;
+					} else if (current_page === 'forum') {
+						showForumPage();
+						var sidebarPost = 1;
+					} else if (current_page === 'createforum') {
+						showCreateForumPage();
+						var sidebarPost = 2;
+					} else if (current_page === 'user') {
+						showUserPage();
+						var sidebarPost = 3;
+					} else if (current_page === 'post') {
+						showPostPage();
+						var sidebarPost = 4;
+					} else if (current_page === 'createpost') {
+						showCreatePostPage();
+						var sidebarPost = 5;
+					} else if (current_page === 'editpost') {
+						showEditPostPage();
+						var sidebarPost = 6;
+					}
+					blottitContract.isPostUpvotedByUser(0, sidebarPost, function (error, isUpvoted) {
+						if (!error) {
+							blottitContract.isPostDownvotedByUser(0, sidebarPost, function (error, isDownvoted) {
+								if (!error) {
+									blottitContract.getUpvoteCountOfPost(0, sidebarPost, function (error, upvoteCount) {
+										if (!error) {
+											blottitContract.getDownvoteCountOfPost(0, sidebarPost, function (error, downvoteCount) {
+												if (!error) {
+													blottitContract.isDeletedPost(0, sidebarPost, function (error, isDeletedPost) {
+														if (!error) {
+															blottitContract.getTitleOfPost(0, sidebarPost, function (error, postTitle) {
+																if (!error) {
+																	blottitContract.getOwnerOfPost(0, sidebarPost, function (error, postOwner) {
+																		if (!error) {
+																			$('#content-sidebar-title').html(displayPost(0, sidebarPost, isUpvoted, isDownvoted, upvoteCount, downvoteCount, isDeletedPost, postTitle, null, postOwner, true, false, true, true, false));
+																		} else {
+																			console.error(error);
+																		}
+																	});
+																} else {
+																	console.error(error);
+																}
+															});
+														} else {
+															console.error(error);
+														}
+													});
+												} else {
+													console.error(error);
+												}
+											});
+										} else {
+											console.error(error);
+										}
+									});
+								} else {
+									console.error(error);
+								}
+							});
+						} else {
+							console.error(error);
+						}
+					});
+					blottitContract.getBodyOfPost(0, sidebarPost, function (error, postBody) {
+						if (!error) {
+							$('#content-sidebar-text').html(new showdown.Converter().makeHtml(postBody));
+						} else {
+							console.error(error);
+						}
+					});
+				} else {
+					console.error(error);
+				}
+			});
+		} else {
+			$('#header-user-text').text('Not Connected');
+			$('#header-score-text').text('?');
+			$('#content-main-titles').prop('style', 'color:red');
+			$('#content-main-titles').html('<h1>Not Connected<h1>');
+			$('#content-sidebar-title').prop('style', 'color:red');
+			$('#content-sidebar-title').html('<h1>Not Connected<h1>');
+			$('#content-sidebar-text').html('Not connected - use <a href="https://metamask.io/">Metamask</a> Chrome extension or <a href="https://github.com/ethereum/mist/releases/latest">Mist</a> browser and connect to the Ethereum <b>Ropsten</b> network.');
+		}
 	}
 }
 
