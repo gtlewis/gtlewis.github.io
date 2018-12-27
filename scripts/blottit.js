@@ -6,7 +6,8 @@ var ensContractAbi = [{"constant":true,"inputs":[{"name":"node","type":"bytes32"
 var ensContractAddress = '0x112234455c3a32fd11230c42e7bccd4a84e02010';
 var ensContract;
 
-var ensResolverContractAbi = [{"constant":true,"inputs":[{"name":"interfaceID","type":"bytes4"}],"name":"supportsInterface","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"}],"name":"addr","outputs":[{"name":"ret","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"}],"name":"name","outputs":[{"name":"ret","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"},{"name":"kind","type":"bytes32"}],"name":"has","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"node","type":"bytes32"},{"name":"addr","type":"address"}],"name":"setAddr","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"node","type":"bytes32"},{"name":"name","type":"string"}],"name":"setName","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"}],"name":"content","outputs":[{"name":"ret","type":"bytes32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"node","type":"bytes32"},{"name":"hash","type":"bytes32"}],"name":"setContent","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"ensAddr","type":"address"}],"type":"constructor"},{"payable":false,"type":"fallback"}];
+var ensResolverContractAbi = [{"constant":true,"inputs":[{"name":"interfaceID","type":"bytes4"}],"name":"supportsInterface","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"}],"name":"addr","outputs":[{"name":"ret","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"}],"name":"name","outputs":[{"name":"ret","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"},{"name":"kind","type":"bytes32"}],"name":"has","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"node","type":"bytes32"},{"name":"addr","type":"address"}],"name":"setAddr","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"node","type":"bytes32"},{"name":"name","type":"string"}],"name":"setName","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"node","type":"bytes32"}],"name":"content","outputs":[{"name":"ret","type":"bytes32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"node","type":"bytes32"},{"name":"hash","type":"bytes32"}],"name":"setContent","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"ensAddr","type":"address"}],"type":"constructor"},{"payable":false,"type":"fallback"}];
+
 
 var currentUser;
 
@@ -22,7 +23,7 @@ var DOWNVOTE_MINIMUM = 10;
 var DOWNVOTE_THRESHOLD = 0.7;
 
 window.addEventListener('load', function() {
-	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined') {
+	if (typeof web3 !== 'undefined') {
 		web3 = new Web3(web3.currentProvider);
 		blottitContract = web3.eth.contract(blottitContractAbi).at(blottitContractAddress);
 		ensContract = web3.eth.contract(ensContractAbi).at(ensContractAddress);
@@ -36,7 +37,7 @@ window.addEventListener('load', function() {
 });
 
 function initialise() {
-	if (typeof web3 !== 'undefined' && typeof web3.eth !== 'undefined' && currentUser == undefined) {
+	if (typeof web3 !== 'undefined' && currentUser == undefined) {
 		currentUser = web3.eth.accounts[0];
 	}
 	if (currentUser != undefined && web3.version.network == 3) { // Restrict to Ropsten network only for now
