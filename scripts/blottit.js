@@ -49,7 +49,7 @@ function initialise() {
 			}
 		});
 	} else {
-		if (currentUser != undefined && web3.version.network == 3) { // Restrict to Ropsten network only for now
+		if (currentUser != undefined /*&& web3.version.network == 3*/) { // Restrict to Ropsten network only for now
 			web3.eth.defaultAccount = currentUser;
 			displayENSName($('#header-user-ensname'), currentUser, false);
 			$('#header-user-text').text('');
