@@ -49,7 +49,6 @@ function initialise() {
 			}
 		});
 	} else {
-poplocker.getSmartLockerState();
 		if (currentUser != undefined /*&& web3.version.network == 3*/) { // Restrict to Ropsten network only for now
 			web3.eth.defaultAccount = currentUser;
 			displayENSName($('#header-user-ensname'), currentUser, false);
