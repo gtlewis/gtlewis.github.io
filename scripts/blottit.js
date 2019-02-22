@@ -22,8 +22,6 @@ var POST_AGE_WEIGHT = 256;
 var DOWNVOTE_MINIMUM = 10;
 var DOWNVOTE_THRESHOLD = 0.7;
 
-poplocker.getSmartLockerState();
-
 window.addEventListener('load', function() {
 	if (typeof web3 !== 'undefined') {
 		web3 = new Web3(web3.currentProvider);
@@ -51,6 +49,7 @@ function initialise() {
 			}
 		});
 	} else {
+poplocker.getSmartLockerState();
 		if (currentUser != undefined /*&& web3.version.network == 3*/) { // Restrict to Ropsten network only for now
 			web3.eth.defaultAccount = currentUser;
 			displayENSName($('#header-user-ensname'), currentUser, false);
